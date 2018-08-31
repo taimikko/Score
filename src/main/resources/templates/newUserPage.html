@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+   <head>
+      <title>New</title>
+   </head>
+   <body>
+      <!-- Include _menu.html -->
+      <th:block th:include="/_menu"></th:block>
+       
+      <h1>Luo uusi käyttäjä</h1>
+       
+      <!-- /login?error=true -->
+      <div th:if="${#request.getParameter('error') == 'true'}"
+            style="color:red;margin:10px 0px;">
+         Ei tääne ny ihan kaikki pääse.<br />
+         Reason :
+         <span th:if="${#session!= null and #session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION') != null}"
+            th:utext="${#session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION').message}">
+                Static summary
+         </span>
+           
+      </div>
+      <div>
+          <h3 th:if="${message != null}" th:utext="${message}" style="color: red;"></h3>
+      </div>
+     
+      <h3>Anna uudelle käyttäjälle käyttäjätunnus ja salasana:</h3>
+      <form name='f' th:action="@{/addnew}" method='POST'>
+         <table>
+            <tr>
+               <td>User:</td>
+               <td><input type='text' name='userName' value=''></td>
+            </tr>
+            <tr>
+               <td>Password:</td>
+               <td><input type='password' name='password' /></td>
+            </tr>
+            <tr>
+               <td>Password again:</td>
+               <td><input type='password' name='password2' /></td>
+            </tr>
+             <tr>
+               <td>Role:</td>
+               <td><input type='text' name='userrole' value='2'></td>
+            </tr>
+            <tr>
+               <td><input name="submit" type="submit" value="submit" /></td>
+            </tr>
+         </table>
+      </form>  
+       
+   </body>
+   
+</html>

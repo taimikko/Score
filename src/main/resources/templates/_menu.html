@@ -1,0 +1,22 @@
+<div xmlns:th="http://www.thymeleaf.org"
+     style="border: 1px solid #ccc;padding:5px;margin-bottom:20px;">
+ 
+  <a th:href="@{/}">Täältä kaikki alkaa</a>
+ 
+     | &nbsp;
+  
+   <a th:href="@{/userInfo}">Käyttäjätiedot</a>
+  
+     | &nbsp;
+  
+   <a th:href="@{/admin}">Vaan guruille (admin)</a>
+ 
+     | &nbsp;
+  
+   <a th:href="@{/new}">Lisää uusi käyttäjä</a>
+    
+     | &nbsp;
+      
+   <a th:if="${#request.userPrincipal != null}" th:href="@{/logout}">Johan tää riittää</a>
+  
+</div>
