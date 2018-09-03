@@ -2,11 +2,12 @@ package org.o7planning.sbsecurity.controller;
 
 import java.security.Principal;
 
+import org.o7planning.sbsecurity.dao.AppRoleDAO;
 import org.o7planning.sbsecurity.dao.AppUserDAO;
 import org.o7planning.sbsecurity.dao.UserRoleDAO;
 import org.o7planning.sbsecurity.model.AppUser;
 import org.o7planning.sbsecurity.model.NewUser;
-import org.o7planning.sbsecurity.utils.EncrytedPasswordUtils;
+import org.o7planning.sbsecurity.model.UserRole;
 import org.o7planning.sbsecurity.utils.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -24,6 +25,9 @@ public class MainController {
 
 	@Autowired
 	private UserRoleDAO userRoleDAO;
+	
+	@Autowired
+	private AppRoleDAO appRoleDAO;
 
 	@RequestMapping(value = { "/", "/welcome" }, method = RequestMethod.GET)
 	public String welcomePage(Model model) {
@@ -51,33 +55,52 @@ public class MainController {
 
 	@RequestMapping(value = "/new", method = RequestMethod.GET)
 	public String newUserPage(Model model) {
-
+		NewUser user = new NewUser("dummyuser_a","a","2");
+		model.addAttribute("user", user);
+		if (model.containsAttribute("user")) {
+			System.out.println("Model.user:"+user);
+		} else {
+			System.out.println("Modelissa ei ole \"user\":ia!");
+		}
 		return "newUserPage";
 	}
 	
 	@RequestMapping(value = "/addnew", method = RequestMethod.POST)
-	public String addNewUser(Model model, NewUser usr, Principal principal) {
-		
-		if (!usr.passwordOk()) {
+	public String addNewUser(Model model, NewUser newUser, Principal principal) {
+		if (model.containsAttribute("newUser")) {
+			System.out.println("Modelissa on newUser");
+			System.out.println(model.toString());
+			System.out.println("Model.newUser:"+newUser);
+		} else {
+			System.out.println("Modelissa ei ole \"newUser\":ia!");
+		}
+		if (model.containsAttribute("user")) {
+			System.out.println("Modelissa on user");
+		} else {
+			System.out.println("Modelissa ei ole \"user\":ia!");
+		}		
+		// nykyinen käyttäjä: System.out.println("DEBUG: principal = "+principal.getName()+" : "+principal.toString());
+
+		if (!newUser.isPasswordOk()) {
 			String message = "<br> Salasanat eivät ole samoja <br> give password again";
 			model.addAttribute("message", message);
+			model.addAttribute("user", newUser);
 			return "newUserPage";
 		}
+		newUser.encrytePassword(); // poistaa samalla näkyvät salasanat
 		
-		String userName = usr.getUserName();
-		String pwd = usr.getPassword();
-		String encrytedPwd = EncrytedPasswordUtils.encrytePassword(pwd);
-
-		System.out.println("Uusi Username: " + userName +" / " + encrytedPwd);
-		
-		appUserDAO.addNewUserAccount(usr); 
-		AppUser user = appUserDAO.findUserAccount(usr.getUserName()); // saadaan kantaan talletettu id
-		userRoleDAO.addNewUserRole(user.getUserId(), 2);
-
-//		User loginedUser = (User) ((Authentication) principal).getPrincipal();
-//
-//		String userInfo = WebUtils.toString(loginedUser);
-//		model.addAttribute("userInfo", userInfo);
+		System.out.println("Uusi Username: " + newUser.getUserName()+" / " + newUser.getEncrytedPassword());
+		String userInfo ="";
+		appUserDAO.addNewUserAccount(newUser); 
+		AppUser appUser = appUserDAO.findUserAccount(newUser.getUserName()); //kantaan talletettu id
+		UserRole userRole = new UserRole(appUser.getUserId(), 2L);
+		// TODO: nyt lisää vain käyttäjä -rooleja, vaihda samalla userRole muutuja välitettäväksi
+		try {
+			userRoleDAO.addNewUserRole(userRole);
+		} catch (Exception e) {
+			userInfo = "Käyttäjälle " + newUser.getUserName() + " enewUsert lisätä roolia " + "2";
+		}
+		model.addAttribute("userInfo", userInfo);
 
 		return "userInfoPage";
 	}
@@ -90,8 +113,6 @@ public class MainController {
 
 	@RequestMapping(value = "/userInfo", method = RequestMethod.GET)
 	public String userInfo(Model model, Principal principal) {
-
-		// (1) (en)
 		// After user login successfully.
 		String userName = principal.getName();
 

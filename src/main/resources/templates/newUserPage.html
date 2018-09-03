@@ -29,19 +29,19 @@
          <table>
             <tr>
                <td>User:</td>
-               <td><input type='text' name='userName' value=''></td>
+               <td><input type='text' name='userName' th:if="${user != null}" th:attr="value=${user.userName}" ></td>
             </tr>
             <tr>
                <td>Password:</td>
-               <td><input type='password' name='password' /></td>
+               <td><input type='password' name='password' th:if="${user != null}" th:attr="value=${user.password}"/></td>
             </tr>
             <tr>
                <td>Password again:</td>
-               <td><input type='password' name='password2' /></td>
+               <td><input type='password' name='password2' value=${user.password2}/></td>
             </tr>
              <tr>
                <td>Role:</td>
-               <td><input type='text' name='userrole' value='2'></td>
+               <td><input type='text' name='userrole' th:if="${user != null}" th:attr="value=${user.userrole}" placeholder='x2'></td>
             </tr>
             <tr>
                <td><input name="submit" type="submit" value="submit" /></td>
