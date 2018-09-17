@@ -2,12 +2,15 @@ package org.o7planning.sbsecurity.controller;
 
 import java.security.Principal;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.o7planning.sbsecurity.dao.AppRoleDAO;
 import org.o7planning.sbsecurity.dao.AppUserDAO;
 import org.o7planning.sbsecurity.dao.UserRoleDAO;
 import org.o7planning.sbsecurity.model.AppUser;
 import org.o7planning.sbsecurity.model.NewUser;
 import org.o7planning.sbsecurity.model.UserRole;
+//import org.o7planning.sbsecurity.service.UserDetailsServiceImpl;
 import org.o7planning.sbsecurity.utils.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class MainController {
+	private static final Log log = LogFactory.getLog(MainController.class);
 	
 	@Autowired
 	private AppUserDAO appUserDAO;
@@ -58,9 +62,9 @@ public class MainController {
 		NewUser user = new NewUser("dummyuser_a","a","2");
 		model.addAttribute("user", user);
 		if (model.containsAttribute("user")) {
-			System.out.println("Model.user:"+user);
+			log.info("Model.user:"+user);
 		} else {
-			System.out.println("Modelissa ei ole \"user\":ia!");
+			log.info("Modelissa ei ole \"user\":ia!");
 		}
 		return "newUserPage";
 	}
@@ -68,18 +72,18 @@ public class MainController {
 	@RequestMapping(value = "/addnew", method = RequestMethod.POST)
 	public String addNewUser(Model model, NewUser newUser, Principal principal) {
 		if (model.containsAttribute("newUser")) {
-			System.out.println("Modelissa on newUser");
-			System.out.println(model.toString());
-			System.out.println("Model.newUser:"+newUser);
+			log.info("Modelissa on newUser");
+			log.info(model.toString());
+			log.info("Model.newUser:"+newUser);
 		} else {
-			System.out.println("Modelissa ei ole \"newUser\":ia!");
+			log.info("Modelissa ei ole \"newUser\":ia!");
 		}
 		if (model.containsAttribute("user")) {
-			System.out.println("Modelissa on user");
+			log.info("Modelissa on user");
 		} else {
-			System.out.println("Modelissa ei ole \"user\":ia!");
+			log.info("Modelissa ei ole \"user\":ia!");
 		}		
-		// nykyinen käyttäjä: System.out.println("DEBUG: principal = "+principal.getName()+" : "+principal.toString());
+		// nykyinen käyttäjä: log.info("DEBUG: principal = "+principal.getName()+" : "+principal.toString());
 
 		if (!newUser.isPasswordOk()) {
 			String message = "<br> Salasanat eivät ole samoja <br> give password again";
@@ -89,16 +93,16 @@ public class MainController {
 		}
 		newUser.encrytePassword(); // poistaa samalla näkyvät salasanat
 		
-		System.out.println("Uusi Username: " + newUser.getUserName()+" / " + newUser.getEncrytedPassword());
+		log.info("Uusi username: " + newUser.getusername()+" / " + newUser.getEncrytedPassword());
 		String userInfo ="";
 		appUserDAO.addNewUserAccount(newUser); 
-		AppUser appUser = appUserDAO.findUserAccount(newUser.getUserName()); //kantaan talletettu id
+		AppUser appUser = appUserDAO.findUserAccount(newUser.getusername()); //kantaan talletettu id
 		UserRole userRole = new UserRole(appUser.getUserId(), 2L);
 		// TODO: nyt lisää vain käyttäjä -rooleja, vaihda samalla userRole muutuja välitettäväksi
 		try {
 			userRoleDAO.addNewUserRole(userRole);
 		} catch (Exception e) {
-			userInfo = "Käyttäjälle " + newUser.getUserName() + " enewUsert lisätä roolia " + "2";
+			userInfo = "Käyttäjälle " + newUser.getusername() + " ei voi lisätä roolia " + "2";
 		}
 		model.addAttribute("userInfo", userInfo);
 
@@ -114,9 +118,9 @@ public class MainController {
 	@RequestMapping(value = "/userInfo", method = RequestMethod.GET)
 	public String userInfo(Model model, Principal principal) {
 		// After user login successfully.
-		String userName = principal.getName();
+		String username = principal.getName();
 
-		System.out.println("User Name: " + userName);
+		log.info("MSA: userInfo löysi käyttäjän User Name: " + username);
 
 		User loginedUser = (User) ((Authentication) principal).getPrincipal();
 

@@ -1,8 +1,9 @@
 package org.o7planning.sbsecurity.service;
-
+/*
 import java.util.ArrayList;
 import java.util.List;
-
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.o7planning.sbsecurity.dao.AppRoleDAO;
 import org.o7planning.sbsecurity.dao.AppUserDAO;
 import org.o7planning.sbsecurity.model.AppUser;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
+	private static final Log log = LogFactory.getLog(UserDetailsServiceImpl.class);
 
 	@Autowired
 	private AppUserDAO appUserDAO;
@@ -25,15 +27,17 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	private AppRoleDAO appRoleDAO;
 
 	@Override
-	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-		AppUser appUser = this.appUserDAO.findUserAccount(userName);
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		log.info("MSA DEBUG: UserDetails sai parametrina käyttäjätunnuksen '"+username+"'");
+		
+		AppUser appUser = this.appUserDAO.findUserAccount(username);
 
 		if (appUser == null) {
-			System.out.println("User not found! " + userName);
-			throw new UsernameNotFoundException("User " + userName + " was not found in the database");
+			log.info("User "+username+" not found!");
+			throw new UsernameNotFoundException("User " + username + " was not found in the database");
 		}
 
-		System.out.println("Found User: " + appUser);
+		log.info("MSA DEBUG: Found User:'" + appUser+"'");
 
 		// [ROLE_USER, ROLE_ADMIN,..]
 		List<String> roleNames = this.appRoleDAO.getRoleNames(appUser.getUserId());
@@ -47,10 +51,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			}
 		}
 
-		UserDetails userDetails = (UserDetails) new User(appUser.getUserName(), //
+		UserDetails userDetails = (UserDetails) new User(appUser.getusername(), //
 				appUser.getEncrytedPassword(), grantList);
 
 		return userDetails;
 	}
 
 }
+*/

@@ -21,11 +21,11 @@ public class AppUserDAO extends JdbcDaoSupport {
         this.setDataSource(dataSource);
     }
  
-    public AppUser findUserAccount(String userName) {
+    public AppUser findUserAccount(String username) {
         // Select .. from App_User u Where u.User_Name = ?
         String sql = AppUserMapper.BASE_SQL + " where u.User_Name = ? ";
  
-        Object[] params = new Object[] { userName };
+        Object[] params = new Object[] { username };
         AppUserMapper mapper = new AppUserMapper();
         try {
             AppUser userInfo = this.getJdbcTemplate().queryForObject(sql, params, mapper);
@@ -37,7 +37,7 @@ public class AppUserDAO extends JdbcDaoSupport {
  
 	public void addNewUserAccount(NewUser usr) {
 		String sql = "INSERT INTO app_user (user_id, user_name, encryted_password, enabled) " + "values (?, ?, ?, ?)";
-		Object[] args = new Object[] { 0, usr.getUserName(), usr.getEncrytedPassword(), 1 };
+		Object[] args = new Object[] { 0, usr.getusername(), usr.getEncrytedPassword(), 1 };
 
 		int info = this.getJdbcTemplate().update(sql, args);
 		System.out.println("päivitettiin " + Integer.toString(info) + " riviä app_user tauluun.");

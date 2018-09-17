@@ -3,16 +3,16 @@ package org.o7planning.sbsecurity.model;
 public class AppUser {
 
 	private Long userId;
-	private String userName;
+	private String username;
 	private String encrytedPassword;
 
 	public AppUser() {
 
 	}
 
-	public AppUser(Long userId, String userName, String encrytedPassword) {
+	public AppUser(Long userId, String username, String encrytedPassword) {
 		this.userId = userId;
-		this.userName = userName;
+		this.username = username;
 		this.encrytedPassword = encrytedPassword;
 	}
 
@@ -24,12 +24,12 @@ public class AppUser {
 		this.userId = userId;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getusername() {
+		return username;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setusername(String username) {
+		this.username = username;
 	}
 
 	public String getEncrytedPassword() {
@@ -42,7 +42,7 @@ public class AppUser {
 
 	@Override
 	public String toString() {
-		return this.userName + "/" + this.encrytedPassword;
+		return this.username + "/" + this.encrytedPassword;
 	}
 
 }

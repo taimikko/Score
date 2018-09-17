@@ -4,7 +4,7 @@ import org.o7planning.sbsecurity.utils.EncrytedPasswordUtils;
 
 public class NewUser {
 
-	private String userName;
+	private String username;
 	private String password;
 	private String password2;
 	private String userrole;
@@ -14,18 +14,18 @@ public class NewUser {
 
 	}
 
-	public NewUser(String userName, String password, String userrole) {
-		this.userName = userName;
+	public NewUser(String username, String password, String userrole) {
+		this.username = username;
 		this.password = password;
 		this.userrole = userrole;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getusername() {
+		return username;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setusername(String username) {
+		this.username = username;
 	}
 
 	public String getUserrole() {
@@ -52,7 +52,7 @@ public class NewUser {
 			this.encrytedPassword = EncrytedPasswordUtils.encrytePassword(this.password);
 			this.password = "0";
 			this.password2 = "1";
-			System.out.println("MSA DEBUG: Password encryted for user "+this.userName+" / "+this.encrytedPassword);
+			System.out.println("MSA DEBUG: Password encryted for user "+this.username+" / "+this.encrytedPassword);
 			return true;
 		}
 		return false;
@@ -60,7 +60,7 @@ public class NewUser {
 
 	@Override
 	public String toString() {
-		return this.userName + "/" + this.password+ "(" + this.userrole + ")";
+		return this.username + "/" + this.password+ "(" + this.userrole + ")";
 	}
 
 	public String getEncrytedPassword() {

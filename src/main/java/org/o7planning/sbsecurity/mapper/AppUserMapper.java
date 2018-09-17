@@ -14,10 +14,10 @@ public class AppUserMapper implements RowMapper<AppUser> {
     public AppUser mapRow(ResultSet rs, int rowNum) throws SQLException {
  
         Long userId = rs.getLong("user_id");
-        String userName = rs.getString("user_name");
+        String username = rs.getString("user_name");
         String encrytedPassword = rs.getString("encryted_password");
  
-        return new AppUser(userId, userName, encrytedPassword);
+        return new AppUser(userId, username, encrytedPassword);
     }
  
 }
