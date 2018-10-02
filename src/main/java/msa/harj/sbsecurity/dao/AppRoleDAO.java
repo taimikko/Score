@@ -1,4 +1,4 @@
-package org.o7planning.sbsecurity.dao;
+package msa.harj.sbsecurity.dao;
  
 import java.util.List;
 

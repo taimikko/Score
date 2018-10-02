@@ -1,12 +1,12 @@
-package org.o7planning.sbsecurity.service;
+package msa.harj.sbsecurity.service;
 /*
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.o7planning.sbsecurity.dao.AppRoleDAO;
-import org.o7planning.sbsecurity.dao.AppUserDAO;
-import org.o7planning.sbsecurity.model.AppUser;
+import msa.harj.sbsecurity.dao.AppRoleDAO;
+import msa.harj.sbsecurity.dao.AppUserDAO;
+import msa.harj.sbsecurity.model.AppUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

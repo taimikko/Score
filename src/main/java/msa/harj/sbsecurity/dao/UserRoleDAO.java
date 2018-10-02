@@ -1,12 +1,13 @@
-package org.o7planning.sbsecurity.dao;
+package msa.harj.sbsecurity.dao;
 
 import javax.sql.DataSource;
 
-import org.o7planning.sbsecurity.model.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import msa.harj.sbsecurity.model.UserRole;
 
 @Repository
 @Transactional

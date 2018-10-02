@@ -1,4 +1,4 @@
-package org.o7planning.sbsecurity;
+package msa.harj.sbsecurity;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

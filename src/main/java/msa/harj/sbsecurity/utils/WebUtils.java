@@ -1,4 +1,4 @@
-package org.o7planning.sbsecurity.utils;
+package msa.harj.sbsecurity.utils;
 
 import java.util.Collection;
 

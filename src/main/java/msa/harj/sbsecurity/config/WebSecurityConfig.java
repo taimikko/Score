@@ -1,11 +1,12 @@
-package org.o7planning.sbsecurity.config;
+package msa.harj.sbsecurity.config;
 
 import javax.sql.DataSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-//import org.o7planning.sbsecurity.service.UserDetailsServiceImpl;
+//import msa.harj.sbsecurity.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -24,15 +25,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	DataSource dataSource;
+
+    //@Inject private SecurityProperties securityProperties; // MSa
 	
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
 		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+		log.info("MSA DEBUG: passwordEncoder");
 		return bCryptPasswordEncoder;
 	}
 
 	/* TESTIÄ */
-	
+
 	@Autowired
 	public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
 		log.info("MSA DEBUG: configAuthentication:");
@@ -56,10 +60,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
     TESTIÄ */
 	
+	/*
+	TomcatEmbeddedServletContainerFactory tomcat = new TomcatEmbeddedServletContainerFactory() {
+	    @Override
+	    protected void postProcessContext(Context context) {
+	        SecurityConstraint securityConstraint = new SecurityConstraint();
+	        securityConstraint.setUserConstraint("CONFIDENTIAL");
+	        SecurityCollection collection = new SecurityCollection();
+	        collection.addPattern("/*");
+	        securityConstraint.addCollection(collection);
+	        context.addConstraint(securityConstraint);
+	    }
+	}; */
+	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		log.info("MSA DEBUG: WebSecurityConfig.configure "+http.toString());
+		log.debug("MSA DEBUG: WebSecurityConfig.configure "+http.toString());
+		log.error("MSA DEBUG: WebSecurityConfig.configure "+http.toString());
 
 		http.csrf().disable();
+
+        //if (securityProperties.isRequireSsl()) http.requiresChannel().anyRequest().requiresSecure(); // MSA
 
 		// The pages does not require login
 		http.authorizeRequests().antMatchers("/", "/login", "/logout").permitAll();
@@ -90,6 +112,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.passwordParameter("password")
 				// Config for Logout Page
 				.and().logout().logoutUrl("/logout").logoutSuccessUrl("/logoutSuccessful");
+
+	/*
+    http.authorizeRequests()
+      .antMatchers("/login*")
+      .permitAll();
+ 
+    http.authorizeRequests()
+      .anyRequest()
+      .authenticated();
+	 */
 
 	}
 }

@@ -1,9 +1,11 @@
-package org.o7planning.sbsecurity.mapper;
+package msa.harj.sbsecurity.mapper;
  
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import org.o7planning.sbsecurity.model.AppUser;
+
 import org.springframework.jdbc.core.RowMapper;
+
+import msa.harj.sbsecurity.model.AppUser;
  
 public class AppUserMapper implements RowMapper<AppUser> {
  

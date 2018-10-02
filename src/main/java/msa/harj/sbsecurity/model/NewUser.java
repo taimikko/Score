@@ -1,6 +1,6 @@
-package org.o7planning.sbsecurity.model;
+package msa.harj.sbsecurity.model;
 
-import org.o7planning.sbsecurity.utils.EncrytedPasswordUtils;
+import msa.harj.sbsecurity.utils.EncrytedPasswordUtils;
 
 public class NewUser {
 
@@ -20,11 +20,11 @@ public class NewUser {
 		this.userrole = userrole;
 	}
 
-	public String getusername() {
+	public String getUsername() {
 		return username;
 	}
 
-	public void setusername(String username) {
+	public void setUsername(String username) {
 		this.username = username;
 	}
 

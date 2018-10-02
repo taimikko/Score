@@ -1,17 +1,9 @@
-package org.o7planning.sbsecurity.controller;
+package msa.harj.sbsecurity.controller;
 
 import java.security.Principal;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.o7planning.sbsecurity.dao.AppRoleDAO;
-import org.o7planning.sbsecurity.dao.AppUserDAO;
-import org.o7planning.sbsecurity.dao.UserRoleDAO;
-import org.o7planning.sbsecurity.model.AppUser;
-import org.o7planning.sbsecurity.model.NewUser;
-import org.o7planning.sbsecurity.model.UserRole;
-//import org.o7planning.sbsecurity.service.UserDetailsServiceImpl;
-import org.o7planning.sbsecurity.utils.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
@@ -19,6 +11,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import msa.harj.sbsecurity.dao.AppRoleDAO;
+import msa.harj.sbsecurity.dao.AppUserDAO;
+import msa.harj.sbsecurity.dao.UserRoleDAO;
+import msa.harj.sbsecurity.model.AppUser;
+import msa.harj.sbsecurity.model.NewUser;
+import msa.harj.sbsecurity.model.UserRole;
+import msa.harj.sbsecurity.utils.WebUtils;
 
 @Controller
 public class MainController {
@@ -35,6 +35,8 @@ public class MainController {
 
 	@RequestMapping(value = { "/", "/welcome" }, method = RequestMethod.GET)
 	public String welcomePage(Model model) {
+		log.info("/ ja /welcome: "+model.toString());
+
 		model.addAttribute("title", "Welcome");
 		model.addAttribute("message", "This is welcome page!");
 		return "welcomePage";
@@ -53,13 +55,14 @@ public class MainController {
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String loginPage(Model model) {
+		log.info("/login: "+model.toString());
 
 		return "loginPage";
 	}
 
 	@RequestMapping(value = "/new", method = RequestMethod.GET)
 	public String newUserPage(Model model) {
-		NewUser user = new NewUser("dummyuser_a","a","2");
+		NewUser user = new NewUser("","","2");
 		model.addAttribute("user", user);
 		if (model.containsAttribute("user")) {
 			log.info("Model.user:"+user);
@@ -93,16 +96,16 @@ public class MainController {
 		}
 		newUser.encrytePassword(); // poistaa samalla näkyvät salasanat
 		
-		log.info("Uusi username: " + newUser.getusername()+" / " + newUser.getEncrytedPassword());
+		log.info("Uusi username: " + newUser.getUsername()+" / " + newUser.getEncrytedPassword());
 		String userInfo ="";
 		appUserDAO.addNewUserAccount(newUser); 
-		AppUser appUser = appUserDAO.findUserAccount(newUser.getusername()); //kantaan talletettu id
+		AppUser appUser = appUserDAO.findUserAccount(newUser.getUsername()); //kantaan talletettu id
 		UserRole userRole = new UserRole(appUser.getUserId(), 2L);
 		// TODO: nyt lisää vain käyttäjä -rooleja, vaihda samalla userRole muutuja välitettäväksi
 		try {
 			userRoleDAO.addNewUserRole(userRole);
 		} catch (Exception e) {
-			userInfo = "Käyttäjälle " + newUser.getusername() + " ei voi lisätä roolia " + "2";
+			userInfo = "Käyttäjälle " + newUser.getUsername() + " ei voi lisätä roolia " + "2";
 		}
 		model.addAttribute("userInfo", userInfo);
 

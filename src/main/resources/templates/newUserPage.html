@@ -29,19 +29,19 @@
          <table>
             <tr>
                <td>User:</td>
-               <td><input type='text' name='username' th:if="${user != null}" th:attr="value=${user.username}" ></td>
+               <td><input type='text' name='username' th:if="${user != null}" th:attr="value=${user.username}" th:required="required"></td>
             </tr>
             <tr>
                <td>Password:</td>
-               <td><input type='password' name='password' th:if="${user != null}" th:attr="value=${user.password}"/></td>
+               <td><input type='password' name='password' th:if="${user != null}" th:attr="value=${user.password}" th:required="required"/></td>
             </tr>
             <tr>
                <td>Password again:</td>
-               <td><input type='password' name='password2' value=${user.password2}/></td>
+               <td><input type='password' name='password2' value=${user.password2} th:attr="value=''"/></td>
             </tr>
              <tr>
                <td>Role:</td>
-               <td><input type='text' name='userrole' th:if="${user != null}" th:attr="value=${user.userrole}" placeholder='x2'></td>
+               <td><input type='text' name='userrole' th:if="${user != null}" th:attr="value=${user.userrole}" th:required="required" placeholder='(2)'></td>
             </tr>
             <tr>
                <td><input name="submit" type="submit" value="submit" /></td>

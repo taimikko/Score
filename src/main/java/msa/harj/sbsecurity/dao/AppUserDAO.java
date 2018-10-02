@@ -1,16 +1,17 @@
-package org.o7planning.sbsecurity.dao;
+package msa.harj.sbsecurity.dao;
  
 import javax.sql.DataSource;
 
-import org.o7planning.sbsecurity.mapper.AppUserMapper;
-import org.o7planning.sbsecurity.model.AppUser;
-import org.o7planning.sbsecurity.model.NewUser;
-import org.o7planning.sbsecurity.utils.EncrytedPasswordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import msa.harj.sbsecurity.mapper.AppUserMapper;
+import msa.harj.sbsecurity.model.AppUser;
+import msa.harj.sbsecurity.model.NewUser;
+import msa.harj.sbsecurity.utils.EncrytedPasswordUtils;
  
 @Repository
 @Transactional
@@ -37,7 +38,7 @@ public class AppUserDAO extends JdbcDaoSupport {
  
 	public void addNewUserAccount(NewUser usr) {
 		String sql = "INSERT INTO app_user (user_id, user_name, encryted_password, enabled) " + "values (?, ?, ?, ?)";
-		Object[] args = new Object[] { 0, usr.getusername(), usr.getEncrytedPassword(), 1 };
+		Object[] args = new Object[] { 0, usr.getUsername(), usr.getEncrytedPassword(), 1 };
 
 		int info = this.getJdbcTemplate().update(sql, args);
 		System.out.println("päivitettiin " + Integer.toString(info) + " riviä app_user tauluun.");

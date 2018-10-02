@@ -1,4 +1,4 @@
-package org.o7planning.sbsecurity.model;
+package msa.harj.sbsecurity.model;
 
 public class AppUser {
 
