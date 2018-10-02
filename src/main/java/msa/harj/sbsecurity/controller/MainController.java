@@ -12,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import msa.harj.sbsecurity.dao.AppRoleDAO;
 import msa.harj.sbsecurity.dao.AppUserDAO;
 import msa.harj.sbsecurity.dao.UserRoleDAO;
 import msa.harj.sbsecurity.model.AppUser;
@@ -30,8 +29,8 @@ public class MainController {
 	@Autowired
 	private UserRoleDAO userRoleDAO;
 	
-	@Autowired
-	private AppRoleDAO appRoleDAO;
+//	@Autowired
+//	private AppRoleDAO appRoleDAO;
 
 	@RequestMapping(value = { "/", "/welcome" }, method = RequestMethod.GET)
 	public String welcomePage(Model model) {

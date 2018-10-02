@@ -5,8 +5,6 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import msa.harj.sbsecurity.config.WebSecurityConfig;
-
 @SpringBootApplication
 public class SpringBootSecurityJdbcApplication {
 	private static final Log log = LogFactory.getLog(SpringBootSecurityJdbcApplication.class);

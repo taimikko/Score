@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import msa.harj.sbsecurity.mapper.AppUserMapper;
 import msa.harj.sbsecurity.model.AppUser;
 import msa.harj.sbsecurity.model.NewUser;
-import msa.harj.sbsecurity.utils.EncrytedPasswordUtils;
  
 @Repository
 @Transactional

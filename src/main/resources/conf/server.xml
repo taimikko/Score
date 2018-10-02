@@ -1,0 +1,8 @@
+<Connector port="58010" protocol="HTTP/1.1"
+	connectionTimeout="20000" redirectPort="58443" />
+
+<Connector port="58443"
+	protocol="org.apache.coyote.http11.Http11NioProtocol" maxThreads="150"
+	SSLEnabled="true" scheme="https" secure="true" clientAuth="false"
+	sslProtocol="TLS" keystoreFile="${user.home}/.keystore"
+	keystorePass="changeit" />
