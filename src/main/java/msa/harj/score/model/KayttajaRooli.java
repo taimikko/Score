@@ -1,21 +1,21 @@
-package msa.harj.sbsecurity.model;
+package msa.harj.score.model;
 
-public class UserRole {
+public class KayttajaRooli {
 	private Long id;
 	private Long userId;
 	private Long roleId;
 
-	public UserRole() {
+	public KayttajaRooli() {
 
 	}
 
-	public UserRole(Long id, Long userId, Long roleId) {
+	public KayttajaRooli(Long id, Long userId, Long roleId) {
 		this.id = id;
 		this.userId = userId;
 		this.roleId = roleId;
 	}
 
-	public UserRole(Long userId, Long roleId) {
+	public KayttajaRooli(Long userId, Long roleId) {
 		this.id = 0L;
 		this.userId = userId;
 		this.roleId = roleId;

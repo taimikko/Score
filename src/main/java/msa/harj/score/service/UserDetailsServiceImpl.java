@@ -1,12 +1,12 @@
-package msa.harj.sbsecurity.service;
+package msa.harj.score.service;
 /*
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import msa.harj.sbsecurity.dao.AppRoleDAO;
-import msa.harj.sbsecurity.dao.AppUserDAO;
-import msa.harj.sbsecurity.model.AppUser;
+import msa.harj.score.dao.RooliDAO;
+import msa.harj.score.dao.KayttajaDAO;
+import msa.harj.score.model.Kayttaja;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,16 +21,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	private static final Log log = LogFactory.getLog(UserDetailsServiceImpl.class);
 
 	@Autowired
-	private AppUserDAO appUserDAO;
+	private KayttajaDAO appUserDAO;
 
 	@Autowired
-	private AppRoleDAO appRoleDAO;
+	private RooliDAO appRoleDAO;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		log.info("MSA DEBUG: UserDetails sai parametrina käyttäjätunnuksen '"+username+"'");
 		
-		AppUser appUser = this.appUserDAO.findUserAccount(username);
+		Kayttaja appUser = this.appUserDAO.findUserAccount(username);
 
 		if (appUser == null) {
 			log.info("User "+username+" not found!");

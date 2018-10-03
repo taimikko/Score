@@ -1,23 +1,27 @@
-package msa.harj.sbsecurity.model;
+package msa.harj.score.model;
 
-import msa.harj.sbsecurity.utils.EncrytedPasswordUtils;
+import msa.harj.score.utils.EncrytedPasswordUtils;
 
-public class NewUser {
+public class UusiKayttaja {
 
 	private String username;
 	private String password;
 	private String password2;
 	private String userrole;
 	private String encrytedPassword;
+	private long seuraId;
+	private long jasennumero;
 
-	public NewUser() {
+	public UusiKayttaja() {
 
 	}
 
-	public NewUser(String username, String password, String userrole) {
+	public UusiKayttaja(String username, String password) {
 		this.username = username;
 		this.password = password;
-		this.userrole = userrole;
+		this.userrole = "3";
+		this.seuraId = 0L;
+		this.jasennumero = 0L;
 	}
 
 	public String getUsername() {
@@ -85,6 +89,22 @@ public class NewUser {
 
 	public void setEncrytedPassword(String encrytedPassword) {
 		this.encrytedPassword = encrytedPassword;
+	}
+
+	public String getSeuraId() {
+		return String.valueOf(this.seuraId);
+	}
+
+	public String getJasennumero() {
+		return String.valueOf(this.jasennumero);
+	}
+
+	public void setSeuraId(long seuraId) {
+		this.seuraId = seuraId;
+	}
+
+	public void setJasennumero(long jasennumero) {
+		this.jasennumero = jasennumero;
 	}
 
 }

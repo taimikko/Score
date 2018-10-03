@@ -1,10 +1,10 @@
-package msa.harj.sbsecurity.config;
+package msa.harj.score.config;
 
 import javax.sql.DataSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-//import msa.harj.sbsecurity.service.UserDetailsServiceImpl;
+//import msa.harj.score.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,18 +34,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		return bCryptPasswordEncoder;
 	}
 
-	/* TESTIÄ */
-
 	@Autowired
 	public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
 		log.info("MSA DEBUG: configAuthentication:");
 
-		String authoritiesSql = "SELECT u.user_name, r.role_name " //
-				+ " FROM user_role ur, app_role r, app_user u " //
-				+ " WHERE ur.role_id = r.role_id AND ur.user_id = u.user_id AND u.user_name = ? ";
+		String authoritiesSql = "SELECT k.kayttajatunnus, r.rooli_nimi " //
+				+ " FROM kayttaja_rooli kr, rooli r, kayttaja k " //
+				+ " WHERE kr.rooli_id = r.rooli_id AND kr.kayttaja_id = k.kayttaja_id AND k.kayttajatunnus = ? ";
 
 		auth.jdbcAuthentication().dataSource(dataSource).passwordEncoder(passwordEncoder())
-				.usersByUsernameQuery("SELECT user_name, encryted_password, enabled FROM app_user WHERE user_name=?")
+				.usersByUsernameQuery("SELECT kayttajatunnus, encryted_password, enabled FROM kayttaja WHERE kayttajatunnus=?")
 				.authoritiesByUsernameQuery(authoritiesSql);
 	}
 	
@@ -83,18 +81,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         //if (securityProperties.isRequireSsl()) http.requiresChannel().anyRequest().requiresSecure(); // MSA
 
 		// The pages does not require login
-		http.authorizeRequests().antMatchers("/", "/login", "/logout").permitAll();
+		http.authorizeRequests().antMatchers("/", "/login", "/logout", "index").permitAll();
 
-		// /userInfo page requires login as ROLE_USER or ROLE_ADMIN.
+		// /userInfo page requires login as ROLE_PELAAJA or ROLE_ADMIN.
 		// If no login, it will redirect to /login page.
-		http.authorizeRequests().antMatchers("/userInfo").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");
-		http.authorizeRequests().antMatchers("/error", "/users").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"); // MSA
+		http.authorizeRequests().antMatchers("/userInfo").access("hasAnyRole('ROLE_PELAAJA', 'ROLE_ADMIN')");
+		http.authorizeRequests().antMatchers("/error", "/users").access("hasAnyRole('ROLE_PELAAJA', 'ROLE_ADMIN')"); // MSA
 
 		// For ADMIN only.
 		http.authorizeRequests().antMatchers("/admin").access("hasRole('ROLE_ADMIN')");
-		http.authorizeRequests().antMatchers("/new").access("hasRole('ROLE_ADMIN')");
-
-		http.authorizeRequests().antMatchers("/addnew").access("hasRole('ROLE_ADMIN')");
+		http.authorizeRequests().antMatchers("/new").access("hasAnyRole('ROLE_ADMIN', 'ROLE_SEURA_MANAGER')");
+		
+		http.authorizeRequests().antMatchers("/addnew").access("hasAnyRole('ROLE_ADMIN', 'ROLE_SEURA_MANAGER')");
 		// When the user has logged in as XX.
 		// But access a page that requires role YY,
 		// AccessDeniedException will be thrown.
@@ -124,3 +122,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	}
 }
+
+

@@ -1,38 +1,40 @@
-package msa.harj.sbsecurity.controller;
+package msa.harj.score.controller;
 
 import java.security.Principal;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
-import msa.harj.sbsecurity.dao.AppUserDAO;
-import msa.harj.sbsecurity.dao.UserRoleDAO;
-import msa.harj.sbsecurity.model.AppUser;
-import msa.harj.sbsecurity.model.NewUser;
-import msa.harj.sbsecurity.model.UserRole;
-import msa.harj.sbsecurity.utils.WebUtils;
+import msa.harj.score.dao.KayttajaDAO;
+import msa.harj.score.dao.KayttajaRooliDAO;
+import msa.harj.score.model.Kayttaja;
+import msa.harj.score.model.KayttajaRooli;
+import msa.harj.score.model.UusiKayttaja;
+import msa.harj.score.utils.WebUtils;
 
 @Controller
 public class MainController {
 	private static final Log log = LogFactory.getLog(MainController.class);
 	
 	@Autowired
-	private AppUserDAO appUserDAO;
+	private KayttajaDAO kayttajaDAO;
 
 	@Autowired
-	private UserRoleDAO userRoleDAO;
+	private KayttajaRooliDAO kRooliDAO;
 	
 //	@Autowired
-//	private AppRoleDAO appRoleDAO;
+//	private RooliDAO appRoleDAO;
 
-	@RequestMapping(value = { "/", "/welcome" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/", "/welcome", "index.html" }, method = RequestMethod.GET)
 	public String welcomePage(Model model) {
 		log.info("/ ja /welcome: "+model.toString());
 
@@ -61,7 +63,7 @@ public class MainController {
 
 	@RequestMapping(value = "/new", method = RequestMethod.GET)
 	public String newUserPage(Model model) {
-		NewUser user = new NewUser("","","2");
+		UusiKayttaja user = new UusiKayttaja("","");
 		model.addAttribute("user", user);
 		if (model.containsAttribute("user")) {
 			log.info("Model.user:"+user);
@@ -72,7 +74,7 @@ public class MainController {
 	}
 	
 	@RequestMapping(value = "/addnew", method = RequestMethod.POST)
-	public String addNewUser(Model model, NewUser newUser, Principal principal) {
+	public String addNewUser(Model model, UusiKayttaja newUser, Principal principal) {
 		if (model.containsAttribute("newUser")) {
 			log.info("Modelissa on newUser");
 			log.info(model.toString());
@@ -97,14 +99,14 @@ public class MainController {
 		
 		log.info("Uusi username: " + newUser.getUsername()+" / " + newUser.getEncrytedPassword());
 		String userInfo ="";
-		appUserDAO.addNewUserAccount(newUser); 
-		AppUser appUser = appUserDAO.findUserAccount(newUser.getUsername()); //kantaan talletettu id
-		UserRole userRole = new UserRole(appUser.getUserId(), 2L);
+		kayttajaDAO.addNewUserAccount(newUser); 
+		Kayttaja appUser = kayttajaDAO.findUserAccount(newUser.getUsername()); //kantaan talletettu id
+		KayttajaRooli userRole = new KayttajaRooli(appUser.getUserId(), 3L);
 		// TODO: nyt lisää vain käyttäjä -rooleja, vaihda samalla userRole muutuja välitettäväksi
 		try {
-			userRoleDAO.addNewUserRole(userRole);
+			kRooliDAO.addNewUserRole(userRole);
 		} catch (Exception e) {
-			userInfo = "Käyttäjälle " + newUser.getUsername() + " ei voi lisätä roolia " + "2";
+			userInfo = "Käyttäjälle " + newUser.getUsername() + " ei voi lisätä roolia 3";
 		}
 		model.addAttribute("userInfo", userInfo);
 
@@ -149,6 +151,15 @@ public class MainController {
 		}
 
 		return "403Page";
+	}
+	
+	@Bean
+	public FreeMarkerViewResolver freemarkerViewResolver() { 
+	    FreeMarkerViewResolver resolver = new FreeMarkerViewResolver(); 
+	    resolver.setCache(true); 
+	    resolver.setPrefix(""); 
+	    resolver.setSuffix(".ftl"); 
+	    return resolver; 
 	}
 
 }

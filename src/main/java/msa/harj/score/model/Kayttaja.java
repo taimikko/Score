@@ -1,16 +1,16 @@
-package msa.harj.sbsecurity.model;
+package msa.harj.score.model;
 
-public class AppUser {
+public class Kayttaja {
 
 	private Long userId;
 	private String username;
 	private String encrytedPassword;
 
-	public AppUser() {
+	public Kayttaja() {
 
 	}
 
-	public AppUser(Long userId, String username, String encrytedPassword) {
+	public Kayttaja(Long userId, String username, String encrytedPassword) {
 		this.userId = userId;
 		this.username = username;
 		this.encrytedPassword = encrytedPassword;

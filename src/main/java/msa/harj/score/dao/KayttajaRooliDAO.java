@@ -1,4 +1,4 @@
-package msa.harj.sbsecurity.dao;
+package msa.harj.score.dao;
 
 import javax.sql.DataSource;
 
@@ -7,24 +7,24 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import msa.harj.sbsecurity.model.UserRole;
+import msa.harj.score.model.KayttajaRooli;
 
 @Repository
 @Transactional
-public class UserRoleDAO extends JdbcDaoSupport{
+public class KayttajaRooliDAO extends JdbcDaoSupport{
 
     @Autowired
-    public UserRoleDAO(DataSource dataSource) {
+    public KayttajaRooliDAO(DataSource dataSource) {
         this.setDataSource(dataSource);
     }
 
-	public void addNewUserRole(UserRole userRole) {
-		String sql = "INSERT INTO user_role (id, user_id, role_id) values (?, ?, ?)";
+	public void addNewUserRole(KayttajaRooli userRole) {
+		String sql = "INSERT INTO kayttaja_rooli (id, kayttaja_id, rooli_id) values (?, ?, ?)";
 		Object[] args = new Object[] { 0, userRole.getUserId(), userRole.getRoleId() }; 
 		
 		
 		int info = this.getJdbcTemplate().update(sql, args);
-		System.out.println("päivitettiin "+Integer.toString(info)+" riviä user_role tauluun.");
+		System.out.println("päivitettiin "+Integer.toString(info)+" riviä kayttaja_rooli tauluun.");
 		// TODO: ei ole mitään virhekäsittelyä
 	}
     

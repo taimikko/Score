@@ -1,4 +1,4 @@
-package msa.harj.sbsecurity.utils;
+package msa.harj.score.utils;
  
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
  
@@ -15,7 +15,7 @@ public class EncrytedPasswordUtils {
         String encrytedPassword = encrytePassword(password);
  
         System.out.println("Encryted Password: " + encrytedPassword);
-        System.out.println("test -> "+ encrytePassword("test"));
+        System.out.println("\"\" -> "+ encrytePassword(""));
     }
  
 }

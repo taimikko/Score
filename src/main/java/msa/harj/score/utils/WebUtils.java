@@ -1,4 +1,4 @@
-package msa.harj.sbsecurity.utils;
+package msa.harj.score.utils;
 
 import java.util.Collection;
 
@@ -10,7 +10,7 @@ public class WebUtils {
 	public static String toString(User user) {
 		StringBuilder sb = new StringBuilder();
 
-		sb.append("username:").append(user.getUsername());
+		sb.append("käyttäjätunnus:").append(user.getUsername());
 
 		Collection<GrantedAuthority> authorities = user.getAuthorities();
 		if (authorities != null && !authorities.isEmpty()) {

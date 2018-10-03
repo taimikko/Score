@@ -1,4 +1,4 @@
-package msa.harj.sbsecurity.dao;
+package msa.harj.score.dao;
  
 import java.util.List;
 
@@ -11,17 +11,17 @@ import org.springframework.transaction.annotation.Transactional;
  
 @Repository
 @Transactional
-public class AppRoleDAO extends JdbcDaoSupport {
+public class RooliDAO extends JdbcDaoSupport {
  
     @Autowired
-    public AppRoleDAO(DataSource dataSource) {
+    public RooliDAO(DataSource dataSource) {
         this.setDataSource(dataSource);
     }
  
     public List<String> getRoleNames(Long userId) {
-        String sql = "Select r.role_name " //
-                + " from user_role ur, app_role r " //
-                + " where ur.role_id = r.role_id and ur.user_id = ? ";
+        String sql = "SELECT r.rooli_nimi " //
+                + " FROM kayttaja_rooli ur, rooli r " //
+                + " WHERE ur.rooli_id = r.rooli_id AND ur.kayttaja_id = ? ";
  
         Object[] params = new Object[] { userId };
  

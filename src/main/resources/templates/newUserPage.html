@@ -41,8 +41,58 @@
             </tr>
              <tr>
                <td>Role:</td>
-               <td><input type='text' name='userrole' th:if="${user != null}" th:attr="value=${user.userrole}" th:required="required" placeholder='(2)'></td>
+               <td><input type='text' name='userrole' th:if="${user != null}" th:attr="value=${user.userrole}" th:required="required" placeholder='(3)'>3=pelaaja</td>
             </tr>
+ 
+            <tr><td>Jos käyttäjä on ROLE_ADMIN niin saa valita seuran muuten on käytettävä omaa seuraa </td>
+            <td><span th:if="${#request.userPrincipal != null}" th:text="${#request.userPrincipal.name}"> </span> </td>
+            </tr>
+ 
+ <!--             <tr> <td><span th:if="${#request.userPrincipal.role != null}" th:text="${#request.userPrincipal.role}"> </span> </td>
+           </tr>
+ -->
+            <tr>
+            <td>
+            Kirjautunut käyttäjä: <span sec:authentication="name">Bob</span>
+			Roolit: <span sec:authentication="principal.authorities">[ROLE_USER, ROLE_ADMIN, ROLE_PELAAJA, ROLE_SEURA_MANAGER]</span>
+
+<div sec:authorize="isAuthenticated()">
+  This content is only shown to authenticated users.
+</div>
+<div sec:authorize="hasRole('ROLE_ADMIN')">
+  ROLE_ADMIN.
+</div>
+<div sec:authorize="hasRole('ROLE_PELAAJA')">
+  ROLE_PELAAJA.
+</div>
+<div sec:authorize="hasRole('ROLE_SEURA_MANAGER')">
+  ROLE_SEURA_MANAGER.
+</div>
+ 
+<!--     			<span th:utext="${#request.userPrincipal.role}"></span>
+
+<span th:utext="${pageContext.request.remoteUser}"> remoteUser</span>
+    -->
+                </td></tr>
+ 
+            <tr>
+               <td>Seura:</td>
+               <td><input type='number' name='seuraId' th:if="${user.seuraId != null}" th:attr="value=${user.seuraId}" th:required="required"/>seuran numero</td>
+            </tr>
+            <tr>
+               <td>Jäsennumero:</td>
+               <td><input type='number' name='jasennumero' th:if="${user.jasennumero != null}" th:attr="value=${user.jasennumero}" th:required="required"/>jäsennumero seurassa</td>
+            </tr>
+ <!-- 
+            <tr>
+               <td>Seura:</td>
+               <td><input type='text' name='seura' th:if="${user.seura != null}" th:attr="value=${user.seura}" th:required="required"/></td>
+            </tr>
+            <tr>
+               <td>Jäsennumero:</td>
+               <td><input type='text' name='jasennumero' th:if="${user.jasennumero != null}" th:attr="value=${user.jasennumero}" th:required="required"/></td>
+            </tr>
+ -->
             <tr>
                <td><input name="submit" type="submit" value="submit" /></td>
             </tr>
