@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+	<html>
+		<head>
+			<title>User list</title>
+		</head>
+		<body>
+			<h1> userlist1.html</h1>
+			<table>
+				<thead>
+					<tr>
+						<th>
+							<a >#</a>
+						</th>
+						<th>
+							<a href="/users/username">Username</a>
+						</th>
+						<th>
+							<a href="/users/firstname">Firstname</a>
+						</th>
+						<th>
+							<a href="/users/lastname">Lastname</a>
+						</th>
+						<th>
+							<a href="/users/displayorder">Displayorder</a>
+						</th>
+					</tr>
+				</thead>
+				<!-- thymeleaf version -->
+				<tbody th:remove="all-but-first">
+					<tr th:each="user : ${users}">
+						<td th:text="${userStat.count}">1</td>
+ 						<td><a th:href="@{/user/}+${user.username}" th:text="${user.username}"></a></td>
+						<td th:text="${user.jasennumero}"></td>
+						<td th:text="${user.seuraId}"></td>
+<!-- 
+						<td th:text="${user.firstname}"></td>
+						<td th:text="${user.lastname}"></td>
+-->	
+						<td>
+							<a th:href="@{/userup/}+${user.username}" th:text="up">up</a>
+							<a th:href="@{/userdown/}+${user.username}" th:text="v" >down</a>
+						</td>
+						<td>
+							<a href="@{/deleteuser/}+${user.username}">Del</a>
+							<button id="del" onclick="deleteUser('${user.username}')">Delete</button>
+							<a href="@{/edit/}+${user.username}">Edit</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div>
+				<p>
+					<a href="/add">Lisää käyttäjä</a>
+			</div>
+		</body>
+	</html>
