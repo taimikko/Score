@@ -1,12 +1,11 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
    <head>
       <title>Logout</title>
    </head>
     
    <body>
-      <!-- Include _menu.html -->
-      <th:block th:include="/_menu"></th:block>
+      <#include "/_menu.ftl">
        
       <h1>Logout Successful!</h1>
       <p> eli pääsit kuin pääsitkin ulos, onneksi olkoon!

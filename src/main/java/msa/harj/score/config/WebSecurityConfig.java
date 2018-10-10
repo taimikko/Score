@@ -73,8 +73,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		log.info("MSA DEBUG: WebSecurityConfig.configure "+http.toString());
-		log.debug("MSA DEBUG: WebSecurityConfig.configure "+http.toString());
-		log.error("MSA DEBUG: WebSecurityConfig.configure "+http.toString());
 
 		http.csrf().disable();
 
@@ -85,14 +83,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		// /userInfo page requires login as ROLE_PELAAJA or ROLE_ADMIN.
 		// If no login, it will redirect to /login page.
-		http.authorizeRequests().antMatchers("/userInfo").access("hasAnyRole('ROLE_PELAAJA', 'ROLE_ADMIN')");
+		http.authorizeRequests().antMatchers("/kayttajaInfo").access("hasAnyRole('ROLE_PELAAJA', 'ROLE_ADMIN')");
 		http.authorizeRequests().antMatchers("/error", "/users").access("hasAnyRole('ROLE_PELAAJA', 'ROLE_ADMIN')"); // MSA
+
+		http.authorizeRequests().antMatchers("/kayttajaTiedot").access("hasAnyRole('ROLE_SEURA_MANAGER', 'ROLE_ADMIN')");
 
 		// For ADMIN only.
 		http.authorizeRequests().antMatchers("/admin").access("hasRole('ROLE_ADMIN')");
-		http.authorizeRequests().antMatchers("/new").access("hasAnyRole('ROLE_ADMIN', 'ROLE_SEURA_MANAGER')");
+		http.authorizeRequests().antMatchers("/kayttaja/*").access("hasAnyRole('ROLE_ADMIN', 'ROLE_SEURA_MANAGER')");
+		http.authorizeRequests().antMatchers("/pelaaja/*").access("hasAnyRole('ROLE_ADMIN', 'ROLE_SEURA_MANAGER')");
 		
-		http.authorizeRequests().antMatchers("/addnew").access("hasAnyRole('ROLE_ADMIN', 'ROLE_SEURA_MANAGER')");
+		http.authorizeRequests().antMatchers("kayttajaLista", "/kayttajaluettelo").access("hasAnyRole('ROLE_ADMIN', 'ROLE_SEURA_MANAGER')");
 		// When the user has logged in as XX.
 		// But access a page that requires role YY,
 		// AccessDeniedException will be thrown.
@@ -103,7 +104,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				// Submit URL of login page.
 				.loginProcessingUrl("/j_spring_security_check") // Submit URL
 				.loginPage("/login")//
-				.defaultSuccessUrl("/userAccountInfo")//
+				.defaultSuccessUrl("/userInfoPage")//
 				.failureUrl("/login?error=true")//
 				.usernameParameter("username")//
 				.passwordParameter("password")

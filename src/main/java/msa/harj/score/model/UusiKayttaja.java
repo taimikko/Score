@@ -11,6 +11,8 @@ public class UusiKayttaja {
 	private String encrytedPassword;
 	private long seuraId;
 	private long jasennumero;
+	private String etunimi;
+	private String sukunimi;
 
 	public UusiKayttaja() {
 
@@ -25,7 +27,7 @@ public class UusiKayttaja {
 	}
 
 	public String getUsername() {
-		return username;
+		return this.username;
 	}
 
 	public void setUsername(String username) {
@@ -33,7 +35,7 @@ public class UusiKayttaja {
 	}
 
 	public String getUserrole() {
-		return userrole;
+		return this.userrole;
 	}
 
 	public void setUserrole(String userrole) {
@@ -107,4 +109,18 @@ public class UusiKayttaja {
 		this.jasennumero = jasennumero;
 	}
 
+	public Object getEtunimi() {
+		return this.etunimi;
+	}
+	public String getSukunimi() {
+		return this.sukunimi;
+	}
+
+	public void setSukunimi(String sukunimi) {
+		this.sukunimi = sukunimi;
+	}
+
+	public void setEtunimi(String etunimi) {
+		this.etunimi = etunimi;
+	}
 }

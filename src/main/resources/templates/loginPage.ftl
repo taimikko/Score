@@ -1,28 +1,38 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
    <head>
       <title>Login</title>
    </head>
    <body>
-      <!-- Include _menu.html -->
-      <th:block th:include="/_menu"></th:block>
+      <#include "/_menu.ftl">
        
       <h1>Login</h1>
        
-      <!-- /login?error=true -->
-      <div th:if="${#request.getParameter('error') == 'true'}"
-            style="color:red;margin:10px 0px;">
-         Ei tääne ny ihan kaikki pääse.<br />
-         Reason :
-         <span th:if="${#session!= null and #session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION') != null}"
-            th:utext="${#session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION').message}">
-                Static summary
+  <#--    <#if (request.getParameter('error')) == 'true'> 
+  		</#if>
+  -->
+  
+ 
+  
+      <#if (requestParameters.error)??>
+      <div style="color:red;margin:10px 0px;">
+         Päsy kilety.<br />
+         Syy:
+     	 <#if (session!= null) & session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION') != null>
+         <span>
+              session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION').message
          </span>
-           
+         </#if>
       </div>
-     
+      </#if>
+            
+      <#if user??><h1>Welcome ${user}!</h1>
+      <#else>Käyttäjää ei ole tunnistettu?
+      </#if> 
+      
+      
       <h3>Nyt tarvittais sitä käyttäjätunnusta ja salasanaa, viittikkö antaa:</h3>
-      <form name='f' th:action="@{/j_spring_security_check}" method='POST'>
+      <form name='f' action="/j_spring_security_check" method='POST'>
          <table>
             <tr>
                <td>User:</td>
