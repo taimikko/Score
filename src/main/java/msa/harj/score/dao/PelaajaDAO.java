@@ -21,8 +21,8 @@ import msa.harj.score.model.Pelaaja;
 public class PelaajaDAO extends KayttajaDAO {
 	private static final Log log = LogFactory.getLog(PelaajaDAO.class);
 
-	private static String PELAAJA_SELECT = "SELECT k.kayttaja_id, k.kayttajatunnus, k.encryted_password,"
-			+ " p.id, p.seura_id, p.jasennumero, k.sukunimi, k.etunimi, p.sukup, p.jasen_tyyppi, p.tasoitus, p.pvm"
+	private static String PELAAJA_SELECT = "SELECT k.kayttaja_id, k.kayttajatunnus, k.encryted_password, k.enabled, "
+			+ " p.id, p.seura_id, p.jasennumero, k.sukunimi, k.etunimi, p.sukup, p.jasen_tyyppi, p.tasoitus, p.pvm, p.tasoitus_voimassa"
 			+ " FROM pelaaja p, kayttaja k";
 	private static String PELAAJA_NEWEST = " k.jasennumero=p.jasennumero AND k.seura_id = p.seura_id"
 			+ "  AND  (p.seura_id, p.jasennumero, p.pvm) IN ( SELECT q.seura_id, q.jasennumero, max(q.pvm) as pvm"
@@ -71,27 +71,31 @@ public class PelaajaDAO extends KayttajaDAO {
 		// tasoitus, mutta jasennumero + seura_id yksilöi koko ajan
 
 		public Pelaaja mapRow(ResultSet resultSet, int row) throws SQLException {
-			return new Pelaaja(resultSet.getString("kayttajatunnus"), resultSet.getLong("seura_id"),
+			return new Pelaaja(resultSet.getLong("kayttaja_id"), resultSet.getString("kayttajatunnus"),
+					resultSet.getBoolean("enabled"), resultSet.getLong("id"), resultSet.getLong("seura_id"),
 					resultSet.getLong("jasennumero"), resultSet.getString("sukunimi"), resultSet.getString("etunimi"),
-					resultSet.getInt("sukup"), resultSet.getInt("jasen_tyyppi"), resultSet.getLong("tasoitus"));
+					resultSet.getInt("sukup"), resultSet.getInt("jasen_tyyppi"), resultSet.getLong("tasoitus"),
+					resultSet.getBoolean("tasoitus_voimassa"), resultSet.getTimestamp("pvm")); 
 		}
-
 	};
 
 	public Pelaaja getPelaaja(Long seuranumero, Long jasennumero) {
-		String sql = PELAAJA_SELECT + " WHERE k.seura_id=? AND k.jasennumero=? " + PELAAJA_NEWEST;
+		String sql = PELAAJA_SELECT + " WHERE k.seura_id=? AND k.jasennumero=? AND " + PELAAJA_NEWEST;
+		log.info(sql);
 		Object[] params = new Object[] { seuranumero, jasennumero };
 		try {
 			Pelaaja pelaaja = this.getJdbcTemplate().queryForObject(sql, params, PELAAJA_MAPPER);
+			log.info("MSA: getPelaaja() löysi "+pelaaja);
 			return pelaaja;
 		} catch (EmptyResultDataAccessException e) {
+			log.info("MSA: ei löytynyt pelaajaa "+jasennumero+" seurasta "+seuranumero);
 			return null;
 		}
 	}
 
 	public void deletePelaaja(Long pelaajaId) {
 		// poistaa vain yhden rivin pelaajan historiasta?
-		log.info("MSA: deletePelaaja(" + Long.toString(pelaajaId) + ") on toteuttamatta!"); //TODO:
+		log.info("MSA: deletePelaaja(" + Long.toString(pelaajaId) + ") on toteuttamatta!"); // TODO:
 	}
 
 	public Pelaaja getPelaaja(Long pelaajaId) {

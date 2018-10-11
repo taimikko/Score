@@ -39,7 +39,7 @@
             </#if>
         </div>
 
-        <a href="/kayttaja/<@security.authentication property=" principal.username " />"> omat käyttäjätiedot</a>
+        <a href="/kayttaja/<@security.authentication property="principal.username" />"> omat käyttäjätiedot</a>
 </body>
 
 </html>

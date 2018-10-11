@@ -18,7 +18,7 @@
 	<body>
 		<h1>pelaajaHistoria.FTL</h1>
 	
-	<#include "_menu.ftl">
+	<#include "../_menu.ftl">
 	<div>
 	<#if kayttaja??>
 	Käyttäjätunnus: ${kayttaja.username}

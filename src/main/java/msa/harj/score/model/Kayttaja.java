@@ -2,7 +2,7 @@ package msa.harj.score.model;
 
 public class Kayttaja {
 
-	protected Long userId;
+	protected Long kayttajaId;
 	protected String username;
 	protected String encrytedPassword;
 	protected Long seuraId;
@@ -68,13 +68,11 @@ public class Kayttaja {
 	}
 
 	public Kayttaja(String username, String encrytedPassword) {
-		// this.userId = -1;
 		this.username = username;
 		this.encrytedPassword = encrytedPassword;
 	}
 
 	public Kayttaja(String username, Long seuraId, Long jasennumero) {
-		// this.userId = -1;
 		this.username = username;
 		this.encrytedPassword = "";
 		this.jasennumero = jasennumero;
@@ -82,11 +80,11 @@ public class Kayttaja {
 		this.enabled = true;
 	}
 
-	public Kayttaja(Long userId, String username, /* String encrytedPassword, */ 
+	public Kayttaja(Long kayttajaId, String username, /* String encrytedPassword, */ 
 			Long seuraId, Long jasennumero,
 			Boolean enabled, String etunimi, String sukunimi) {
 		super();
-		this.userId = userId;
+		this.kayttajaId = kayttajaId;
 		this.username = username;
 		// this.encrytedPassword = encrytedPassword;
 		this.seuraId = seuraId;
@@ -96,20 +94,12 @@ public class Kayttaja {
 		this.sukunimi = sukunimi;
 	}
 
-	public Long getUserId() {
-		return userId;
+	public Long getKayttajaId() {
+		return kayttajaId;
 	}
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
-
-	public String getusername() {
-		return username;
-	}
-
-	public void setusername(String username) {
-		this.username = username;
+	public void setKayttajaId(Long kayttajaId) {
+		this.kayttajaId = kayttajaId;
 	}
 
 	public String getEncrytedPassword() {

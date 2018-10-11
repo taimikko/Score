@@ -31,11 +31,11 @@
                 </tr>
                 <tr>
                     <td>jäsennumero:</td>
-                    <td>${kayttaja.jasennumero}</td>
+                    <td>${kayttaja.jasennumero?replace(",","")}</td>
                 </tr>
                 <tr>
                     <td>id:</td>
-                    <td>${kayttaja.userId}</td>
+                    <td>${kayttaja.kayttajaId?replace(",","")}</td>
                 </tr>
                 <tr>
                     <td>enabled:</td>
@@ -50,7 +50,7 @@
                 <tr>
                     <td>roolit:</td>
                     <#list roolit as rooli>
-                        <td>${rooli}</td>
+                        <td>${rooli}</td></tr><tr><td/>
                     </#list>
                 </tr>
             </#if>

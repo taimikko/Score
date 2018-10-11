@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import msa.harj.score.dao.PelaajaDAO;
+import msa.harj.score.dao.RooliDAO;
 import msa.harj.score.model.Pelaaja;
 
 @Controller
@@ -21,13 +22,21 @@ public class PelaajaController {
 	@Autowired
 	private PelaajaDAO pelaajaDAO;
 
+	@Autowired
+	private RooliDAO rooliDAO;
+
 	@GetMapping("/pelaaja/{seuraId}/{jasennumero}")
 	public String getPelaaja(Model model, @PathVariable("seuraId") Long seuraId,
 			@PathVariable("jasennumero") Long jasennumero) {
 		log.info("MSA: /pelaaja/" + Long.toString(seuraId) + "/" + Long.toString(jasennumero));
 		Pelaaja p = pelaajaDAO.getPelaaja(seuraId, jasennumero);
 		model.addAttribute("pelaaja", p);
-		return "pelaajaInfo";
+		log.info("MSA: pelaajan.käyttäjäid:" + Long.toString(p.getKayttajaId()) + "\t" + p);
+		
+		List<String> roolit = rooliDAO.getRoleNames(p.getKayttajaId()); 
+		model.addAttribute("roolit", roolit);
+
+		return "pelaaja/pelaajaTiedot";
 	}
 
 	@GetMapping("/pelaaja/get/{pelaajaId}")
@@ -35,7 +44,7 @@ public class PelaajaController {
 		log.info("MSA: /pelaaja/get/" + Long.toString(pelaajaId));
 		Pelaaja p = pelaajaDAO.getPelaaja(pelaajaId);
 		model.addAttribute("pelaaja", p);
-		return "pelaajaInfo"; // TODO
+		return "pelaaja/pelaajaTiedot"; // TODO
 	}
 
 	@GetMapping("/pelaaja/del/{pelaajaId}")
@@ -56,7 +65,7 @@ public class PelaajaController {
 			str += p.toString() + "\t";
 		}
 		log.info("pelaajaHistoria palauttaa(" + Integer.toString(ph.size()) + "):" + str);
-		return "pelaajaHistoria"; // TODO
+		return "pelaaja/pelaajaHistoria"; // TODO
 	}
 
 	@GetMapping("/pelaaja/edit/{username}")
@@ -64,7 +73,7 @@ public class PelaajaController {
 		log.info("MSA(get): /pelaaja/edit/" + username);
 		Pelaaja p = pelaajaDAO.getPelaaja(username);
 		model.addAttribute("pelaaja", p);
-		return "pelaajaEdit"; // TODO
+		return "pelaaja/pelaajaEdit"; // TODO
 	}
 
 	@PostMapping("/pelaaja/edit/{username}")
@@ -84,7 +93,7 @@ public class PelaajaController {
 	@GetMapping("/pelaaja/add")
 	public String addPelaaja(Model model) {
 		log.info("MSA: /pelaaja/add");
-		return "pelaajaEdit"; // TODO
+		return "pelaaja/pelaajaEdit"; // TODO
 	}
 
 	@PostMapping("/pelaaja/add")
@@ -96,7 +105,7 @@ public class PelaajaController {
 			return "redirect:/pelaajat";
 		} catch (Exception e) { 
 			model.addAttribute("message", e.getMessage()); // return "/error";
-			return "pelaajaAdd";
+			return "pelaaja/pelaajaAdd";
 		}
 
 	}

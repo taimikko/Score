@@ -46,7 +46,7 @@
 						<td>
 						   <a href="/kayttaja/del/${user.username}">Del</a>
 						   <button id="del" onclick="deleteUser('${user.username}')">Delete</button>
-						   <a href="/pelaaja/${user.username}">pelaajatiedot</a>
+						   <a href="/pelaaja/${user.seuraId}/${user.jasennumero?replace(",","")}">pelaajatiedot</a>
 						</td>
 					</tr>
 				</#list>

@@ -18,12 +18,12 @@ public class RooliDAO extends JdbcDaoSupport {
         this.setDataSource(dataSource);
     }
  
-    public List<String> getRoleNames(Long userId) {
+    public List<String> getRoleNames(Long kayttajaId) {
         String sql = "SELECT r.rooli_nimi " //
                 + " FROM kayttaja_rooli ur, rooli r " //
                 + " WHERE ur.rooli_id = r.rooli_id AND ur.kayttaja_id = ? ";
  
-        Object[] params = new Object[] { userId };
+        Object[] params = new Object[] { kayttajaId };
  
         List<String> roles = this.getJdbcTemplate().queryForList(sql, params, String.class);
  

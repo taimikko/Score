@@ -58,7 +58,7 @@ public class KayttajaController {
 			String message = "<br> Salasanat eivät ole samoja <br> give password again";
 			model.addAttribute("message", message);
 			model.addAttribute("user", newUser);
-			return "kayttajaNew";
+			return "kayttaja/kayttajaNew";
 		}
 		newUser.encrytePassword(); // poistaa samalla näkyvät salasanat
 
@@ -66,7 +66,7 @@ public class KayttajaController {
 		String userInfo = "";
 		kayttajaDAO.addNewUserAccount(newUser);
 		Kayttaja appUser = kayttajaDAO.getKayttaja(newUser.getUsername()); // kantaan talletettu id
-		KayttajaRooli userRole = new KayttajaRooli(appUser.getUserId(), 3L);
+		KayttajaRooli userRole = new KayttajaRooli(appUser.getKayttajaId(), 3L);
 		// TODO: nyt lisää vain käyttäjä -rooleja, vaihda samalla userRole muutuja
 		// välitettäväksi
 		try {
@@ -114,7 +114,7 @@ public class KayttajaController {
 		Kayttaja k = kayttajaDAO.getKayttaja(kayttajatunnus);
 		model.addAttribute("kayttaja", k);
 		
-		List<String> roolit = rooliDAO.getRoleNames(k.getUserId()); 
+		List<String> roolit = rooliDAO.getRoleNames(k.getKayttajaId()); 
 		model.addAttribute("roolit", roolit);
 		
 		return "kayttaja/kayttajaTiedot";

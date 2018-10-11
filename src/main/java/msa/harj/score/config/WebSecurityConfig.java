@@ -92,6 +92,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().antMatchers("/admin").access("hasRole('ROLE_ADMIN')");
 		http.authorizeRequests().antMatchers("/kayttaja/*").access("hasAnyRole('ROLE_ADMIN', 'ROLE_SEURA_MANAGER')");
 		http.authorizeRequests().antMatchers("/pelaaja/*").access("hasAnyRole('ROLE_ADMIN', 'ROLE_SEURA_MANAGER')");
+		http.authorizeRequests().antMatchers("/pelaaja/*/*").access("hasAnyRole('ROLE_ADMIN', 'ROLE_SEURA_MANAGER')");
 		
 		http.authorizeRequests().antMatchers("kayttajaLista", "/kayttajaluettelo").access("hasAnyRole('ROLE_ADMIN', 'ROLE_SEURA_MANAGER')");
 		// When the user has logged in as XX.
@@ -104,7 +105,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				// Submit URL of login page.
 				.loginProcessingUrl("/j_spring_security_check") // Submit URL
 				.loginPage("/login")//
-				.defaultSuccessUrl("/userInfoPage")//
+				.defaultSuccessUrl("/")//
 				.failureUrl("/login?error=true")//
 				.usernameParameter("username")//
 				.passwordParameter("password")

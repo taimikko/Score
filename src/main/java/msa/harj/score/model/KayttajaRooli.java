@@ -2,23 +2,23 @@ package msa.harj.score.model;
 
 public class KayttajaRooli {
 	private Long id;
-	private Long userId;
-	private Long roleId;
+	private Long kayttajaId;
+	private Long rooliId;
 
 	public KayttajaRooli() {
 
 	}
 
-	public KayttajaRooli(Long id, Long userId, Long roleId) {
+	public KayttajaRooli(Long id, Long kayttajaId, Long rooliId) {
 		this.id = id;
-		this.userId = userId;
-		this.roleId = roleId;
+		this.kayttajaId = kayttajaId;
+		this.rooliId = rooliId;
 	}
 
-	public KayttajaRooli(Long userId, Long roleId) {
+	public KayttajaRooli(Long kayttajaId, Long rooliId) {
 		this.id = 0L;
-		this.userId = userId;
-		this.roleId = roleId;
+		this.kayttajaId = kayttajaId;
+		this.rooliId = rooliId;
 	}
 	
 	public Long getId() {
@@ -29,24 +29,24 @@ public class KayttajaRooli {
 		this.id = id;
 	}
 
-	public Long getUserId() {
-		return userId;
+	public Long getKayttajaId() {
+		return kayttajaId;
 	}
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
+	public void setUserId(Long kayttajaId) {
+		this.kayttajaId = kayttajaId;
 	}
 
-	public Long getRoleId() {
-		return roleId;
+	public Long getRooliId() {
+		return rooliId;
 	}
 
-	public void setRoleId(Long roleId) {
-		this.roleId = roleId;
+	public void setRooliId(Long rooliId) {
+		this.rooliId = rooliId;
 	}
 
 	@Override
 	public String toString() {
-		return Long.toString(this.id) + ":" + Long.toString(this.userId) + " " + Long.toString(this.roleId);
+		return Long.toString(this.id) + ":" + Long.toString(this.kayttajaId) + " " + Long.toString(this.rooliId);
 	}
 }

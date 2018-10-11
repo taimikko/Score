@@ -28,7 +28,7 @@ public class KayttajaRooliDAO extends JdbcDaoSupport{
 
 	public void addKayttajaRooli(KayttajaRooli userRole) {
 		String sql = "INSERT INTO kayttaja_rooli (id, kayttaja_id, rooli_id) values (?, ?, ?)";
-		Object[] args = new Object[] { 0, userRole.getUserId(), userRole.getRoleId() }; 
+		Object[] args = new Object[] { 0, userRole.getKayttajaId(), userRole.getRooliId() }; 
 				
 		int info = this.getJdbcTemplate().update(sql, args);
 		log.info("MSA: päivitettiin "+Integer.toString(info)+" riviä kayttaja_rooli tauluun.");
@@ -44,9 +44,9 @@ public class KayttajaRooliDAO extends JdbcDaoSupport{
 		}
 	}
 
-	public List<KayttajaRooli> getKayttajanRoolit(Long userId) {
+	public List<KayttajaRooli> getKayttajanRoolit(Long kayttajaId) {
 		String sql = "SELECT * FROM kayttaja_rooli WHERE kayttaja_id = ?";
-		Object[] args = new Object[] { userId }; 
+		Object[] args = new Object[] { kayttajaId }; 
 		
 		return this.getJdbcTemplate().query(sql, args, KR_MAPPER);
 	}

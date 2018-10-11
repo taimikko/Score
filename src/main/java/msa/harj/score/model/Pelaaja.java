@@ -1,18 +1,18 @@
 package msa.harj.score.model;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 // id, pvm, seura_id, jasennumero, sukunimi, etunimi, sukup, jasen_tyyppi, tasoitus, tasoitus_voimassa 
 
 public class Pelaaja extends Kayttaja{
-//	protected Long userId;
+//	protected Long kayttajaId;
 //	protected String username;
 //	protected String encrytedPassword;
 //	protected Boolean enabled;
 //	protected String etunimi;
 //	protected String sukunimi;
 	private Long id;
-	private Date pvm;
+	private Timestamp pvm;
 	private Long seura_id;
 	private Long jasennumero;
 	private Integer sukup;
@@ -26,10 +26,10 @@ public class Pelaaja extends Kayttaja{
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Date getPvm() {
+	public Timestamp getPvm() {
 		return pvm;
 	}
-	public void setPvm(Date pvm) {
+	public void setPvm(Timestamp pvm) {
 		this.pvm = pvm;
 	}
 	public Long getSeura_id() {
@@ -81,9 +81,12 @@ public class Pelaaja extends Kayttaja{
 		this.tasoitus_voimassa = tasoitus_voimassa;
 	}
 	
-	public Pelaaja(String kayttajatunnus, Long seura_id, Long jasennumero, String sukunimi, String etunimi, Integer sukup,
-			Integer jasen_tyyppi, Long tasoitus) {
+	public Pelaaja(Long kayttaja_id,String kayttajatunnus, boolean enabled, Long id, Long seura_id, Long jasennumero, String sukunimi, String etunimi, Integer sukup,
+			Integer jasen_tyyppi, Long tasoitus, boolean tasoitus_voimassa, Timestamp pvm) {
 		super(kayttajatunnus, "");
+		this.kayttajaId = kayttaja_id;
+		this.enabled = enabled;
+		this.id = id;
 		this.seura_id = seura_id;
 		this.jasennumero = jasennumero;
 		this.sukunimi = sukunimi;
@@ -91,8 +94,8 @@ public class Pelaaja extends Kayttaja{
 		this.sukup = sukup;
 		this.jasen_tyyppi = jasen_tyyppi;
 		this.tasoitus = tasoitus;
-		this.tasoitus_voimassa = true;
-		this.pvm = new Date();
+		this.tasoitus_voimassa = tasoitus_voimassa;
+		this.pvm = pvm;
 	}
 	
 	@Override
