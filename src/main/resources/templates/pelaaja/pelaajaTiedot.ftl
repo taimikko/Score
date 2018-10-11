@@ -67,10 +67,10 @@
    	</table>
 
     <br/>
-    <#if (pelaaja.kayttajaId)??>
-      <a href="/pelaaja/edit/${pelaaja.kayttajaId?replace(",","")}" >Muokkaa</a>
+    <#if (pelaaja.id)??>
+      <a href="/pelaaja/edit/${pelaaja.id?replace(",","")}" >Muokkaa</a>
       &nbsp;
-      <a href="/pelaaja/del/${pelaaja.kayttajaId?replace(",","")}" >Poista</a>
+      <a href="/pelaaja/del/${pelaaja.id?replace(",","")!pelaaja.id}" >Poista</a>
     </#if>
     <br/>
 

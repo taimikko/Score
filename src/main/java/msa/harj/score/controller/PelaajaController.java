@@ -68,25 +68,25 @@ public class PelaajaController {
 		return "pelaaja/pelaajaHistoria"; // TODO
 	}
 
-	@GetMapping("/pelaaja/edit/{username}")
-	public String editPelaaja(Model model, @PathVariable("username") String username) {
-		log.info("MSA(get): /pelaaja/edit/" + username);
-		Pelaaja p = pelaajaDAO.getPelaaja(username);
+	@GetMapping("/pelaaja/edit/{pelaajaId}")
+	public String editPelaaja(Model model, @PathVariable("pelaajaId") Long pelaajaId) {
+		log.info("MSA(get): /pelaaja/edit/" + pelaajaId);
+		Pelaaja p = pelaajaDAO.getPelaaja(pelaajaId);
 		model.addAttribute("pelaaja", p);
 		return "pelaaja/pelaajaEdit"; // TODO
 	}
 
-	@PostMapping("/pelaaja/edit/{username}")
-	public String updatePelaaja(Model model, @PathVariable("username") String username, Pelaaja p) {
-		log.info("MSA(post): /pelaaja/edit/" + username);
-
-		model.addAttribute("pelaaja", p);
+	@PostMapping("/pelaaja/edit")
+	public String updatePelaaja(Model model, Pelaaja p) {
+		log.info("MSA(post): /pelaaja/edit/" + p.getUsername()+" "+p.getSeura_id()+":"+p.getJasennumero());
 		try {
 			pelaajaDAO.updatePelaaja(p);
-			return "redirect:/pelaajat"; // TODO
+			//model.addAttribute("pelaaja", p);
+			return "redirect:/pelaaja/"+p.getSeura_id()+"/"+p.getJasennumero();
+			//return "redirect:/pelaajat"; // TODO
 		} catch (Exception e) {
 			model.addAttribute("message", e.getMessage());
-			return "/pelaaja/edit/" + p.getUsername();
+			return "/pelaaja/edit/" + p.getId();
 		}
 	}
 

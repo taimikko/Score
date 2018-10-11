@@ -75,7 +75,7 @@ public class PelaajaDAO extends KayttajaDAO {
 					resultSet.getBoolean("enabled"), resultSet.getLong("id"), resultSet.getLong("seura_id"),
 					resultSet.getLong("jasennumero"), resultSet.getString("sukunimi"), resultSet.getString("etunimi"),
 					resultSet.getInt("sukup"), resultSet.getInt("jasen_tyyppi"), resultSet.getLong("tasoitus"),
-					resultSet.getBoolean("tasoitus_voimassa"), resultSet.getTimestamp("pvm")); 
+					resultSet.getBoolean("tasoitus_voimassa"), resultSet.getTimestamp("pvm"));
 		}
 	};
 
@@ -85,10 +85,10 @@ public class PelaajaDAO extends KayttajaDAO {
 		Object[] params = new Object[] { seuranumero, jasennumero };
 		try {
 			Pelaaja pelaaja = this.getJdbcTemplate().queryForObject(sql, params, PELAAJA_MAPPER);
-			log.info("MSA: getPelaaja() löysi "+pelaaja);
+			log.info("MSA: getPelaaja() löysi " + pelaaja);
 			return pelaaja;
 		} catch (EmptyResultDataAccessException e) {
-			log.info("MSA: ei löytynyt pelaajaa "+jasennumero+" seurasta "+seuranumero);
+			log.info("MSA: ei löytynyt pelaajaa " + jasennumero + " seurasta " + seuranumero);
 			return null;
 		}
 	}
@@ -136,11 +136,27 @@ public class PelaajaDAO extends KayttajaDAO {
 		String sql = "INSERT INTO pelaaja ("
 				+ "id, pvm, seura_id, jasennumero, sukup, jasen_tyyppi, tasoitus, tasoitus_voimassa) "
 				+ "values (?, ?, ?, ?, ?, ?, ?, ?)";
-		Object[] args = new Object[] { 0, p.getId(), p.getPvm(), p.getJasennumero(), p.getSukup(), p.getJasen_tyyppi(),
+		Object[] args = new Object[] { 0, null, p.getSeura_id(), p.getJasennumero(), p.getSukup(), p.getJasen_tyyppi(),
 				p.getTasoitus(), p.isTasoitus_voimassa() };
 
-		int info = this.getJdbcTemplate().update(sql, args);
-		log.info("MSA: Lisättiin " + Integer.toString(info) + " pelaajaa tauluun.");
+		try {
+			log.info("MSA addPelaaja: " + sql);
+			String str = new String("");
+			if (args != null)
+				for (Object o : args) {
+					if (o != null) {
+					str += " " + o.toString();
+					}
+					else {
+						str+=" null";
+					}
+				}
+			log.info("MSA: args:" + str);
+			int info = this.getJdbcTemplate().update(sql, args);
+			log.info("MSA: Lisättiin " + Integer.toString(info) + " pelaajaa tauluun.");
+		} catch (Exception e) {
+			log.info("MSA: poikkeus: " + e.getMessage());
+		}
 	}
 
 }

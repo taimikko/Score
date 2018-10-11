@@ -119,6 +119,6 @@ public class Pelaaja extends Kayttaja{
 		super(username, encrytedPassword);
 		// TODO Auto-generated constructor stub
 	}
-	
+
 
 }
