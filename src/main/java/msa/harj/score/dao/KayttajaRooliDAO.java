@@ -18,45 +18,54 @@ import msa.harj.score.model.KayttajaRooli;
 
 @Repository
 @Transactional
-public class KayttajaRooliDAO extends JdbcDaoSupport{
+public class KayttajaRooliDAO extends JdbcDaoSupport {
 	private static final Log log = LogFactory.getLog(KayttajaRooliDAO.class);
 
-    @Autowired
-    public KayttajaRooliDAO(DataSource dataSource) {
-        this.setDataSource(dataSource);
-    }
+	@Autowired
+	public KayttajaRooliDAO(DataSource dataSource) {
+		this.setDataSource(dataSource);
+	}
 
 	public void addKayttajaRooli(KayttajaRooli userRole) {
 		String sql = "INSERT INTO kayttaja_rooli (id, kayttaja_id, rooli_id) values (?, ?, ?)";
-		Object[] args = new Object[] { 0, userRole.getKayttajaId(), userRole.getRooliId() }; 
-				
+		Object[] args = new Object[] { 0, userRole.getKayttajaId(), userRole.getRooliId() };
+
 		int info = this.getJdbcTemplate().update(sql, args);
-		log.info("MSA: päivitettiin "+Integer.toString(info)+" riviä kayttaja_rooli tauluun.");
+		log.info("MSA: päivitettiin " + Integer.toString(info) + " riviä kayttaja_rooli tauluun.");
 	}
 
-	public void addKayttajaRooli(Long kayttajaId, Long[] roolit) {
-		String sql = "INSERT INTO kayttaja_rooli (id, kayttaja_id, rooli_id) values (?, ?, ?)";
-		Object[] args ;
-		for (Long r : roolit) {
-			args = new Object[] { 0, kayttajaId, r }; 
-			this.getJdbcTemplate().update(sql, args);
-			log.info("MSA: päivitettiin kayttaja_rooli "+Long.toString(r)+" käyttäjälle "+Long.toString(kayttajaId));
+	public void updateKayttajaRoolit(Long kayttajaId, Long[] rooli) {
+		String sql = "DELETE FROM kayttaja_rooli WHERE kayttaja_id=? ";
+		Object[] args = new Object[] { kayttajaId };
+		int info = this.getJdbcTemplate().update(sql, args);
+		log.info("MSA: poistettiin " + Integer.toString(info) + " vanhaa riviä kayttaja_rooli taulusta.");
+		if (rooli != null) {
+			sql = "INSERT INTO kayttaja_rooli (id, kayttaja_id, rooli_id) values (?, ?, ?)";
+			info = 0;
+			for (Long r : rooli) {
+				args = new Object[] { 0, kayttajaId, r };
+				log.info("MSA: " + sql + " " + r);
+				info += this.getJdbcTemplate().update(sql, args);
+			}
+			log.info("MSA: lisättiin " + Integer.toString(info) + " riviä kayttaja_rooli tauluun. ("
+					+ Long.toString(kayttajaId) + ")");
 		}
 	}
 
 	public List<KayttajaRooli> getKayttajanRoolit(Long kayttajaId) {
 		String sql = "SELECT * FROM kayttaja_rooli WHERE kayttaja_id = ?";
-		Object[] args = new Object[] { kayttajaId }; 
-		
+		Object[] args = new Object[] { kayttajaId };
+
 		return this.getJdbcTemplate().query(sql, args, KR_MAPPER);
 	}
 
 	private static RowMapper<KayttajaRooli> KR_MAPPER = new RowMapper<KayttajaRooli>() {
 
 		public KayttajaRooli mapRow(ResultSet resultSet, int row) throws SQLException {
-			return new KayttajaRooli(resultSet.getLong("id"), resultSet.getLong("kayttaja_id"), resultSet.getLong("rooli_id"));
+			return new KayttajaRooli(resultSet.getLong("id"), resultSet.getLong("kayttaja_id"),
+					resultSet.getLong("rooli_id"));
 		}
 
 	};
-    
+
 }

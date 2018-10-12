@@ -1,8 +1,12 @@
 package msa.harj.score.model;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import msa.harj.score.utils.EncrytedPasswordUtils;
 
 public class UusiKayttaja {
+	private static final Log log = LogFactory.getLog(UusiKayttaja.class);
 
 	private String username;
 	private String password;
@@ -60,22 +64,20 @@ public class UusiKayttaja {
 	}
 
 	public boolean isPasswordOk() {
-		System.out.println("MSA DEBUG newUser.isPasswordOk()");
+		log.info("MSA: newUser.isPasswordOk()");
 		if ((this.password == null) || (this.password2 == null)) {
 			return false;
 		}
-		System.out.println(this.password);
-		System.out.println(this.password2);
 		return this.password.equals(this.password2);
 	}
 
 	public boolean encrytePassword() {
-		System.out.println("MSA DEBUG newUser.encrytePassword");
+		log.info("MSA: newUser.encrytePassword");
 		if (isPasswordOk()) {
 			this.encrytedPassword = EncrytedPasswordUtils.encrytePassword(this.password);
 			this.password = "0";
 			this.password2 = "1";
-			System.out.println("MSA DEBUG: Password encryted for user "+this.username+" / "+this.encrytedPassword);
+			log.info("MSA: Password encryted for user " + this.username + " / " + this.encrytedPassword);
 			return true;
 		}
 		return false;
@@ -83,7 +85,7 @@ public class UusiKayttaja {
 
 	@Override
 	public String toString() {
-		return this.username + "/" + this.password+ "(" + this.userrole + ")";
+		return this.username + "(" + this.userrole + ")";
 	}
 
 	public String getEncrytedPassword() {
@@ -133,6 +135,7 @@ public class UusiKayttaja {
 	public Object getEtunimi() {
 		return this.etunimi;
 	}
+
 	public String getSukunimi() {
 		return this.sukunimi;
 	}
@@ -176,5 +179,4 @@ public class UusiKayttaja {
 	public void setSukup(Integer sukup) {
 		this.sukup = sukup;
 	}
-	
 }

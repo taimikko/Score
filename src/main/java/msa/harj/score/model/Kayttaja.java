@@ -1,6 +1,7 @@
 package msa.harj.score.model;
 
 public class Kayttaja {
+	//private static final Log log = LogFactory.getLog(Kayttaja.class);
 
 	protected Long kayttajaId;
 	protected String username;

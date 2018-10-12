@@ -5,6 +5,8 @@ import java.sql.Timestamp;
 // id, pvm, seura_id, jasennumero, sukunimi, etunimi, sukup, jasen_tyyppi, tasoitus, tasoitus_voimassa 
 
 public class Pelaaja extends Kayttaja {
+	//private static final Log log = LogFactory.getLog(Pelaaja.class);
+
 //	protected Long kayttajaId;
 //	protected String username;
 //	protected String encrytedPassword;

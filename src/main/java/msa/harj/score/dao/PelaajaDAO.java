@@ -93,6 +93,16 @@ public class PelaajaDAO extends KayttajaDAO {
 		}
 	}
 
+	public void deletePelaajaHistoria(Long seuranumero, Long jasennumero) {
+		String sql = "DELETE FROM pelaaja WHERE seura_id=? AND jasennumero=? ";
+		log.info(sql);
+		Object[] args = new Object[] { seuranumero, jasennumero };
+		log.info("MSA: args:" + argStr(args));
+		
+		int lkm = this.getJdbcTemplate().update(sql, args);
+		log.info("MSA: poistettu " + lkm + " rivi taulusta pelaaja (" + argStr(args)+")");
+	}
+
 	public void deletePelaaja(Long pelaajaId) {
 		// poistaa vain yhden rivin pelaajan historiasta?
 		int lkm = this.getJdbcTemplate().update("DELETE FROM pelaaja WHERE id=?", pelaajaId);
@@ -143,22 +153,26 @@ public class PelaajaDAO extends KayttajaDAO {
 
 		try {
 			log.info("MSA addPelaaja: " + sql);
-			String str = new String("");
-			if (args != null)
-				for (Object o : args) {
-					if (o != null) {
-					str += " " + o.toString();
-					}
-					else {
-						str+=" null";
-					}
-				}
-			log.info("MSA: args:" + str);
+			log.info("MSA: args:" + argStr(args));
 			int info = this.getJdbcTemplate().update(sql, args);
 			log.info("MSA: Lisättiin " + Integer.toString(info) + " pelaajaa tauluun.");
 		} catch (Exception e) {
 			log.info("MSA: poikkeus: " + e.getMessage());
 		}
+	}
+
+	private String argStr(Object[] args) {
+		String str = new String("");
+		if (args != null)
+			for (Object o : args) {
+				if (o != null) {
+				str += " " + o.toString();
+				}
+				else {
+					str+=" null";
+				}
+			}
+		return str;
 	}
 
 }

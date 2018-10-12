@@ -70,18 +70,22 @@
                 </#if>
                </td>
             </tr>
-             <tr>
-               <#--  useita rooleja: ROLE_USER, ROLE_ADMIN, ROLE_SEURA_MANAGER -->
-               <td>Rooli:</td>
-               <td><input type='text' name='userrole' required > 
-               <#if user??>
-				${user.userrole}
-                </#if>
-				</td>
+            <tr>
+				<td>Rooli:</td>
+                   	<#list roolit as rooli>
+                    	<td><input type="checkbox" name="rooli" <#if rooli.nimi="ROLE_PELAAJA"> checked </#if> value="${rooli.id}">${rooli.id}. ${rooli.nimi}</td></tr><tr><td></td>
+                   	</#list>
             </tr>
             <tr>
                <td>Seura:</td>
-               <td><input type='number' min=1 max=1000 name='seuraId' required > 
+               <td><input list="seuralista" name='seuraId' required value=78>
+               	   <datalist id="seuralista">
+               	   <#list seurat as seura>
+               	   	<option value="${seura.id}">${seura.id}. ${seura.nimi}</option> <#-- ${seura.lyhenne} ${seura.nimi} -->
+               	   </#list>
+               	   </datalist>
+               </td>
+               <td> 
                <#if user??>
 				${user.seuraId}
                 </#if>
@@ -114,14 +118,27 @@
     			  <input type='checkbox' value='true' <#if (user.tasoitus_voimassa)??> <#if user.tasoitus_voimassa> checked </#if> </#if> name='tasoitus_voimassa' />
     			</td>
     		</tr>
-    		<#-- ToDo: jäsenTyyppi listasta, kun valmis -->
+    		<#-- ToDo: jäsenTyyppi listasta, kun valmis
+		jasentyypit
+		seurat
+		roolit
+ -->
      		<tr>
-    			<td>jäsenyyden tyyppi:</td><td><input type='number' min=1 max=9 name='jasen_tyyppi' required <#if (user.jasen_tyyppi)??> value=${user.jasen_tyyppi}</#if> /></td>
+    			<td>jäsenyyden tyyppi:</td>
+    			<td><input list="jasenyys" name='jasen_tyyppi'>
+  					<datalist id="jasenyys">
+                     	<#list jasentyypit as jt>
+                        	<option value="${jt.id}">${jt.id}. ${jt.tyyppi}</option>
+                    	</#list>
+  					</datalist></td>
     		</tr>
     		<tr>
-    			<td>sukupuoli:</td><td><input type='number' name='sukup' min=1 max=2 required <#if (user.sukup)??> value=${user.sukup} </#if> /></td>
+    			<td>sukupuoli:</td>
+    			<td><input type='radio' name='sukup' value='1'>Mies</input><br>
+				    <input type='radio' name='sukup' value='2'>Nainen</input><br>
+				    <input type='radio' name='sukup' value='3'>Ei tiedossa</input><br>
+    			</td>
     		</tr>
-
      		<tr>
                <td><input name="submit" type="submit" value="submit" /></td>
             </tr>

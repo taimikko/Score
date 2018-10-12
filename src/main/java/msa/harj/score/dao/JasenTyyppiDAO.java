@@ -6,8 +6,6 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
@@ -19,7 +17,7 @@ import msa.harj.score.model.JasenTyyppi;
 @Repository
 @Transactional
 public class JasenTyyppiDAO extends JdbcDaoSupport {
-	private static final Log log = LogFactory.getLog(JasenTyyppiDAO.class);
+	// private static final Log log = LogFactory.getLog(JasenTyyppiDAO.class);
 
 	@Autowired
 	public JasenTyyppiDAO(DataSource dataSource) {

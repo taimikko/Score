@@ -14,13 +14,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import msa.harj.score.dao.JasenTyyppiDAO;
 import msa.harj.score.dao.KayttajaDAO;
 import msa.harj.score.dao.KayttajaRooliDAO;
 import msa.harj.score.dao.PelaajaDAO;
 import msa.harj.score.dao.RooliDAO;
+import msa.harj.score.dao.SeuraDAO;
+import msa.harj.score.model.JasenTyyppi;
 import msa.harj.score.model.Kayttaja;
 import msa.harj.score.model.KayttajaRooli;
 import msa.harj.score.model.Pelaaja;
+import msa.harj.score.model.Rooli;
+import msa.harj.score.model.Seura;
 import msa.harj.score.model.UusiKayttaja;
 import msa.harj.score.utils.WebUtils;
 
@@ -40,19 +45,33 @@ public class KayttajaController {
 	@Autowired 
 	private PelaajaDAO pelaajaDAO;
 
+	@Autowired
+	private JasenTyyppiDAO jasenTyyppiDAO;
+	
+	@Autowired
+	private SeuraDAO seuraDAO;
+	
 	@GetMapping("/kayttaja/new")
 	public String newKayttaja(Model model) {
 		log.info("MSA: /kayttaja/new");
 		UusiKayttaja k = new UusiKayttaja("", "");
 		model.addAttribute("kayttaja", k);
-		// TODO: lataa jäsentyypit, seurat ja käyttäjäroolit
+		List<JasenTyyppi> jasenTyypit = jasenTyyppiDAO.getJasenTyypit();
+		model.addAttribute("jasentyypit", jasenTyypit);
+		List<Seura> seurat = seuraDAO.getSeurat();
+		model.addAttribute("seurat", seurat);
+		List<Rooli> roolit = rooliDAO.getRoolit();
+		model.addAttribute("roolit", roolit);
+
 		return "kayttaja/kayttajaNew";
 	}
 
 	@PostMapping("/kayttaja/del/{kayttajatunnus}")
 	public String poistaKayttaja(@PathVariable("kayttajatunnus") String kayttajatunnus) {
 		log.info("MSA: delete(" + kayttajatunnus + ")");
+		Kayttaja k = kayttajaDAO.getKayttaja(kayttajatunnus);
 		kayttajaDAO.deleteKayttaja(kayttajatunnus);
+		pelaajaDAO.deletePelaajaHistoria(k.getSeuraId(), k.getJasennumero());
 		return "redirect:/kayttajaluettelo";
 		//return "kayttaja/kayttajaLista";
 	}
@@ -69,19 +88,34 @@ public class KayttajaController {
 		log.info("MSA: /kayttaja/edit/" + kayttajatunnus);
 		Kayttaja k = kayttajaDAO.getKayttaja(kayttajatunnus);
 		model.addAttribute("kayttaja", k);
-		
-		List<String> roolit = rooliDAO.getRoleNames(k.getKayttajaId()); 
+		List<JasenTyyppi> jasenTyypit = jasenTyyppiDAO.getJasenTyypit();
+		model.addAttribute("jasentyypit", jasenTyypit);
+		List<Seura> seurat = seuraDAO.getSeurat();
+		model.addAttribute("seurat", seurat);
+		List<Rooli> roolit = rooliDAO.getRoolit();
 		model.addAttribute("roolit", roolit);
+		
+		List<String> strRoolit = rooliDAO.getRoleNames(k.getKayttajaId()); 
+		model.addAttribute("kayttajaroolit", strRoolit);
 
 		return "kayttaja/kayttajaEdit";
 	}
 
 	@PostMapping("/kayttaja/edit")
-	public String updateKayttaja(Model model, Kayttaja kayttaja, UusiKayttaja newUser, Principal principal) {
+	public String updateKayttaja(Model model, Kayttaja kayttaja, UusiKayttaja newUser, Principal principal, Long[] rooli) {
 		log.info("MSA: (post) /kayttaja/edit");
 		
 		kayttajaDAO.updateKayttaja(kayttaja);
-
+		if (rooli != null) { 
+			String str = "";
+			for (Long r:rooli) 	str += " "+r;
+			log.info("MSA: uudet roolit:"+str);
+		}
+		else
+			log.info("MSA: uudet roolit == null");
+			
+		kRooliDAO.updateKayttajaRoolit(kayttaja.getKayttajaId(), rooli);
+		
 		List<String> roolit = rooliDAO.getRoleNames(kayttaja.getKayttajaId()); 
 		model.addAttribute("roolit", roolit);
 
