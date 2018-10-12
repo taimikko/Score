@@ -95,7 +95,8 @@ public class PelaajaDAO extends KayttajaDAO {
 
 	public void deletePelaaja(Long pelaajaId) {
 		// poistaa vain yhden rivin pelaajan historiasta?
-		log.info("MSA: deletePelaaja(" + Long.toString(pelaajaId) + ") on toteuttamatta!"); // TODO:
+		int lkm = this.getJdbcTemplate().update("DELETE FROM pelaaja WHERE id=?", pelaajaId);
+		log.info("MSA: poistettu " + lkm + " rivi taulusta pelaaja (id=" + pelaajaId+")");
 	}
 
 	public Pelaaja getPelaaja(Long pelaajaId) {
@@ -133,10 +134,11 @@ public class PelaajaDAO extends KayttajaDAO {
 	}
 
 	public void addPelaaja(Pelaaja p) {
+		log.info("MSA: addPelaaja "+p.toString());
 		String sql = "INSERT INTO pelaaja ("
 				+ "id, pvm, seura_id, jasennumero, sukup, jasen_tyyppi, tasoitus, tasoitus_voimassa) "
 				+ "values (?, ?, ?, ?, ?, ?, ?, ?)";
-		Object[] args = new Object[] { 0, null, p.getSeura_id(), p.getJasennumero(), p.getSukup(), p.getJasen_tyyppi(),
+		Object[] args = new Object[] { 0, null, p.getSeuraId(), p.getJasennumero(), p.getSukup(), p.getJasen_tyyppi(),
 				p.getTasoitus(), p.isTasoitus_voimassa() };
 
 		try {

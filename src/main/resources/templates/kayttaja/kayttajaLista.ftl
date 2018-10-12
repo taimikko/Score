@@ -17,9 +17,7 @@
     });
     </script> 
 
-		<input type="hidden"
-				name="${_csrf.parameterName}"
-				value="${_csrf.token}"/>
+
 -->
 		</head>
 	<body>
@@ -29,24 +27,34 @@
 		<table  class="table">
 			<thead>
 				<tr>
+				<th scope="col">#</th>
 				<th scope="col"><#-- a href="/kayttaja/username"-->Käyttäjätunnus</th>
 				<th scope="col"><#-- a href="/kayttaja/etunimi"-->Etunimi</th>
 				<th scope="col"><#-- a href="/kayttaja/sukunimi"-->Sukunimi</th>
-				<th scope="col"><#-- a href="/kayttaja/jasennumero"-->Jäsennumero</th>
+				<th scope="col">Seura</th>
+				<th scope="col">Jäsennumero</th>
+				<th scope="col">Voimassa</th>
+				<th scope="col"></th>
 				</tr>
 			</thead>
 			<tbody>
 				<#list kayttajat as user>
 					<tr>
-						<td scope="row"><a href="/kayttaja/${user.username}">${user.username}</a></td>
-						  
+						<td scope="row">${user.kayttajaId}</td>
+						<td ><a href="/kayttaja/${user.username}">${user.username}</a></td>
 						<td>${user.etunimi}</td>
 						<td>${user.sukunimi}</td>
+						<td>${user.seuraId}</td>
+						<td>${user.jasennumero?c}</td>
+						<td>${user.enabled?string('kyllä', 'ei')}</td>
 						
 						<td>
-						   <a href="/kayttaja/del/${user.username}">Del</a>
-						   <button id="del" onclick="deleteUser('${user.username}')">Delete</button>
-						   <a href="/pelaaja/${user.seuraId}/${user.jasennumero?replace(",","")}">pelaajatiedot</a>
+  							<form name='f' action="/kayttaja/del/${user.username}" method='POST'>
+  								<#if _csrf??><input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/></#if>
+ 								<input name="submit" type="submit" value="delete" />
+								<#--  <button id="del" onclick="deleteUser('${user.username}')">Delete</button>  -->
+							   	<a href="/pelaaja/${user.seuraId}/${user.jasennumero?replace(",","")}">pelaajatiedot</a>
+						   </form>
 						</td>
 					</tr>
 				</#list>
@@ -55,7 +63,7 @@
 		</table>
 		<div>
 			<p>
-			<a href="/kayttaja/add">Lisää käyttäjä</a>
+			<a href="/kayttaja/new">Lisää käyttäjä</a>
 		</div>
 	</body>
 </html>

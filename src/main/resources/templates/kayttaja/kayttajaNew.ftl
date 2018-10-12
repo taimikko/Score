@@ -63,7 +63,7 @@
 			</td>
             </tr>
             <tr>
-               <td>Salasana uudetaan:</td>
+               <td>Salasana uudestaan:</td>
                <td><input type='password' name='password2' >
                <#if user??>
                  ${user.password2} 
@@ -71,6 +71,7 @@
                </td>
             </tr>
              <tr>
+               <#--  useita rooleja: ROLE_USER, ROLE_ADMIN, ROLE_SEURA_MANAGER -->
                <td>Rooli:</td>
                <td><input type='text' name='userrole' required > 
                <#if user??>
@@ -80,7 +81,7 @@
             </tr>
             <tr>
                <td>Seura:</td>
-               <td><input type='number' name='seuraId' required > 
+               <td><input type='number' min=1 max=1000 name='seuraId' required > 
                <#if user??>
 				${user.seuraId}
                 </#if>
@@ -88,13 +89,13 @@
             </tr>
             <tr>
                <td>jäsennumero:</td>
-               <td><input type='number' name='jasennumero' required > 
+               <#-- Autonumber seuran sisällä ? -->
+               <td><input type='number' min=1 name='jasennumero' required > 
                <#if user??>
 				${user.jasennumero}
                 </#if>
 				</td>
             </tr>
-
 
  <#-- 
             <tr><td>Jos käyttäjä on ROLE_ADMIN niin saa valita seuran muuten on käytettävä omaa seuraa </td>
@@ -103,7 +104,25 @@
               <tr> <td><span th:if="${#request.userPrincipal.role != null}" th:text="${#request.userPrincipal.role}"> </span> </td>
            </tr>
  -->
-            <tr>
+     		<tr>
+    			<td>tasoitus:</td>
+    			<td><input type='number' min='-20' max='54' name='tasoitus' required <#if (user.tasoitus)??>value=${user.tasoitus}</#if> ></input></td>
+    		</tr> <#--  step='0.1'  -->
+    		<tr>
+    			<td>voimassaoleva tasoitus:</td>
+    			<td> 			
+    			  <input type='checkbox' value='true' <#if (user.tasoitus_voimassa)??> <#if user.tasoitus_voimassa> checked </#if> </#if> name='tasoitus_voimassa' />
+    			</td>
+    		</tr>
+    		<#-- ToDo: jäsenTyyppi listasta, kun valmis -->
+     		<tr>
+    			<td>jäsenyyden tyyppi:</td><td><input type='number' min=1 max=9 name='jasen_tyyppi' required <#if (user.jasen_tyyppi)??> value=${user.jasen_tyyppi}</#if> /></td>
+    		</tr>
+    		<tr>
+    			<td>sukupuoli:</td><td><input type='number' name='sukup' min=1 max=2 required <#if (user.sukup)??> value=${user.sukup} </#if> /></td>
+    		</tr>
+
+     		<tr>
                <td><input name="submit" type="submit" value="submit" /></td>
             </tr>
          </table>

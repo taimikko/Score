@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import msa.harj.score.dao.KayttajaDAO;
 import msa.harj.score.dao.KayttajaRooliDAO;
+import msa.harj.score.dao.PelaajaDAO;
 import msa.harj.score.dao.RooliDAO;
 import msa.harj.score.model.Kayttaja;
 import msa.harj.score.model.KayttajaRooli;
+import msa.harj.score.model.Pelaaja;
 import msa.harj.score.model.UusiKayttaja;
 import msa.harj.score.utils.WebUtils;
 
@@ -35,12 +37,55 @@ public class KayttajaController {
 	@Autowired 
 	private RooliDAO rooliDAO;
 
+	@Autowired 
+	private PelaajaDAO pelaajaDAO;
+
 	@GetMapping("/kayttaja/new")
 	public String newKayttaja(Model model) {
 		log.info("MSA: /kayttaja/new");
 		UusiKayttaja k = new UusiKayttaja("", "");
 		model.addAttribute("kayttaja", k);
+		// TODO: lataa jäsentyypit, seurat ja käyttäjäroolit
 		return "kayttaja/kayttajaNew";
+	}
+
+	@PostMapping("/kayttaja/del/{kayttajatunnus}")
+	public String poistaKayttaja(@PathVariable("kayttajatunnus") String kayttajatunnus) {
+		log.info("MSA: delete(" + kayttajatunnus + ")");
+		kayttajaDAO.deleteKayttaja(kayttajatunnus);
+		return "redirect:/kayttajaluettelo";
+		//return "kayttaja/kayttajaLista";
+	}
+	/*
+	@DeleteMapping("/kayttaja/del/{kayttajatunnus}")
+	public void deleteKayttaja(@PathVariable("kayttajatunnus") String kayttajatunnus) {
+		log.info("MSA: delete(" + kayttajatunnus + ")");
+		kayttajaDAO.deleteKayttaja(kayttajatunnus);
+	}
+	*/
+	
+	@GetMapping("/kayttaja/edit/{kayttajatunnus}")
+	public String editKayttaja(Model model, Principal principal, @PathVariable("kayttajatunnus") String kayttajatunnus) {
+		log.info("MSA: /kayttaja/edit/" + kayttajatunnus);
+		Kayttaja k = kayttajaDAO.getKayttaja(kayttajatunnus);
+		model.addAttribute("kayttaja", k);
+		
+		List<String> roolit = rooliDAO.getRoleNames(k.getKayttajaId()); 
+		model.addAttribute("roolit", roolit);
+
+		return "kayttaja/kayttajaEdit";
+	}
+
+	@PostMapping("/kayttaja/edit")
+	public String updateKayttaja(Model model, Kayttaja kayttaja, UusiKayttaja newUser, Principal principal) {
+		log.info("MSA: (post) /kayttaja/edit");
+		
+		kayttajaDAO.updateKayttaja(kayttaja);
+
+		List<String> roolit = rooliDAO.getRoleNames(kayttaja.getKayttajaId()); 
+		model.addAttribute("roolit", roolit);
+
+		return "kayttaja/kayttajaTiedot";
 	}
 
 	@PostMapping("/kayttaja/add")
@@ -76,7 +121,31 @@ public class KayttajaController {
 		}
 		model.addAttribute("userInfo", userInfo);
 
-		return "kayttaja/kayttajaInfo";
+		Pelaaja p = new Pelaaja();
+		p.setEtunimi((String) newUser.getEtunimi());
+		p.setSukunimi((String) newUser.getSukunimi());
+		p.setUsername(newUser.getUsername());
+		p.setSukup(newUser.getSukup());
+		p.setJasen_tyyppi(newUser.getJasen_tyyppi());
+		p.setTasoitus(newUser.getTasoitus());
+		p.setTasoitus_voimassa(newUser.isTasoitus_voimassa());
+		p.setSeuraId(newUser.getSeuraIdL());
+		p.setJasennumero(newUser.getJasennumero());
+//		protected Long kayttajaId;
+//		protected String encrytedPassword;
+//		protected Boolean enabled;
+//		private Long id;
+//		private Timestamp pvm;
+		
+		pelaajaDAO.addPelaaja(p);
+
+		Kayttaja k = kayttajaDAO.getKayttaja(p.getUsername());
+		model.addAttribute("kayttaja", k);
+		
+		List<String> roolit = rooliDAO.getRoleNames(k.getKayttajaId()); 
+		model.addAttribute("roolit", roolit);
+
+		return "kayttaja/kayttajaTiedot";
 	}
 
 	@GetMapping("/kayttajaluettelo")

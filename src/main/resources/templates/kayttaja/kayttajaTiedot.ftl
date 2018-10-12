@@ -27,11 +27,11 @@
                 </tr>
                 <tr>
                     <td>Seura:</td>
-                    <td>${kayttaja.seuraId}</td>
+                    <td>${kayttaja.seuraId?c}</td>
                 </tr>
                 <tr>
                     <td>jäsennumero:</td>
-                    <td>${kayttaja.jasennumero?replace(",","")}</td>
+                    <td>${kayttaja.jasennumero?c}</td>
                 </tr>
                 <tr>
                     <td>id:</td>
@@ -57,6 +57,9 @@
         </table>
     </div>
     <br/>
+    <#if kayttaja??>
+    <a href="/kayttaja/edit/${kayttaja.username}">Päivitä käyttäjän tietoja</a>
+    </#if>
     <br/>
     <div>
         <#if userInfo??>

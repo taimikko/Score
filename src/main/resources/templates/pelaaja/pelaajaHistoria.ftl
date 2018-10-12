@@ -21,13 +21,15 @@
 	<#include "../_menu.ftl">
 	<div>
 	<#if kayttaja??>
-	Käyttäjätunnus: ${kayttaja.username}
-	Etunimi: ${kayttaja.etunimi}
-	Sukunimi: ${kayttaja.sukunimi}
-	Seura: ${kayttaja.seura_id}
-	Jäsennumero: ${kayttaja.jasennumero}
-	Voimassa: ${kayttaja.enabled}
-	<a href="/kayttaja/edit/${kayttaja.username}"> Edit käyttäjätiedot</a>
+		<table>
+			<tr><td>Käyttäjätunnus:</td><td><a href="/kayttaja/${kayttaja.username}">${kayttaja.username}</a></td></tr>
+			<tr><td>Etunimi:</td><td>${kayttaja.etunimi}</td></tr>
+			<tr><td>Sukunimi:</td><td>${kayttaja.sukunimi}</td></tr>
+			<tr><td>Seura:</td><td>${kayttaja.seuraId?replace(",","")}</td></tr>
+			<tr><td>Jäsennumero:</td><td>${kayttaja.jasennumero?replace(",","")}</td></tr>
+			<tr><td>Voimassa:</td><td>${kayttaja.enabled?string('kyllä', 'ei')}</td></tr>
+			<tr><td>.</td></tr>
+		</table>
 	</#if>
 	</div>
 		<table  class="table">
@@ -47,25 +49,21 @@
 				<#list pelaajat as p>
 					<tr>
 						<td scope="row">${p.id}</td>
-						<td>${p.pvm}</td>
-						<td>${p.seura_id}</td>
-						<td>${p.jasennumero}</td>
+						<td>${p.pvm?string('dd.MM.yyyy HH:mm:ss')}</td>
+						<td>${p.seuraId?replace(",","")}</td>
+						<td>${p.jasennumero?replace(",","")}</td>
 						<td>${p.jasen_tyyppi}</td>
 						<td>${p.tasoitus}</td>
-						<td>${p.tasoitus_voimassa}</td>
+						<td>${p.tasoitus_voimassa?string('kyllä', 'ei')}</td>
 						<td>
-						   <a href="/pelaaja/del/${p.id}">Del</a>
-						   <button id="del" onclick="deletePelaaja('${p.id}')">Delete</button>
-						   <a href="/edit/${p.username}">Edit</a>
+						   <a href="/pelaaja/del/${p.id?c}">Del (ei toteutettu) </a>
+						   <#-- <button id="del" onclick="deletePelaaja('${p.id?c}')">Delete</button>  --> 
+						   <a href="/pelaaja/edit/${p.id?c}">Edit</a>
 						</td>
 					</tr>
 				</#list>
 			</tbody>
 
 		</table>
-		<div>
-			<p>
-			<a href="/pelaaja/add">Lisää pelaaja</a>
-		</div>
 	</body>
 </html>

@@ -40,16 +40,16 @@
     			</td>
     		</tr>
     		<tr>
-    			<td>seura:</td><td><input type='number' name='seura_id' readonly value=${pelaaja.seura_id} /></td>
+    			<td>seura:</td><td><input type='number' name='seuraId' readonly value=${pelaaja.seuraId} /></td>
     		</tr>
     		<tr>
     			<td>jäsennumero:</td><td><input type='number' name='jasennumero' readonly value=${pelaaja.jasennumero?replace(",","")} /></td>
     		</tr>
     		<tr>
-    			<td>jäsenyyden tyyppi:</td><td><input type='number' name='jasen_tyyppi' required value=${pelaaja.jasen_tyyppi} /></td>
+    			<td>jäsenyyden tyyppi:</td><td><input type='number' min=1 max=9 name='jasen_tyyppi' required value=${pelaaja.jasen_tyyppi} /></td>
     		</tr>
     		<tr>
-    			<td>sukupuoli:</td><td><input type='number' name='sukup' readonly value=${pelaaja.sukup} /></td>
+    			<td>sukupuoli:</td><td><input type='number' name='sukup' min=1 max=2 readonly value=${pelaaja.sukup} /></td>
     		</tr>
      		<tr>
     			<td>id:</td><td><input type='number' name='id' readonly value=${pelaaja.id?replace(",","")} /></td>

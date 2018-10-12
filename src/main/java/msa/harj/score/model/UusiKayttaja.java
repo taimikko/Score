@@ -14,8 +14,21 @@ public class UusiKayttaja {
 	private String etunimi;
 	private String sukunimi;
 
-	public UusiKayttaja() {
+	private Long tasoitus;
+	private boolean tasoitus_voimassa;
+	private Integer jasen_tyyppi;
+	private Integer sukup;
 
+	public UusiKayttaja() {
+		this.username = "uk1";
+		this.password = "";
+		this.userrole = "3";
+		this.seuraId = 0L;
+		this.jasennumero = 0L;
+		this.tasoitus = 54L;
+		this.tasoitus_voimassa = true;
+		this.jasen_tyyppi = 3;
+		this.sukup = 1;
 	}
 
 	public UusiKayttaja(String username, String password) {
@@ -24,6 +37,10 @@ public class UusiKayttaja {
 		this.userrole = "3";
 		this.seuraId = 0L;
 		this.jasennumero = 0L;
+		this.tasoitus = 54L;
+		this.tasoitus_voimassa = true;
+		this.jasen_tyyppi = 3;
+		this.sukup = 1;
 	}
 
 	public String getUsername() {
@@ -97,8 +114,12 @@ public class UusiKayttaja {
 		return String.valueOf(this.seuraId);
 	}
 
-	public String getJasennumero() {
-		return String.valueOf(this.jasennumero);
+	public Long getSeuraIdL() {
+		return this.seuraId;
+	}
+
+	public Long getJasennumero() {
+		return (this.jasennumero);
 	}
 
 	public void setSeuraId(long seuraId) {
@@ -123,4 +144,37 @@ public class UusiKayttaja {
 	public void setEtunimi(String etunimi) {
 		this.etunimi = etunimi;
 	}
+
+	public Long getTasoitus() {
+		return tasoitus;
+	}
+
+	public void setTasoitus(Long tasoitus) {
+		this.tasoitus = tasoitus;
+	}
+
+	public boolean isTasoitus_voimassa() {
+		return tasoitus_voimassa;
+	}
+
+	public void setTasoitus_voimassa(boolean tasoitus_voimassa) {
+		this.tasoitus_voimassa = tasoitus_voimassa;
+	}
+
+	public Integer getJasen_tyyppi() {
+		return jasen_tyyppi;
+	}
+
+	public void setJasen_tyyppi(Integer jasen_tyyppi) {
+		this.jasen_tyyppi = jasen_tyyppi;
+	}
+
+	public Integer getSukup() {
+		return sukup;
+	}
+
+	public void setSukup(Integer sukup) {
+		this.sukup = sukup;
+	}
+	
 }

@@ -67,4 +67,18 @@ public class KayttajaDAO extends JdbcDaoSupport {
 
 	};
 
+	public void updateKayttaja(Kayttaja kayttaja) {
+		// jos käyttäjälle vaihdetaan seuraa tai jäsennumeroa niin aiemmat kierrokset pitäisi poistaa, samoin tasoitushistoria ? TODO:
+		String sql = "UPDATE kayttaja SET kayttajatunnus=?, enabled=?, seura_id=?, jasennumero=?, etunimi=?, sukunimi=? WHERE kayttaja_id=?";
+		Object[] args = new Object[] { kayttaja.getUsername(), kayttaja.getEnabled(), kayttaja.getSeuraId(),
+				kayttaja.getJasennumero(), kayttaja.getEtunimi(), kayttaja.getSukunimi(), kayttaja.getKayttajaId() };
+		int lkm = this.getJdbcTemplate().update(sql, args);
+		log.info("MSA: updateKayttaja päivitti " + lkm + " riviä " + kayttaja);
+	}
+
+	public void deleteKayttaja(String kayttajatunnus) {
+		int lkm = this.getJdbcTemplate().update("DELETE FROM kayttaja WHERE kayttajatunnus=?", kayttajatunnus);
+		log.info("MSA: poistettu " + lkm + " riviä " + kayttajatunnus);
+	}
+
 }

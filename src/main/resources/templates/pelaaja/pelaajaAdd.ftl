@@ -4,13 +4,13 @@
 <html>
 
 <head>
-    <title>Pelaaja Info</title>
+    <title>Uusi Pelaaja</title>
 </head>
 
 <body>
     <#include "../_menu.ftl">
 
-    <h2>Pelaaja Info</h2>
+    <h2>Lisää Pelaaja</h2>
 
   	<table>
   	    <#if pelaaja??>
@@ -36,13 +36,13 @@
     			<td>voimassaoleva tasoitus:</td><td>${pelaaja.tasoitus_voimassa?string('kyllä', 'ei')}</td>
     		</tr>
     		<tr>
-    			<td>seura:</td><td>${pelaaja.seura_id}</td>
+    			<td>seura:</td><td>${pelaaja.seuraId}</td>
     		</tr>
     		<tr>
     			<td>jäsennumero:</td><td>${pelaaja.jasennumero}</td>
     		</tr>
     		<tr>
-    			<td>jäsenyyden tyyppi:</td><td>${pelaaja.jasen_tyyppi}</td>
+    			<td>jäsenyyden tyyppi:</td><td>${pelaaja.jasen_tyyppi}</td> <#-- min=1 max=9 -->
     		</tr>
     		<tr>
     			<td>sukupuoli:</td><td>${pelaaja.sukup}</td>

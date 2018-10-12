@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import msa.harj.score.dao.PelaajaDAO;
 import msa.harj.score.dao.RooliDAO;
+import msa.harj.score.model.Kayttaja;
 import msa.harj.score.model.Pelaaja;
 
 @Controller
@@ -50,8 +51,9 @@ public class PelaajaController {
 	@GetMapping("/pelaaja/del/{pelaajaId}")
 	public String deletePelaaja(@PathVariable("pelaajaId") Long pelaajaId) {
 		log.info("MSA: /pelaaja/del/" + Long.toString(pelaajaId));
-		pelaajaDAO.deletePelaaja(pelaajaId);
-		return "redirect:/pelaajat"; // TODO: /pelaajat puuttuu
+		// TODO: ei poisteta GET:illä
+		// pelaajaDAO.deletePelaaja(pelaajaId); // Toimii
+		return "redirect:/pelaaja/"; // TODO: /pelaajat puuttuu
 	}
 
 	@GetMapping("/pelaaja/history/{seuraId}/{jasennumero}")
@@ -59,7 +61,9 @@ public class PelaajaController {
 			@PathVariable("jasennumero") Long jasennumero) {
 		log.info("MSA: /pelaaja/history/" + Long.toString(seuraId) + "/" + Long.toString(jasennumero));
 		List<Pelaaja> ph = pelaajaDAO.getPelaajaHistoria(seuraId, jasennumero);
-		model.addAttribute("pelaajahistoria", ph);
+		model.addAttribute("pelaajat", ph);
+		Kayttaja k = (Kayttaja)ph.get(0);
+		model.addAttribute("kayttaja", k);
 		String str = "";
 		for (Pelaaja p : ph) {
 			str += p.toString() + "\t";
@@ -78,11 +82,11 @@ public class PelaajaController {
 
 	@PostMapping("/pelaaja/edit")
 	public String updatePelaaja(Model model, Pelaaja p) {
-		log.info("MSA(post): /pelaaja/edit/" + p.getUsername()+" "+p.getSeura_id()+":"+p.getJasennumero());
+		log.info("MSA(post): /pelaaja/edit/" + p.getUsername()+" "+p.getSeuraId()+":"+p.getJasennumero());
 		try {
 			pelaajaDAO.updatePelaaja(p);
 			//model.addAttribute("pelaaja", p);
-			return "redirect:/pelaaja/"+p.getSeura_id()+"/"+p.getJasennumero();
+			return "redirect:/pelaaja/"+p.getSeuraId()+"/"+p.getJasennumero();
 			//return "redirect:/pelaajat"; // TODO
 		} catch (Exception e) {
 			model.addAttribute("message", e.getMessage());

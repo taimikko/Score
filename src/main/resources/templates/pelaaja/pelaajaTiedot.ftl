@@ -36,7 +36,7 @@
     			<td>voimassaoleva tasoitus:</td><td>${pelaaja.tasoitus_voimassa?string('kyllä', 'ei')}</td>
     		</tr>
     		<tr>
-    			<td>seura:</td><td>${pelaaja.seura_id}</td>
+    			<td>seura:</td><td>${pelaaja.seuraId}</td>
     		</tr>
     		<tr>
     			<td>jäsennumero:</td><td>${pelaaja.jasennumero?replace(",","")}</td>
@@ -71,6 +71,12 @@
       <a href="/pelaaja/edit/${pelaaja.id?replace(",","")}" >Muokkaa</a>
       &nbsp;
       <a href="/pelaaja/del/${pelaaja.id?replace(",","")!pelaaja.id}" >Poista</a>
+      &nbsp;
+    </#if>
+    <#if (pelaaja.seuraId)??>
+    	<#if (pelaaja.jasennumero)??>
+    		<a href="/pelaaja/history/${pelaaja.seuraId?c}/${pelaaja.jasennumero?c}" >Historia</a>
+    	</#if>
     </#if>
     <br/>
 
