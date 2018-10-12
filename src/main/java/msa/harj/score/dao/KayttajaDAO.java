@@ -42,10 +42,10 @@ public class KayttajaDAO extends JdbcDaoSupport {
 	public void addNewUserAccount(UusiKayttaja uk) {
 		// TODO: tätä ennen on lisättävä pelaaja omaan tauluun, koska usr on rajoitettu
 		// (poistettu toistaiseksi)
-		String sql = "INSERT INTO kayttaja (kayttaja_id, kayttajatunnus, encryted_password, enabled, seura_id, jasennumero, etunimi, sukunimi) "
-				+ "values (?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO kayttaja (kayttaja_id, kayttajatunnus, encryted_password, enabled, seura_id, jasennumero, etunimi, sukunimi, sukup) "
+				+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		Object[] args = new Object[] { 0, uk.getUsername(), uk.getEncrytedPassword(), 1, uk.getSeuraId(),
-				uk.getJasennumero(), uk.getEtunimi(), uk.getSukunimi() };
+				uk.getJasennumero(), uk.getEtunimi(), uk.getSukunimi(), uk.getSukup() };
 
 		int info = this.getJdbcTemplate().update(sql, args);
 		System.out.println("päivitettiin " + Integer.toString(info) + " riviä kayttaja tauluun.");
@@ -62,16 +62,17 @@ public class KayttajaDAO extends JdbcDaoSupport {
 		public Kayttaja mapRow(ResultSet resultSet, int row) throws SQLException {
 			return new Kayttaja(resultSet.getLong("kayttaja_id"), resultSet.getString("kayttajatunnus"),
 					resultSet.getLong("seura_id"), resultSet.getLong("jasennumero"), resultSet.getBoolean("enabled"),
-					resultSet.getString("etunimi"), resultSet.getString("sukunimi"));
+					resultSet.getString("etunimi"), resultSet.getString("sukunimi"), resultSet.getInt("sukup"));
 		}
 
 	};
 
 	public void updateKayttaja(Kayttaja kayttaja) {
-		// jos käyttäjälle vaihdetaan seuraa tai jäsennumeroa niin aiemmat kierrokset pitäisi poistaa, samoin tasoitushistoria ? TODO:
-		String sql = "UPDATE kayttaja SET kayttajatunnus=?, enabled=?, seura_id=?, jasennumero=?, etunimi=?, sukunimi=? WHERE kayttaja_id=?";
+		// jos käyttäjälle vaihdetaan seuraa tai jäsennumeroa niin aiemmat kierrokset
+		// pitäisi poistaa, samoin tasoitushistoria ? TODO:
+		String sql = "UPDATE kayttaja SET kayttajatunnus=?, enabled=?, seura_id=?, jasennumero=?, etunimi=?, sukunimi=?, sukup=? WHERE kayttaja_id=?";
 		Object[] args = new Object[] { kayttaja.getUsername(), kayttaja.getEnabled(), kayttaja.getSeuraId(),
-				kayttaja.getJasennumero(), kayttaja.getEtunimi(), kayttaja.getSukunimi(), kayttaja.getKayttajaId() };
+				kayttaja.getJasennumero(), kayttaja.getEtunimi(), kayttaja.getSukunimi(), kayttaja.getSukup(), kayttaja.getKayttajaId()	 };
 		int lkm = this.getJdbcTemplate().update(sql, args);
 		log.info("MSA: updateKayttaja päivitti " + lkm + " riviä " + kayttaja);
 	}

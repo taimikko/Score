@@ -16,7 +16,7 @@
   	<table>
   	    <#if pelaaja??>
     		<tr>
-    			<td>käyttäjä id:</td><td><input type='number' name='kayttajaId' readonly value=${pelaaja.kayttajaId?replace(",","")} /></td>
+    			<td>käyttäjä id:</td><td><input type='number' name='kayttajaId' readonly value=${pelaaja.kayttajaId?c} /></td>
     		</tr>
     		<tr>
     			<td>käyttäjätunnus:</td><td><input type='text' name='username' readonly value=${pelaaja.username} /> </td>
@@ -43,16 +43,13 @@
     			<td>seura:</td><td><input type='number' name='seuraId' readonly value=${pelaaja.seuraId} /></td>
     		</tr>
     		<tr>
-    			<td>jäsennumero:</td><td><input type='number' name='jasennumero' readonly value=${pelaaja.jasennumero?replace(",","")} /></td>
+    			<td>jäsennumero:</td><td><input type='number' name='jasennumero' readonly value=${pelaaja.jasennumero?c} /></td>
     		</tr>
     		<tr>
     			<td>jäsenyyden tyyppi:</td><td><input type='number' min=1 max=9 name='jasen_tyyppi' required value=${pelaaja.jasen_tyyppi} /></td>
     		</tr>
-    		<tr>
-    			<td>sukupuoli:</td><td><input type='number' name='sukup' min=1 max=2 readonly value=${pelaaja.sukup} /></td>
-    		</tr>
      		<tr>
-    			<td>id:</td><td><input type='number' name='id' readonly value=${pelaaja.id?replace(",","")} /></td>
+    			<td>id:</td><td><input type='number' name='id' readonly value=${pelaaja.id?c} /></td>
     		</tr>
        		<tr>
       		<#-- Use ?date, ?time, or ?datetime to tell FreeMarker the exact type. 
@@ -77,7 +74,7 @@
  
     <br/>
     <#if (pelaaja.id)??>
-      <a href="/pelaaja/get/${pelaaja.id?replace(",","")}" >Peru/Katso</a>
+      <a href="/pelaaja/get/${pelaaja.id?c}" >Peru/Katso</a>
     </#if>
     <br/>
 

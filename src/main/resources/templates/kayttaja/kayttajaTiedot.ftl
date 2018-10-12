@@ -41,6 +41,10 @@
                     <td>enabled:</td>
                     <td>${kayttaja.enabled?string('kyllä', 'ei')} </td>
                 </tr>
+	    		<tr>
+    				<td>sukupuoli:</td>
+    				<td>${kayttaja.sukup?replace("1","Mies")?replace("2","Nainen")}</td>
+	    		</tr>
                 <tr>
                     <td>kayttäjä:</td>
                     <td>${kayttaja.getKokoNimi()}</td>

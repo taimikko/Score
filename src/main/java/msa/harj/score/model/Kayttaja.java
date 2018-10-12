@@ -1,7 +1,7 @@
 package msa.harj.score.model;
 
 public class Kayttaja {
-	//private static final Log log = LogFactory.getLog(Kayttaja.class);
+	// private static final Log log = LogFactory.getLog(Kayttaja.class);
 
 	protected Long kayttajaId;
 	protected String username;
@@ -11,9 +11,10 @@ public class Kayttaja {
 	protected Boolean enabled;
 	protected String etunimi;
 	protected String sukunimi;
+	protected Integer sukup;
 
 	public String getKokoNimi() {
-		return this.etunimi +" "+this.sukunimi;
+		return this.etunimi + " " + this.sukunimi;
 	}
 
 	public String getEtunimi() {
@@ -81,9 +82,8 @@ public class Kayttaja {
 		this.enabled = true;
 	}
 
-	public Kayttaja(Long kayttajaId, String username, /* String encrytedPassword, */ 
-			Long seuraId, Long jasennumero,
-			Boolean enabled, String etunimi, String sukunimi) {
+	public Kayttaja(Long kayttajaId, String username, /* String encrytedPassword, */
+			Long seuraId, Long jasennumero, Boolean enabled, String etunimi, String sukunimi, Integer sukup) {
 		super();
 		this.kayttajaId = kayttajaId;
 		this.username = username;
@@ -93,6 +93,7 @@ public class Kayttaja {
 		this.enabled = enabled;
 		this.etunimi = etunimi;
 		this.sukunimi = sukunimi;
+		this.sukup = sukup;
 	}
 
 	public Long getKayttajaId() {
@@ -109,6 +110,14 @@ public class Kayttaja {
 
 	public void setEncrytedPassword(String encrytedPassword) {
 		this.encrytedPassword = encrytedPassword;
+	}
+
+	public Integer getSukup() {
+		return sukup;
+	}
+
+	public void setSukup(Integer sukup) {
+		this.sukup = sukup;
 	}
 
 	@Override

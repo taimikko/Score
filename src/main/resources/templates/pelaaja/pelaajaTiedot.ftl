@@ -44,9 +44,6 @@
     		<tr>
     			<td>jäsenyyden tyyppi:</td><td>${pelaaja.jasen_tyyppi}</td>
     		</tr>
-    		<tr>
-    			<td>sukupuoli:</td><td>${pelaaja.sukup}</td>
-    		</tr>
      		<tr>
     			<td>id:</td><td>${pelaaja.id?replace(",","")}</td>
     		</tr>

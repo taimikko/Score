@@ -22,7 +22,7 @@ public class PelaajaDAO extends KayttajaDAO {
 	private static final Log log = LogFactory.getLog(PelaajaDAO.class);
 
 	private static String PELAAJA_SELECT = "SELECT k.kayttaja_id, k.kayttajatunnus, k.encryted_password, k.enabled, "
-			+ " p.id, p.seura_id, p.jasennumero, k.sukunimi, k.etunimi, p.sukup, p.jasen_tyyppi, p.tasoitus, p.pvm, p.tasoitus_voimassa"
+			+ " p.id, p.seura_id, p.jasennumero, k.sukunimi, k.etunimi, p.jasen_tyyppi, p.tasoitus, p.pvm, p.tasoitus_voimassa"
 			+ " FROM pelaaja p, kayttaja k";
 	private static String PELAAJA_NEWEST = " k.jasennumero=p.jasennumero AND k.seura_id = p.seura_id"
 			+ "  AND  (p.seura_id, p.jasennumero, p.pvm) IN ( SELECT q.seura_id, q.jasennumero, max(q.pvm) as pvm"
@@ -38,7 +38,7 @@ public class PelaajaDAO extends KayttajaDAO {
 		String sql = PELAAJA_SELECT + " WHERE k.kayttajatunnus=? AND " + PELAAJA_NEWEST;
 
 //		 SELECT k.kayttaja_id, k.kayttajatunnus, k.encryted_password,
-//	      p.id, p.seura_id, p.jasennumero, p.sukunimi, p.etunimi, p.sukup, p.jasen_tyyppi, p.tasoitus, p.pvm
+//	      p.id, p.seura_id, p.jasennumero, p.sukunimi, p.etunimi, p.jasen_tyyppi, p.tasoitus, p.pvm
 //	      FROM kayttaja k, pelaaja p 
 //	      INNER JOIN (  
 //	       SELECT seura_id as sid, jasennumero as jnro, max(pvm) as maxpvm 
@@ -49,7 +49,7 @@ public class PelaajaDAO extends KayttajaDAO {
 //	---------
 //
 //		SELECT k.kayttaja_id, k.kayttajatunnus, k.encryted_password,
-//		 p.id, p.seura_id, p.jasennumero, p.sukunimi, p.etunimi, p.sukup, p.jasen_tyyppi, p.tasoitus, p.pvm
+//		 p.id, p.seura_id, p.jasennumero, p.sukunimi, p.etunimi, p.jasen_tyyppi, p.tasoitus, p.pvm
 //		 FROM pelaaja p, kayttaja k  
 //		 WHERE k.kayttajatunnus="msa" AND k.jasennumero=p.jasennumero AND k.seura_id = p.seura_id 
 //		   AND  (p.seura_id, p.jasennumero, p.pvm) IN (
@@ -74,7 +74,7 @@ public class PelaajaDAO extends KayttajaDAO {
 			return new Pelaaja(resultSet.getLong("kayttaja_id"), resultSet.getString("kayttajatunnus"),
 					resultSet.getBoolean("enabled"), resultSet.getLong("id"), resultSet.getLong("seura_id"),
 					resultSet.getLong("jasennumero"), resultSet.getString("sukunimi"), resultSet.getString("etunimi"),
-					resultSet.getInt("sukup"), resultSet.getInt("jasen_tyyppi"), resultSet.getLong("tasoitus"),
+					resultSet.getInt("jasen_tyyppi"), resultSet.getLong("tasoitus"),
 					resultSet.getBoolean("tasoitus_voimassa"), resultSet.getTimestamp("pvm"));
 		}
 	};
@@ -146,9 +146,9 @@ public class PelaajaDAO extends KayttajaDAO {
 	public void addPelaaja(Pelaaja p) {
 		log.info("MSA: addPelaaja "+p.toString());
 		String sql = "INSERT INTO pelaaja ("
-				+ "id, pvm, seura_id, jasennumero, sukup, jasen_tyyppi, tasoitus, tasoitus_voimassa) "
+				+ "id, pvm, seura_id, jasennumero, jasen_tyyppi, tasoitus, tasoitus_voimassa) "
 				+ "values (?, ?, ?, ?, ?, ?, ?, ?)";
-		Object[] args = new Object[] { 0, null, p.getSeuraId(), p.getJasennumero(), p.getSukup(), p.getJasen_tyyppi(),
+		Object[] args = new Object[] { 0, null, p.getSeuraId(), p.getJasennumero(), p.getJasen_tyyppi(),
 				p.getTasoitus(), p.isTasoitus_voimassa() };
 
 		try {
