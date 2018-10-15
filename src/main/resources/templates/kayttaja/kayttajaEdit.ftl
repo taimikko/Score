@@ -44,15 +44,14 @@
 	    		</tr>
                 <tr>
                     <td>enabled:</td>
-                    <td><input type='checkbox' name='enabled' <#if kayttaja.enabled> checked </#if>} </td>
+                    <td><input type='checkbox' name='enabled' <#if kayttaja.enabled> checked </#if> /> </td>
                 </tr>
                 <tr>
 		   			<td>sukupuoli:</td>
-    				<td>
-    				<input type='radio' name='sukup' <#if (kayttaja.sukup)??><#if (kayttaja.sukup)==1>checked</#if></#if>value=1>Mies</input><br>
-				    <input type='radio' name='sukup' <#if (kayttaja.sukup)??><#if (kayttaja.sukup)==2>checked</#if></#if>value=2>Nainen</input><br>
-				    <input type='radio' name='sukup' <#if (kayttaja.sukup)??><#if (kayttaja.sukup)==3>checked</#if></#if>value=3>Ei tiedossa</input><br>
-    				</td>
+    				<td><input type='radio' name='sukup' <#if (kayttaja.sukup==1)>checked='checked'</#if>value='1'>Mies</input><br>
+				    <input type='radio' name='sukup' <#if (kayttaja.sukup==2)>checked='checked'</#if> value='2'>Nainen</input><br>
+				    <input type='radio' name='sukup' <#if (kayttaja.sukup)==3>checked='checked'</#if>value='3'>Ei tiedossa</input>
+    			</td>
                 </tr>
             </#if>
             <#if kayttajaroolit??>

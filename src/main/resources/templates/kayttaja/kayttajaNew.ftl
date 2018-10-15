@@ -118,11 +118,6 @@
     			  <input type='checkbox' value='true' <#if (user.tasoitus_voimassa)??> <#if user.tasoitus_voimassa> checked </#if> </#if> name='tasoitus_voimassa' />
     			</td>
     		</tr>
-    		<#-- ToDo: jäsenTyyppi listasta, kun valmis
-		jasentyypit
-		seurat
-		roolit
- -->
      		<tr>
     			<td>jäsenyyden tyyppi:</td>
     			<td><input list="jasenyys" name='jasen_tyyppi'>
@@ -136,7 +131,7 @@
     			<td>sukupuoli:</td>
     			<td><input type='radio' name='sukup' value='1'>Mies</input><br>
 				    <input type='radio' name='sukup' value='2'>Nainen</input><br>
-				    <input type='radio' name='sukup' value='3'>Ei tiedossa</input><br>
+				    <input type='radio' name='sukup' checked='checked' value='3'>Ei tiedossa</input><br>
     			</td>
     		</tr>
      		<tr>

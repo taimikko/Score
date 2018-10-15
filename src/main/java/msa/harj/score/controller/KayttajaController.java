@@ -88,6 +88,7 @@ public class KayttajaController {
 		log.info("MSA: /kayttaja/edit/" + kayttajatunnus);
 		Kayttaja k = kayttajaDAO.getKayttaja(kayttajatunnus);
 		model.addAttribute("kayttaja", k);
+		log.info("MSA: editKayttaja()"+k);
 		List<JasenTyyppi> jasenTyypit = jasenTyyppiDAO.getJasenTyypit();
 		model.addAttribute("jasentyypit", jasenTyypit);
 		List<Seura> seurat = seuraDAO.getSeurat();
@@ -103,7 +104,7 @@ public class KayttajaController {
 
 	@PostMapping("/kayttaja/edit")
 	public String updateKayttaja(Model model, Kayttaja kayttaja, UusiKayttaja newUser, Principal principal, Long[] rooli) {
-		log.info("MSA: (post) /kayttaja/edit");
+		log.info("MSA: (post) /kayttaja/edit:"+kayttaja);
 		
 		kayttajaDAO.updateKayttaja(kayttaja);
 		if (rooli != null) { 
@@ -171,6 +172,7 @@ public class KayttajaController {
 //		private Long id;
 //		private Timestamp pvm;
 		
+		log.info("MSA: lisätään myös pelaaja-tauluun:"+p );
 		pelaajaDAO.addPelaaja(p);
 
 		Kayttaja k = kayttajaDAO.getKayttaja(p.getUsername());
@@ -216,6 +218,7 @@ public class KayttajaController {
 		log.info("MSA: /kayttaja/" + kayttajatunnus);
 		Kayttaja k = kayttajaDAO.getKayttaja(kayttajatunnus);
 		model.addAttribute("kayttaja", k);
+		log.info("MSA: käyttäjä:"+k);
 		
 		List<String> roolit = rooliDAO.getRoleNames(k.getKayttajaId()); 
 		model.addAttribute("roolit", roolit);

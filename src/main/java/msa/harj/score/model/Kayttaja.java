@@ -1,5 +1,7 @@
 package msa.harj.score.model;
 
+import jdk.internal.jline.internal.Log;
+
 public class Kayttaja {
 	// private static final Log log = LogFactory.getLog(Kayttaja.class);
 
@@ -66,7 +68,7 @@ public class Kayttaja {
 	}
 
 	public Kayttaja() {
-
+		this.sukup=3;
 	}
 
 	public Kayttaja(String username, String encrytedPassword) {
@@ -80,6 +82,7 @@ public class Kayttaja {
 		this.jasennumero = jasennumero;
 		this.seuraId = seuraId;
 		this.enabled = true;
+		setSukup(3);
 	}
 
 	public Kayttaja(Long kayttajaId, String username, /* String encrytedPassword, */
@@ -93,7 +96,7 @@ public class Kayttaja {
 		this.enabled = enabled;
 		this.etunimi = etunimi;
 		this.sukunimi = sukunimi;
-		this.sukup = sukup;
+		setSukup(sukup);
 	}
 
 	public Long getKayttajaId() {
@@ -117,12 +120,17 @@ public class Kayttaja {
 	}
 
 	public void setSukup(Integer sukup) {
+		if (sukup == null) {
+			Log.info("MSA: Sukup== null \t->3");
+			sukup=3; // ei tietoa
+		}
 		this.sukup = sukup;
 	}
 
 	@Override
 	public String toString() {
-		return this.etunimi + " " + this.sukunimi + ":" + this.username + "/" + this.encrytedPassword;
+		return this.kayttajaId+" "+this.etunimi + " " + this.sukunimi + ":" + this.username + "/" + this.encrytedPassword+
+			"\nSeura:"+this.seuraId+" jäsennumero:"+this.jasennumero+" enabled:"+this.enabled+" sukup:"+this.sukup;
 	}
 
 }

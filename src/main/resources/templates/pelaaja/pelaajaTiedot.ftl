@@ -15,7 +15,7 @@
   	<table>
   	    <#if pelaaja??>
     		<tr>
-    			<td>käyttäjä id:</td><td>${pelaaja.kayttajaId?replace(",","")}</td>
+    			<td>käyttäjä id:</td><td>${pelaaja.kayttajaId?c}</td>
     		</tr>
     		<tr>
     			<td>käyttäjätunnus:</td><td>${pelaaja.username}</td>

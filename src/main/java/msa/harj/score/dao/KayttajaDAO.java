@@ -71,6 +71,10 @@ public class KayttajaDAO extends JdbcDaoSupport {
 		// jos käyttäjälle vaihdetaan seuraa tai jäsennumeroa niin aiemmat kierrokset
 		// pitäisi poistaa, samoin tasoitushistoria ? TODO:
 		String sql = "UPDATE kayttaja SET kayttajatunnus=?, enabled=?, seura_id=?, jasennumero=?, etunimi=?, sukunimi=?, sukup=? WHERE kayttaja_id=?";
+		if (kayttaja.getEnabled() == null) {
+			log.info("MSA: enabled == null\t -> false");
+			kayttaja.setEnabled(false);
+		}
 		Object[] args = new Object[] { kayttaja.getUsername(), kayttaja.getEnabled(), kayttaja.getSeuraId(),
 				kayttaja.getJasennumero(), kayttaja.getEtunimi(), kayttaja.getSukunimi(), kayttaja.getSukup(), kayttaja.getKayttajaId()	 };
 		int lkm = this.getJdbcTemplate().update(sql, args);

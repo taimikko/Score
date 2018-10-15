@@ -147,7 +147,7 @@ public class PelaajaDAO extends KayttajaDAO {
 		log.info("MSA: addPelaaja "+p.toString());
 		String sql = "INSERT INTO pelaaja ("
 				+ "id, pvm, seura_id, jasennumero, jasen_tyyppi, tasoitus, tasoitus_voimassa) "
-				+ "values (?, ?, ?, ?, ?, ?, ?, ?)";
+				+ "values (?, ?, ?, ?, ?, ?, ?)";
 		Object[] args = new Object[] { 0, null, p.getSeuraId(), p.getJasennumero(), p.getJasen_tyyppi(),
 				p.getTasoitus(), p.isTasoitus_voimassa() };
 
