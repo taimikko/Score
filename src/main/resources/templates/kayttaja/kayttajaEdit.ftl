@@ -33,11 +33,11 @@
 	            </tr>
                 <tr>
                     <td>Seura:</td>
-                    <td><input type='number' name='seuraId' min=1 required value=${kayttaja.seuraId?c} /></td>
+                    <td><input type='number' name='seuraId' min=1 readonly value=${kayttaja.seuraId?c} /></td>
                 </tr>
                 <tr>
                     <td>jäsennumero:</td>
-                    <td><input type='number' name='jasennumero' min=1 required value=${kayttaja.jasennumero?c} /></td>
+                    <td><input type='number' name='jasennumero' min=1 readonly value=${kayttaja.jasennumero?c} /></td>
                 </tr>
            		<tr>
     				<td>käyttäjä id:</td><td><input type='number' name='kayttajaId' readonly value=${kayttaja.kayttajaId?c} /></td>
