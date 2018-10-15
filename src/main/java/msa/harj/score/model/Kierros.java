@@ -6,6 +6,7 @@ public class Kierros {
 	// private static final Log log = LogFactory.getLog(Kayttaja.class);
 	private Long id;
 	private Timestamp pvm;
+	private Long seura_id;
 	private Long jasennumero;
 	private Long kentta_id;
 	private Double tasoitus;
@@ -33,7 +34,7 @@ public class Kierros {
 	private Integer h18;
 	private Integer in;
 	private Integer yhteensa;
-	private String markitsija;
+	private String merkitsija;
 	private String lisatieto;
 	private Integer p1;
 	private Integer p2;
@@ -50,77 +51,21 @@ public class Kierros {
 	private Integer p12;
 	private Integer p13;
 	private Integer p14;
+	private Integer p15;
+	private Integer p16;
+	private Integer p17;
+	private Integer p18;
+	private Integer p_in;
+	private Integer p_yht;
+	private boolean tasoituskierros;
+	private Double uusi_tasoitus;
+	private Integer pelattu;
 
 	public Kierros(Timestamp pvm, Long jasennumero, Long kentta_id) {
 		super();
 		this.pvm = pvm;
 		this.jasennumero = jasennumero;
 		this.kentta_id = kentta_id;
-	}
-
-	public Kierros(Long id, Timestamp pvm, Long jasennumero, Long kentta_id, Double tasoitus, Long tii_id,
-			Integer pelitasoitus, Double cba, Integer h1, Integer h2, Integer h3, Integer h4, Integer h5, Integer h6,
-			Integer h7, Integer h8, Integer h9, Integer out, Integer h10, Integer h11, Integer h12, Integer h13,
-			Integer h14, Integer h15, Integer h16, Integer h17, Integer h18, Integer in, Integer yhteensa,
-			String markitsija, String lisatieto, Integer p1, Integer p2, Integer p3, Integer p4, Integer p5, Integer p6,
-			Integer p7, Integer p8, Integer p9, Integer p_out, Integer p10, Integer p11, Integer p12, Integer p13,
-			Integer p14, Integer p15, Integer p16, Integer p17, Integer p18, Integer p_in, Integer p_yht,
-			boolean tasoituskierros, Double uusi_tasoitus) {
-		super();
-		this.id = id;
-		this.pvm = pvm;
-		this.jasennumero = jasennumero;
-		this.kentta_id = kentta_id;
-		this.tasoitus = tasoitus;
-		this.tii_id = tii_id;
-		this.pelitasoitus = pelitasoitus;
-		this.cba = cba;
-		this.h1 = h1;
-		this.h2 = h2;
-		this.h3 = h3;
-		this.h4 = h4;
-		this.h5 = h5;
-		this.h6 = h6;
-		this.h7 = h7;
-		this.h8 = h8;
-		this.h9 = h9;
-		this.out = out;
-		this.h10 = h10;
-		this.h11 = h11;
-		this.h12 = h12;
-		this.h13 = h13;
-		this.h14 = h14;
-		this.h15 = h15;
-		this.h16 = h16;
-		this.h17 = h17;
-		this.h18 = h18;
-		this.in = in;
-		this.yhteensa = yhteensa;
-		this.markitsija = markitsija;
-		this.lisatieto = lisatieto;
-		this.p1 = p1;
-		this.p2 = p2;
-		this.p3 = p3;
-		this.p4 = p4;
-		this.p5 = p5;
-		this.p6 = p6;
-		this.p7 = p7;
-		this.p8 = p8;
-		this.p9 = p9;
-		this.p_out = p_out;
-		this.p10 = p10;
-		this.p11 = p11;
-		this.p12 = p12;
-		this.p13 = p13;
-		this.p14 = p14;
-		this.p15 = p15;
-		this.p16 = p16;
-		this.p17 = p17;
-		this.p18 = p18;
-		this.p_in = p_in;
-		this.p_yht = p_yht;
-		this.tasoituskierros = tasoituskierros;
-		this.uusi_tasoitus = uusi_tasoitus;
 	}
 
 	public Long getId() {
@@ -355,12 +300,12 @@ public class Kierros {
 		this.yhteensa = yhteensa;
 	}
 
-	public String getMarkitsija() {
-		return markitsija;
+	public String getMerkitsija() {
+		return merkitsija;
 	}
 
-	public void setMarkitsija(String markitsija) {
-		this.markitsija = markitsija;
+	public void setMerkitsija(String merkitsija) {
+		this.merkitsija = merkitsija;
 	}
 
 	public String getLisatieto() {
@@ -555,28 +500,103 @@ public class Kierros {
 		this.uusi_tasoitus = uusi_tasoitus;
 	}
 
-	@Override
-	public String toString() {
-		return "Kierros [id=" + id + ", pvm=" + pvm + ", jasennumero=" + jasennumero + ", kentta_id=" + kentta_id
-				+ ", tasoitus=" + tasoitus + ", tii_id=" + tii_id + ", pelitasoitus=" + pelitasoitus + ", cba=" + cba
-				+ ", h1=" + h1 + ", h2=" + h2 + ", h3=" + h3 + ", h4=" + h4 + ", h5=" + h5 + ", h6=" + h6 + ", h7=" + h7
-				+ ", h8=" + h8 + ", h9=" + h9 + ", out=" + out + ", h10=" + h10 + ", h11=" + h11 + ", h12=" + h12
-				+ ", h13=" + h13 + ", h14=" + h14 + ", h15=" + h15 + ", h16=" + h16 + ", h17=" + h17 + ", h18=" + h18
-				+ ", in=" + in + ", yhteensa=" + yhteensa + ", markitsija=" + markitsija + ", lisatieto=" + lisatieto
-				+ ", p1=" + p1 + ", p2=" + p2 + ", p3=" + p3 + ", p4=" + p4 + ", p5=" + p5 + ", p6=" + p6 + ", p7=" + p7
-				+ ", p8=" + p8 + ", p9=" + p9 + ", p_out=" + p_out + ", p10=" + p10 + ", p11=" + p11 + ", p12=" + p12
-				+ ", p13=" + p13 + ", p14=" + p14 + ", p15=" + p15 + ", p16=" + p16 + ", p17=" + p17 + ", p18=" + p18
-				+ ", p_in=" + p_in + ", p_yht=" + p_yht + ", tasoituskierros=" + tasoituskierros + ", uusi_tasoitus="
-				+ uusi_tasoitus + "]";
+	public Integer getPelattu() {
+		return pelattu;
 	}
 
-	private Integer p15;
-	private Integer p16;
-	private Integer p17;
-	private Integer p18;
-	private Integer p_in;
-	private Integer p_yht;
-	private boolean tasoituskierros;
-	private Double uusi_tasoitus;
-	// private integer pelattu; //etuysi, takaysi, koko kierros
+	public void setPelattu(Integer pelattu) {
+		this.pelattu = pelattu;
+	}
+
+	public Long getSeura_id() {
+		return seura_id;
+	}
+
+	public void setSeura_id(Long seura_id) {
+		this.seura_id = seura_id;
+	}
+
+	@Override
+	public String toString() {
+		return "Kierros [id=" + id + ", pvm=" + pvm + ", seura_id=" + seura_id + ", jasennumero=" + jasennumero
+				+ ", kentta_id=" + kentta_id + ", tasoitus=" + tasoitus + ", tii_id=" + tii_id + ", pelitasoitus="
+				+ pelitasoitus + ", cba=" + cba + ", h1=" + h1 + ", h2=" + h2 + ", h3=" + h3 + ", h4=" + h4 + ", h5="
+				+ h5 + ", h6=" + h6 + ", h7=" + h7 + ", h8=" + h8 + ", h9=" + h9 + ", out=" + out + ", h10=" + h10
+				+ ", h11=" + h11 + ", h12=" + h12 + ", h13=" + h13 + ", h14=" + h14 + ", h15=" + h15 + ", h16=" + h16
+				+ ", h17=" + h17 + ", h18=" + h18 + ", in=" + in + ", yhteensa=" + yhteensa + ", merkitsija="
+				+ merkitsija + ", lisatieto=" + lisatieto + ", p1=" + p1 + ", p2=" + p2 + ", p3=" + p3 + ", p4=" + p4
+				+ ", p5=" + p5 + ", p6=" + p6 + ", p7=" + p7 + ", p8=" + p8 + ", p9=" + p9 + ", p_out=" + p_out
+				+ ", p10=" + p10 + ", p11=" + p11 + ", p12=" + p12 + ", p13=" + p13 + ", p14=" + p14 + ", p15=" + p15
+				+ ", p16=" + p16 + ", p17=" + p17 + ", p18=" + p18 + ", p_in=" + p_in + ", p_yht=" + p_yht
+				+ ", tasoituskierros=" + tasoituskierros + ", uusi_tasoitus=" + uusi_tasoitus + ", pelattu=" + pelattu
+				+ "]";
+	}
+
+	public Kierros(Long id, Timestamp pvm, Long seura_id, Long jasennumero, Long kentta_id, Double tasoitus,
+			Long tii_id, Integer pelitasoitus, Double cba, Integer h1, Integer h2, Integer h3, Integer h4, Integer h5,
+			Integer h6, Integer h7, Integer h8, Integer h9, Integer out, Integer h10, Integer h11, Integer h12,
+			Integer h13, Integer h14, Integer h15, Integer h16, Integer h17, Integer h18, Integer in, Integer yhteensa,
+			String merkitsija, String lisatieto, Integer p1, Integer p2, Integer p3, Integer p4, Integer p5, Integer p6,
+			Integer p7, Integer p8, Integer p9, Integer p_out, Integer p10, Integer p11, Integer p12, Integer p13,
+			Integer p14, Integer p15, Integer p16, Integer p17, Integer p18, Integer p_in, Integer p_yht,
+			boolean tasoituskierros, Double uusi_tasoitus, Integer pelattu) {
+		super();
+		this.id = id;
+		this.pvm = pvm;
+		this.seura_id = seura_id;
+		this.jasennumero = jasennumero;
+		this.kentta_id = kentta_id;
+		this.tasoitus = tasoitus;
+		this.tii_id = tii_id;
+		this.pelitasoitus = pelitasoitus;
+		this.cba = cba;
+		this.h1 = h1;
+		this.h2 = h2;
+		this.h3 = h3;
+		this.h4 = h4;
+		this.h5 = h5;
+		this.h6 = h6;
+		this.h7 = h7;
+		this.h8 = h8;
+		this.h9 = h9;
+		this.out = out;
+		this.h10 = h10;
+		this.h11 = h11;
+		this.h12 = h12;
+		this.h13 = h13;
+		this.h14 = h14;
+		this.h15 = h15;
+		this.h16 = h16;
+		this.h17 = h17;
+		this.h18 = h18;
+		this.in = in;
+		this.yhteensa = yhteensa;
+		this.merkitsija = merkitsija;
+		this.lisatieto = lisatieto;
+		this.p1 = p1;
+		this.p2 = p2;
+		this.p3 = p3;
+		this.p4 = p4;
+		this.p5 = p5;
+		this.p6 = p6;
+		this.p7 = p7;
+		this.p8 = p8;
+		this.p9 = p9;
+		this.p_out = p_out;
+		this.p10 = p10;
+		this.p11 = p11;
+		this.p12 = p12;
+		this.p13 = p13;
+		this.p14 = p14;
+		this.p15 = p15;
+		this.p16 = p16;
+		this.p17 = p17;
+		this.p18 = p18;
+		this.p_in = p_in;
+		this.p_yht = p_yht;
+		this.tasoituskierros = tasoituskierros;
+		this.uusi_tasoitus = uusi_tasoitus;
+		this.pelattu = pelattu;
+	}
+
 }
