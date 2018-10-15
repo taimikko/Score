@@ -80,7 +80,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		// The pages does not require login
 		http.authorizeRequests().antMatchers("/", "/login", "/logout", "index").permitAll();
-
+		http.authorizeRequests().antMatchers("/kierros", "/kierros/*").access("hasAnyRole('ROLE_PELAAJA', 'ROLE_ADMIN')");
+		
 		// /userInfo page requires login as ROLE_PELAAJA or ROLE_ADMIN.
 		// If no login, it will redirect to /login page.
 		http.authorizeRequests().antMatchers("/kayttajaInfo").access("hasAnyRole('ROLE_PELAAJA', 'ROLE_ADMIN')");
@@ -89,7 +90,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().antMatchers("/kayttajaTiedot").access("hasAnyRole('ROLE_SEURA_MANAGER', 'ROLE_ADMIN')");
 
 		// For ADMIN only.
-		http.authorizeRequests().antMatchers("/admin").access("hasRole('ROLE_ADMIN')");
+		http.authorizeRequests().antMatchers("/admin", "/admin/*").access("hasRole('ROLE_ADMIN')");
+		
 		http.authorizeRequests().antMatchers("/kayttaja/*").access("hasAnyRole('ROLE_ADMIN', 'ROLE_SEURA_MANAGER')");
 		http.authorizeRequests().antMatchers("/kayttaja/*/*").access("hasAnyRole('ROLE_ADMIN', 'ROLE_SEURA_MANAGER')");
 		http.authorizeRequests().antMatchers("/pelaaja/*").access("hasAnyRole('ROLE_ADMIN', 'ROLE_SEURA_MANAGER')");

@@ -28,18 +28,6 @@ public class MainController {
 		return "welcomePage";
 	}
 
-	@RequestMapping(value = "/admin", method = RequestMethod.GET)
-	public String adminPage(Model model, Principal principal) {
-
-		User loginedUser = (User) ((Authentication) principal).getPrincipal();
-
-		String userInfo = WebUtils.toString(loginedUser);
-		model.addAttribute("userInfo", userInfo);
-		model.addAttribute("title", "Vain admin -oikeudet omaaville käyttäjille");
-
-		return "adminPage";
-	}
-
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String loginPage(Model model) {
 		log.info("/login: "+model.toString());

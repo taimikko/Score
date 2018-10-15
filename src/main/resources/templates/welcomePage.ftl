@@ -8,7 +8,9 @@
       <#include "/_menu.ftl">
        
       <h2>Viestiä pukkaa : <span> ${message}</span></h2>
-       
-      <a href="/login">Kirjaudu</a>
+	
+	  <@security.authorize access="! isAuthenticated()">
+        <a href="/login">Kirjaudu</a>
+	  </@security.authorize>
    </body>
 </html>

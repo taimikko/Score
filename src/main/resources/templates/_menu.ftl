@@ -4,9 +4,21 @@
 <div style="border: 1px solid #ccc;padding:5px;margin-bottom:20px;">
  
   <a href="/">Alku</a>     | &nbsp;
-  
+ 
    <@security.authorize url="/admin">
 		<a href="/admin">Vaan guruille (admin)</a>    | &nbsp;
+   </@security.authorize>
+ 
+   <@security.authorize url="/kierros/add">
+		<a href="/kierros/add">uusi kierros</a>    | &nbsp;
+   </@security.authorize>
+
+   <@security.authorize url="/kierros/omat">
+		<a href="/kierros/omat">omat kierrokset</a>    | &nbsp;
+   </@security.authorize>
+
+   <@security.authorize url="/admin/kierrokset">
+		<a href="/admin/kierrokset">admin kierrokset</a>    | &nbsp;
    </@security.authorize>
 
    <@security.authorize url="/kayttaja/new">
