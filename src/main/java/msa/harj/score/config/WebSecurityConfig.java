@@ -8,6 +8,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -82,6 +83,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().antMatchers("/", "/login", "/logout", "index").permitAll();
 		http.authorizeRequests().antMatchers("/kierros", "/kierros/*").access("hasAnyRole('ROLE_PELAAJA', 'ROLE_ADMIN')");
 		
+		http.authorizeRequests().antMatchers(HttpMethod.GET, "/kentta/**", "/admin/kentat").access("hasAnyRole('ROLE_PELAAJA')");
+		
 		// /userInfo page requires login as ROLE_PELAAJA or ROLE_ADMIN.
 		// If no login, it will redirect to /login page.
 		http.authorizeRequests().antMatchers("/kayttajaInfo").access("hasAnyRole('ROLE_PELAAJA', 'ROLE_ADMIN')");
@@ -91,11 +94,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		// For ADMIN only.
 		http.authorizeRequests().antMatchers("/admin", "/admin/*").access("hasRole('ROLE_ADMIN')");
+		http.authorizeRequests().antMatchers("/kentta", "/kentta/**").access("hasRole('ROLE_ADMIN')");
 		
-		http.authorizeRequests().antMatchers("/kayttaja/*").access("hasAnyRole('ROLE_ADMIN', 'ROLE_SEURA_MANAGER')");
-		http.authorizeRequests().antMatchers("/kayttaja/*/*").access("hasAnyRole('ROLE_ADMIN', 'ROLE_SEURA_MANAGER')");
-		http.authorizeRequests().antMatchers("/pelaaja/*").access("hasAnyRole('ROLE_ADMIN', 'ROLE_SEURA_MANAGER')");
-		http.authorizeRequests().antMatchers("/pelaaja/*/*").access("hasAnyRole('ROLE_ADMIN', 'ROLE_SEURA_MANAGER')");
+		http.authorizeRequests().antMatchers("/kayttaja/**").access("hasAnyRole('ROLE_ADMIN', 'ROLE_SEURA_MANAGER')");
+		http.authorizeRequests().antMatchers("/pelaaja/**").access("hasAnyRole('ROLE_ADMIN', 'ROLE_SEURA_MANAGER')");
 		
 		http.authorizeRequests().antMatchers("kayttajaLista", "/kayttajaluettelo").access("hasAnyRole('ROLE_ADMIN', 'ROLE_SEURA_MANAGER')");
 		// When the user has logged in as XX.

@@ -61,6 +61,11 @@ public class Kierros {
 	private Double uusi_tasoitus;
 	private Integer pelattu;
 
+	
+	public Kierros() {
+		super();
+	}
+
 	public Kierros(Timestamp pvm, Long jasennumero, Long kentta_id) {
 		super();
 		this.pvm = pvm;

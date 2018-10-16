@@ -14,7 +14,9 @@
 	 	</@security.authorize>
        </h3>
        
-      <br/><br/>
+      <br/>
+      <a href="/admin/kentat">kentät</a>
+      <br/>
       <div> 
  	    <#if userInfo??>
     	 	${userInfo}

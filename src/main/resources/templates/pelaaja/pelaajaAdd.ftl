@@ -10,7 +10,7 @@
 <body>
     <#include "../_menu.ftl">
 
-    <h2>Lisää Pelaaja</h2>
+    <h2>uusi rivi pelaajahistoriaan (tätä ei käytetä vielä?)</h2>
 
   	<table>
   	    <#if pelaaja??>

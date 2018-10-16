@@ -1,73 +1,218 @@
-<#-- assign security=JspTaglibs[ "http://www.springframework.org/security/tags"]/ -->
-    <#-- Saadaanko JSP -tagit _menusta vai pitääkö ladata joka sivulle erikseen ? -->
-        <!DOCTYPE HTML>
-        <html>
+<#-- assign security=JspTaglibs[ "http://www.springframework.org/security/tags" ]/ -->
+    <!DOCTYPE HTML>
+    <html>
 
-        <head>
-            <title>Pelaaja Info</title>
-        </head>
+    <head>
+        <title>Edit Kierros</title>
+    </head>
 
-        <body>
-            <#include "../_menu.ftl">
+    <body>
+        <#include "../_menu.ftl">
 
-                <h2>Pelaaja Info</h2>
+            <h2>Edit kierros</h2>
 
-                <#if pelaaja??>
-                    ${pelaaja.etunimi} ${pelaaja.sukunimi} ${pelaaja.username} ${pelaaja.tasoitus}
-                </#if>
+            <#if kierros??>
+                <table>
+                    <tr>
+                        <td>pvm:</td>
+                        <td>
+                            <input type='text' name='pvm' <#if (kierros.pvm)??> value='${kierros.pvm?string('yyyy-MM-dd HH:mm:ss')}' </#if> /></td>
+            </tr>
+            <tr>
+                <td>pelaajan kotiseura:</td>
+                <td>
+                    <input type='text' name='seura_id' <#if (pelaaja.seura_id)??> value='${pelaaja.seura_id?c}' </#if> /></td>
+            </tr>
+            <tr>
+                <td>pelaajan jäsennumero:</td>
+                <td>
+                    <input type='text' name='jasennumero' <#if (pelaaja.jasennumero)??> value='${pelaaja.jasennumero?c} </#if> /></td>
+            </tr>
+            <tr>
+                <td>Valitse kenttä:</td>
+                <#-- ${kierros.kentta_id?c} -->
+                    <td>
+                        <input list="kenttaluettelo" name='kentta_id'>
+                        <datalist id="kenttaluettelo">
+                            <#list kentat as kentta>
+                                <option value="${kentta.id}">${kentta.kentta_id} ${kentta.kentan_lyhenne}</option>
+                            </#list>
+                        </datalist>
+                    </td>
+                    # Kenttiä varten tehtävä valintalista, josta haetaan # kentän valinta pitäisi hakea kenttää vastaavat tiit seuraavaan listaan
+                    ja poistaa mahdollinen aiempi valinta tii:ltä
+            </tr>
+            <tr>
+                <td>pelaajan tasoitus:</td>
+                <td>
+                    <input type='text' name='tasoitus' <#if (pelaaja.tasoitus)??> value='${pelaaja.tasoitus} </#if> /> </td>
+            </tr>
+            <tr>
+                <td>Tii, jolta pelattu:</td>
+                <#-- ${kierros.tii_id}</td> -->
+                    <td>
+                        <input list="tiiluettelo" name='tii_id'>
+                        <datalist id="tiiluettelo">
+                            <#list tiit as tii>
+                                <#if tii.kentta_id==k entta.kentta_id>
+                                    <#if pelaaja.sukup==t ii.sukup>
+                                        <option value="${tii.id}">${tii.tii_id} ${tii.tii_lyhenne}</option>
+                                    </#if>
+                                </#if>
+                                <#-- ong kentta_id; private Long tii_id; private String tii_nimi; private String tii_lyhenne; private Long slope; private
+                                    Double cr; private Integer sukup; -->
+                            </#list>
+                        </datalist>
+                    </td>
+                    # tehtävä valintalista, josta haetaan
+            </tr>
+            <tr>
+                <td>pelitasoitus:</td>
+                <td>pitäisi askea jostain jos kiinnostaaa</td>
+            </tr>
+            <tr>
+                <td>cba:</td>
+                <td>tätä ei käyttäjä tiedä, tulee kilpailuissa jostain</td>
+            </tr>
+            </table>
+            <table>
+                <th>
+                    <td>reikä</td>
+                    <td>lyönnit</td>
+                    <td>pisteet</td>
+                </th>
+                <tr>
+                    <td>1.</td>
+                    <td>${kierros.h1}</td>
+                    <td>${kierros.p1}</td>
+                </tr>
+                <tr>
+                    <td>2.</td>
+                    <td>${kierros.h2}</td>
+                    <td>${kierros.p2}</td>
+                </tr>
+                <tr>
+                    <td>3.</td>
+                    <td>${kierros.h3}</td>
+                    <td>${kierros.p3}</td>
+                </tr>
+                <tr>
+                    <td>4.</td>
+                    <td>${kierros.h4}</td>
+                    <td>${kierros.p4}</td>
+                </tr>
+                <tr>
+                    <td>5.</td>
+                    <td>${kierros.h5}</td>
+                    <td>${kierros.p5}</td>
+                </tr>
+                <tr>
+                    <td>6.</td>
+                    <td>${kierros.h6}</td>
+                    <td>${kierros.p6}</td>
+                </tr>
+                <tr>
+                    <td>7.</td>
+                    <td>${kierros.h7}</td>
+                    <td>${kierros.p7}</td>
+                </tr>
+                <tr>
+                    <td>8.</td>
+                    <td>${kierros.h8}</td>
+                    <td>${kierros.p8}</td>
+                </tr>
+                <tr>
+                    <td>9.</td>
+                    <td>${kierros.h9}</td>
+                    <td>${kierros.p9}</td>
+                </tr>
+                <tr>
+                    <td>out</td>
+                    <td>${kierros.out}</td>
+                    <td>${kierros.p_out}</td>
+                </tr>
+                <tr>
+                    <td>10.</td>
+                    <td>${kierros.h10}</td>
+                    <td>${kierros.p10}</td>
+                </tr>
+                <tr>
+                    <td>11.</td>
+                    <td>${kierros.h11}</td>
+                    <td>${kierros.p11}</td>
+                </tr>
+                <tr>
+                    <td>12.</td>
+                    <td>${kierros.h12}</td>
+                    <td>${kierros.p12}</td>
+                </tr>
+                <tr>
+                    <td>13.</td>
+                    <td>${kierros.h13}</td>
+                    <td>${kierros.p13}</td>
+                </tr>
+                <tr>
+                    <td>14.</td>
+                    <td>${kierros.h14}</td>
+                    <td>${kierros.p14}</td>
+                </tr>
+                <tr>
+                    <td>15.</td>
+                    <td>${kierros.h15}</td>
+                    <td>${kierros.p15}</td>
+                </tr>
+                <tr>
+                    <td>16.</td>
+                    <td>${kierros.h16}</td>
+                    <td>${kierros.p16}</td>
+                </tr>
+                <tr>
+                    <td>17.</td>
+                    <td>${kierros.h17}</td>
+                    <td>${kierros.p17}</td>
+                </tr>
+                <tr>
+                    <td>18.</td>
+                    <td>${kierros.h18}</td>
+                    <td>${kierros.p18}</td>
+                </tr>
+                <tr>
+                    <td>in</td>
+                    <td>${kierros.in}</td>
+                    <td>${kierros.p_in}</td>
+                </tr>
+                <tr>
+                    <td>yhteensä</td>
+                    <td>${kierros.yhteensa}</td>
+                    <td>${kierros.p_yht}</td>
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <td>merkitsijä:</td>
+                    <td>${kierros.merkitsija}</td>
+                </tr>
+                <tr>
+                    <td>lisätieto:</td>
+                    <td>${kierros.lisatieto}</td>
+                </tr>
+                <tr>
+                    <td>onko tasoituskierros:</td>
+                    <td>${kierros.tasoituskierros}</td>
+                </tr>
+                <tr>
+                    <td>uusi tasoitus:</td>
+                    <td>${kierros.uusi_tasoitus}</td>
+                </tr>
+                <tr>
+                    <td>etuysi/takaysi/koko kierros:</td>
+                    <td>${kierros.pelattu}</td>
+                </tr>
+            </table>
+            </#if>
 
+            <br/>
 
+    </body>
 
-
-
-                <a class="p-2" href="#" data-toggle="modal" data-target="#signinModal">koe</a>
-
-                <#if !(__user??)>
-                    <a class="p-2" href="#" data-toggle="modal" data-target="#signinModal">Ei käyttäjää</a>
-                    <#else>
-                        <span class="badge badge-secondary">Löytyi käyttäjä: ${__user.getName()}</span>
-                </#if>
-
-                <@security.authorize access="isAuthenticated()">
-                    logged in as
-                    <@security.authentication property="principal.username" />
-
-
-                </@security.authorize>
-
-                <@security.authorize access="! isAuthenticated()">
-                    Not logged in
-                </@security.authorize>
-
-                <@security.authorize access="hasRole('ROLE_PELAAJA')">
-                    rooli ROLE_PELAAJA
-                    <br>
-                </@security.authorize>
-                <@security.authorize access="hasRole('ROLE_SEURA_MANAGER')">
-                    rooli ROLE_SEURA_MANAGER
-                    <br>
-                </@security.authorize>
-                <@security.authorize access="hasRole('ROLE_ADMIN')">
-                    rooli ROLE_ADMIN
-                    <br>
-                </@security.authorize>
-
-
-                <#-- <h3>Welcome :
-                    <span th:utext="${#request.userPrincipal.name}"></span>
-                    </h3> -->
-                    <b>This is protected page!</b>
-                    <b>eli tämä sivu on suojattu (ties miltä)</b>
-
-                    <br/>
-                    <br/>
-
-                    <div>
-                        <#if userInfo??>
-                            ${userInfo}
-                        </#if>
-                    </div>
-
-        </body>
-
-        </html>
+    </html>
