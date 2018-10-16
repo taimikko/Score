@@ -20,7 +20,10 @@
 	    		</tr>
 	    		<tr>
 		    		<td>seura:</td>
-					<td><input list="seuraluettelo" name='seura_id' required value='78'>
+					<td><input list="seuraluettelo" name='seura_id' required value='${kentta.seura_id}'>
+						<#list seurat as seura>
+							<#if seura.id==kentta.seura_id>${seura.nimi} (${seura.lyhenne})</#if>
+		                </#list>
 						<datalist id="seuraluettelo">
 		                    <#list seurat as seura>
 		                        <option value="${seura.id}">${seura.id} ${seura.nimi} (${seura.lyhenne})</option>
@@ -30,11 +33,11 @@
 	    		</tr>
 	    		<tr>
 	    			<td>nimi:</td>
-	    			<td><input type='text' name='kentan_nimi' required value=${kentta.kentan_nimi} /> </td>
+	    			<td><input type='text' name='kentan_nimi' required value='${kentta.kentan_nimi}' /> </td>
 	    		</tr>
 	    		<tr>
 	    			<td>lyhenne:</td>
-	    			<td><input type='text' name='kentan_lyhenne' required value=${kentta.kentan_lyhenne} /></td>
+	    			<td><input type='text' name='kentan_lyhenne' required value='${kentta.kentan_lyhenne}' /></td>
 	    		</tr>
             </#if>
             <tr>

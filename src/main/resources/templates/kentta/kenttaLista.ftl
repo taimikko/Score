@@ -22,8 +22,8 @@
 					<tr>
 						<td scope="row">${kentta.id}</td>
 						<td>${kentta.seura_id}</td>
-						<td ><a href="/admin/kentta/${kentta.id}">${kentta.kentan_nimi}</a></td>
-						<td>${kentta.lyhenne}</td>
+						<td ><a href="/kentta/edit/${kentta.id?c}">${kentta.kentan_nimi}</a></td>
+						<td>${kentta.kentan_lyhenne}</td>
 						<#-- 
 						<td><form name='f' action="/kentta/del/${kentta.id}" method='POST'>
   								<#if _csrf??><input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/></#if>

@@ -15,7 +15,9 @@
        </h3>
        
       <br/>
-      <a href="/admin/kentat">kentät</a>
+      <div>
+            <a href="/admin/kentat">kentät</a>
+      </div>
       <br/>
       <div> 
  	    <#if userInfo??>

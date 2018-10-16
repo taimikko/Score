@@ -41,6 +41,8 @@ public class KenttaController {
 		log.info("MSA(get): /kentta/edit/" + kenttaId);
 		Kentta k = kenttaDAO.getKentta(kenttaId);
 		model.addAttribute("kentta", k);
+		List<Seura> seurat = seuraDAO.getSeurat();
+		model.addAttribute("seurat", seurat);
 		return "kentta/kenttaEdit";
 	}
 
@@ -54,12 +56,12 @@ public class KenttaController {
 		return "kentta/kenttaLista";
 	}
 
-	@GetMapping("/kentta/add")
-	public String addKentta(Model model) {
+	@GetMapping("/kentta/new")
+	public String newKentta(Model model) {
 		log.info("MSA(get): /kentta/add");
 		List<Seura> seurat = seuraDAO.getSeurat();
 		model.addAttribute("seurat", seurat);
-		return "kentta/kenttaNew";
+		return "kentta/kenttaAdd";
 	}
 
 	@PostMapping("/kentta/add")
