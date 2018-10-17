@@ -39,11 +39,12 @@ public class KierrosDAO extends JdbcDaoSupport {
 	}
 
 	public void addKierros(Kierros k) {
-		String sql = "INSERT INTO kierros (" + " id, pvm, seura_id, jasennumero, kentta_id, tasoitus, tii_id, pelitasoitus, cba,"
-				+ " h1, h2, h3, h4, h5, h6, h7, h8, h9, out, h10, h11, h12, h13, h14, h15, h16, h17, h18, in,"
+		String sql = "INSERT INTO kierros ( id, pvm, seura_id, jasennumero, kentta_id, tasoitus, tii_id, pelitasoitus, cba,\n"
+				+ " h1, h2, h3, h4, h5, h6, h7, h8, h9, h_out," 
+				+ " h10, h11, h12, h13, h14, h15, h16, h17, h18, h_in,"
 				+ " yhteensa, merkitsija, lisatieto,"
-				+ " p1, p2, p3, p4, p5, p6, p7, p8, p9, p_out, p10, p11, p12, p13, p14, p15,p16,p17,p18, p_in,"
-				+ " p_yht, tasoituskierros, uusi_tasoitus, pelattu)"
+				+ " p1, p2, p3, p4, p5, p6, p7, p8, p9, p_out, p10, p11, p12, p13, p14, p15, p16, p17, p18, p_in,\n"
+				+ " p_yht, tasoituskierros, uusi_tasoitus, pelattu)\n"
 				+ " values (?,?,?,?,?,?,?,?,?,?, ?,?,?,?,?,?,?,?,?,?,?, ?,?,?,?,?,?,?,?,?,?, ?,?,?,?,?,?,?,?,?,?, ?,?,?,?,?,?,?,?,?, ?,?,?,?,?,?)";
 		Object[] args = new Object[] { 0, k.getPvm(), k.getSeura_id(), k.getJasennumero(), k.getKentta_id(), k.getTasoitus(),
 				k.getTii_id(), k.getPelitasoitus(), k.getCba(), k.getH1(), k.getH2(), k.getH3(), k.getH4(), k.getH5(),
@@ -86,7 +87,7 @@ public class KierrosDAO extends JdbcDaoSupport {
 					rs.getInt("h7"),
 					rs.getInt("h8"),
 					rs.getInt("h9"),
-					rs.getInt("out"),
+					rs.getInt("h_out"),
 					rs.getInt("h10"),
 					rs.getInt("h11"),
 					rs.getInt("h12"),
@@ -96,7 +97,7 @@ public class KierrosDAO extends JdbcDaoSupport {
 					rs.getInt("h16"),
 					rs.getInt("h17"),
 					rs.getInt("h18"),
-					rs.getInt("in"),
+					rs.getInt("h_in"),
 					rs.getInt("yhteensa"),
 					rs.getString("merkitsija"),
 					rs.getString("lisatieto"),
@@ -131,7 +132,7 @@ public class KierrosDAO extends JdbcDaoSupport {
 
 	public void updateKierros(Kierros k) {
 		String sql = "UPDATE kierros set pvm=?, seura_id=?, jasennumero=?, kentta_id=?, tasoitus=?, tii_id=?, pelitasoitus=?, cba=?,"
-				+ " h1=?, h2=?, h3=?, h4=?, h5=?, h6=?, h7=?, h8=?, h9=?, out=?, h10=?, h11=?, h12=?, h13=?, h14=?, h15=?, h16=?, h17=?, h18=?, in=?,"
+				+ " h1=?, h2=?, h3=?, h4=?, h5=?, h6=?, h7=?, h8=?, h9=?, h_out=?, h10=?, h11=?, h12=?, h13=?, h14=?, h15=?, h16=?, h17=?, h18=?, h_in=?,"
 				+ " yhteensa=?, merkitsija=?, lisatieto=?,"
 				+ " p1=?, p2=?, p3=?, p4=?, p5=?, p6=?, p7=?, p8=?, p9=?, p_out=?, p10=?, p11=?, p12=?, p13=?, p14=?, p15=?,p16=?,p17=?,p18=?, p_in=?,"
 				+ " p_yht=?, tasoituskierros=?, uusi_tasoitus=?, pelattu=? WHERE id = ?";

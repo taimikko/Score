@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import msa.harj.score.dao.KenttaDAO;
 import msa.harj.score.dao.KierrosDAO;
 import msa.harj.score.dao.PelaajaDAO;
+import msa.harj.score.dao.SeuraDAO;
 import msa.harj.score.dao.TiiDAO;
 import msa.harj.score.model.Kentta;
 import msa.harj.score.model.Kierros;
 import msa.harj.score.model.Pelaaja;
+import msa.harj.score.model.Seura;
 import msa.harj.score.model.Tii;
 
 @Controller
@@ -38,36 +40,44 @@ public class KierrosController {
 	@Autowired
 	private TiiDAO tiiDAO;
 
+	@Autowired
+	private SeuraDAO seuraDAO;
+
 	@GetMapping("/kierros/add")
-	public String addKierros(Model model, Kierros kierros, Pelaaja pelaaja,  Principal principal) {
+	public String addKierros(Model model, Kierros kierros, Principal principal) {
 		log.info("MSA: /kierros/add");
 		model.addAttribute("kierros", kierros);
 		List<Kentta> kentat = kenttaDAO.getKentat();
 		model.addAttribute("kentat", kentat);
 		List<Tii> tiit = tiiDAO.getKaikkiTiit();
 		model.addAttribute("tiit", tiit);
+		List<Seura> seurat =seuraDAO.getSeurat();
+		model.addAttribute("seurat", seurat);
 		
-		// haetaan pelaaja, jos ei saada parametrina
-		if (pelaaja == null) {
-			pelaaja = pelaajaDAO.getPelaaja(principal.getName());
-		}
+		Pelaaja pelaaja = pelaajaDAO.getPelaaja(principal.getName());
+		log.info("MSA: Pelaaja:"+pelaaja);
 		model.addAttribute("pelaaja", pelaaja);
-		return "kierros/kierrosEdit"; // TODO
+		return "kierros/kierrosAdd"; // TODO
 	}
 
 	@PostMapping("/kierros/add")
-	public String postKierros(Model model, Kierros kierros) {
+	public String postKierros(Model model, Kierros kierros, Principal principal) {
 		log.info("MSA(post) /kierros/add " + kierros.getJasennumero());
 		model.addAttribute("kierros", kierros);
-		List<Kentta> kentat = kenttaDAO.getKentat();
-		model.addAttribute("kentat", kentat);
-		List<Tii> tiit = tiiDAO.getKaikkiTiit();
-		model.addAttribute("tiit", tiit);
+		
 		try {
 			kierrosDAO.addKierros(kierros);
 			return "redirect:/kierrokset";
 		} catch (Exception e) {
 			model.addAttribute("message", e.getMessage()); // return "/error";
+			List<Seura> seurat = seuraDAO.getSeurat();
+			List<Kentta> kentat = kenttaDAO.getKentat();
+			List<Tii> tiit = tiiDAO.getKaikkiTiit();
+			Pelaaja pelaaja = pelaajaDAO.getPelaaja(principal.getName());
+			model.addAttribute("seurat", seurat);
+			model.addAttribute("kentat", kentat);
+			model.addAttribute("tiit", tiit);
+			model.addAttribute("pelaaja", pelaaja);
 			return "kierros/kierrosAdd";
 		}
 	}

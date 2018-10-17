@@ -21,11 +21,11 @@
     		<tr>
     			<td>käyttäjätunnus:</td><td><input type='text' name='username' readonly value=${pelaaja.username} /> </td>
     		</tr>
-                <tr>
-                    <td>enabled:</td>
-                    <td><input type='checkbox' name='enabled' readonly <#if (pelaaja.enabled)??><#if pelaaja.enabled> checked </#if></#if> /> </td>
-                	<td>${pelaaja.enabled?string('kyllä', 'ei')} </td>
-    		</tr>
+            <tr>
+                <td>enabled:</td>
+                <td><input type='checkbox' name='enabled' readonly <#if (pelaaja.enabled)??><#if pelaaja.enabled> checked </#if></#if> /> </td>
+            	<td>${pelaaja.enabled?string('kyllä', 'ei')} </td>
+			</tr>
     		<tr>
     			<td>etunimi:</td><td><input type='text' name='etunimi' readonly value=${pelaaja.etunimi} /></td>
     		</tr>
