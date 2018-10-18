@@ -13,7 +13,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import msa.harj.score.dao.KenttaDAO;
+import msa.harj.score.dao.KierrosDAO;
 import msa.harj.score.model.Kentta;
+import msa.harj.score.model.Kierros;
 import msa.harj.score.utils.WebUtils;
 
 @Controller
@@ -22,6 +24,9 @@ public class AdminController {
 
 	@Autowired
 	private KenttaDAO kenttaDAO;
+
+	@Autowired
+	private KierrosDAO kierrosDAO;
 
 	@GetMapping("/admin")
 	public String adminPage(Model model, Principal principal) {
@@ -35,17 +40,6 @@ public class AdminController {
 		return "adminPage";
 	}
 
-	@GetMapping("/admin/kierrokset")
-	public String adminKierrokset(Model model, Principal principal) {
-		User loginedUser = (User) ((Authentication) principal).getPrincipal();
-
-		String userInfo = WebUtils.toString(loginedUser);
-		model.addAttribute("userInfo", userInfo);
-		model.addAttribute("title", "Varaus Admin kierroksille: vielä suunnittelematta ja toteuttamatta.");
-
-		return "adminPage";
-	}
-
 	@GetMapping("/admin/kentat")
 	public String naytaKentat(Model model) {
 		List<Kentta> kentat = kenttaDAO.getKentat();
@@ -53,6 +47,14 @@ public class AdminController {
 
 		return "kentta/kenttaLista";
 
+	}
+	
+	
+	@GetMapping("/admin/kierrokset")  // /${seuraId}
+	public String adminKierrokset2(Model model) { // , @PathVariable("seuraId") Long seuraId
+		List<Kierros> kierrokset = kierrosDAO.getSeuraKierrokset(78L); /// seuraId
+		model.addAttribute("kierrokset", kierrokset);
+		return "kierros/kierrosLuettelo";
 	}
 
 }

@@ -17,7 +17,7 @@
 		<table>
 			<tr>
 				<td>pvm:</td>
-				<td><input type='text' name='pvm' <#if (kierros.pvm)??> value='${kierros.pvm?string('yyyy-MM-dd HH:mm:ss')}' </#if> /></td>
+				<td><input type='text' name='pvm' <#if (kierros.pvm)??> value='${kierros.pvm?string('yyyy-MM-dd')}' </#if> /></td>
 			</tr>
 			<tr>
 				<td>pelaajan kotiseura:</td>

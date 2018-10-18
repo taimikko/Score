@@ -5,16 +5,16 @@
 <head>
     <title>Uusi Kierros</title>
 
-    <script>
+    <script language="javascript">
         var kenttaId=0;
+        var tiiId = 0;
+        var kentat;
         var tiit;
-        var tiiId = 0; 
-        
+ 
         function kenttaValinta() {
           kenttaId = document.getElementById('kentta').value;
           var kentan_nimi;
 
-          var kentat=[<#list kentat as kentta>{id:"${kentta.id}",nimi:"${kentta.kentan_nimi}"}, </#list>];
           for (i=0;i<kentat.length;i++) {
              kentta = kentat[i];
              if (kentta.id == kenttaId) {
@@ -23,8 +23,7 @@
              }
           }
           console.log("DEBUG: id=", kenttaId, kentan_nimi);
-		  tiit=[<#list tiit as tii>{id:"${tii.id?c}",kentta_id:"${tii.kentta_id?c}",tii_id:"${tii.tii_id?c}",nimi:"${tii.tii_nimi}",sukup:"${tii.sukup}",slope:"${tii.slope}",cr:"${tii.cr}"},</#list>];
-
+		  
 		  var pelaajanSukup = <#if (pelaaja.sukup)??>${pelaaja.sukup}<#else>1</#if> ;
           if (pelaajanSukup != 2) pelaajanSukup = 1;
           var tii;
@@ -69,6 +68,41 @@
           document.getElementById('tii_nimi').innerHTML= tii_nimi;
         }
         
+        function getRandomPvm() {
+	        var end = new Date();
+	        var start = new Date(2000,1,1);
+            var date = new Date(+ start + Math.random() * (end - start));
+            console.log("Date",date, date.toString(), date.getDate());
+  			return date;
+        }
+        
+        function pvmUpdate() {
+        	var pvm = document.getElementById('pvm1').value; //.innerHTML; 
+        	console.log("pvmUpdate", pvm);
+        	document.getElementById('pvm_str').innerHTML=pvm;
+        }
+        
+        function setRandomPvm() {
+        	var date = getRandomPvm();
+        	var y = date.getFullYear();
+        	var m = date.getMonth()+1;
+        	var d = date.getDate();
+        	var pvm = [y, (m>9 ? '' : '0') + m, (d>9 ? '' : '0') + d].join('-');
+        
+        	console.log("RandomPvm",date,y,m,d,pvm);
+        	
+        	//document.getElementById('pvm1').innerHTML = pvm; // pvmUpdate haki ennen innerHTML:ää
+        	document.getElementById('pvm1').value = pvm;  // value asettaa arvon näkyviin
+        	pvmUpdate();
+        }
+
+	    window.onload = function(e) { 
+    		console.log("window.onload", e, Date.now() );
+    		kentat=[<#list kentat as kentta>{id:"${kentta.id}",nimi:"${kentta.kentan_nimi}"}, </#list>];
+            tiit=[<#list tiit as tii>{id:"${tii.id?c}",kentta_id:"${tii.kentta_id?c}",tii_id:"${tii.tii_id?c}",nimi:"${tii.tii_nimi}",sukup:"${tii.sukup}",slope:"${tii.slope}",cr:"${tii.cr}"},</#list>];
+ 			setRandomPvm();
+ 		}
+        
     </script>
 </head>
 
@@ -86,7 +120,7 @@
 		 </div>
 	</#if>
 	<#if kierros??>
-        <form name='f' action="/kierros/add" method='POST'>
+        <form name='f' action="/kierros/add" method='POST' autocomplete='off'>
             <datalist id='tiiluettelo'>
      			<option value="2">Keltainen</option>
 	           	<option value="4">Punainen</option>
@@ -95,7 +129,9 @@
 		  	<table>
 				<tr>
 					<td>pvm:</td>
-					<td><input type="date" <#-- "datetime-local" ei toimi --> name='pvm' <#if (kierros.pvm)??> value='${kierros.pvm?string('yyyy-MM-dd HH:mm:ss')}'<#else>value='2018-10-15 12:10:00' </#if> /></td>
+					<td><input id='pvm1' type="date" name='pvm1' onchange="pvmUpdate()" <#if (kierros.pvm)??> value='${kierros.pvm?string('yyyy-MM-dd')}'<#else>value='01/01/1999' </#if> /></td>
+					<td><p id='pvm_str' name='pvm'></p> 
+					</td>
 				</tr>
 				<tr>
 					<td>pelaajan kotiseura:</td>
@@ -122,7 +158,7 @@
 		            </td>
 		            <td id='kentta_nimi'>
 		            </td>
-		            <#--  kentän valinta pitäisi hakea kenttää vastaavat tiit seuraavaan listaan ja poistaa mahdollinen aiempi valinta tii:ltä  -->
+
 		        </tr>
 		        <tr>
 		            <td>pelaajan tasoitus:</td>

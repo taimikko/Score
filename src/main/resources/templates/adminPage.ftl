@@ -18,6 +18,13 @@
       <div>
             <a href="/admin/kentat">kentät</a>
       </div>
+      <@security.authorize url="/admin/kierrokset">
+      <#--  <form name='f' action="/admin/kierrokset" method='get' autocomplete='off'> </form>  --> 
+      	<div>Valitse kenttä --> 78
+ 	  
+		<a href="/admin/kierrokset/78">admin kierrokset</a>
+		</div>
+	   </@security.authorize>
       <br/>
       <div> 
  	    <#if userInfo??>

@@ -1,11 +1,15 @@
 package msa.harj.score.model;
 
-import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class Kierros {
 	// private static final Log log = LogFactory.getLog(Kayttaja.class);
 	private Long id;
-	private Timestamp pvm;
+	private Date pvm;
 	private Long seura_id;
 	private Long jasennumero;
 	private Long kentta_id;
@@ -61,12 +65,11 @@ public class Kierros {
 	private Double uusi_tasoitus;
 	private Integer pelattu;
 
-	
 	public Kierros() {
 		super();
 	}
 
-	public Kierros(Timestamp pvm, Long jasennumero, Long kentta_id) {
+	public Kierros(Date pvm, Long jasennumero, Long kentta_id) {
 		super();
 		this.pvm = pvm;
 		this.jasennumero = jasennumero;
@@ -81,11 +84,25 @@ public class Kierros {
 		this.id = id;
 	}
 
-	public Timestamp getPvm() {
+	public Date getPvm() {
 		return pvm;
 	}
 
-	public void setPvm(Timestamp pvm) {
+	public void setPvm(String pvmStr) {
+		try {
+			DateFormat format = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+			this.pvm = format.parse(pvmStr);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public String getPvmStr() {
+		DateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+		return df.format(pvm);
+	}
+
+	public void setPvm(Date pvm) {
 		this.pvm = pvm;
 	}
 
@@ -537,7 +554,7 @@ public class Kierros {
 				+ "]";
 	}
 
-	public Kierros(Long id, Timestamp pvm, Long seura_id, Long jasennumero, Long kentta_id, Double tasoitus,
+	public Kierros(Long id, Date pvm, Long seura_id, Long jasennumero, Long kentta_id, Double tasoitus,
 			Long tii_id, Integer pelitasoitus, Double cba, Integer h1, Integer h2, Integer h3, Integer h4, Integer h5,
 			Integer h6, Integer h7, Integer h8, Integer h9, Integer out, Integer h10, Integer h11, Integer h12,
 			Integer h13, Integer h14, Integer h15, Integer h16, Integer h17, Integer h18, Integer in, Integer yhteensa,
