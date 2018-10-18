@@ -6,9 +6,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class Kierros {
 	// private static final Log log = LogFactory.getLog(Kayttaja.class);
 	private Long id;
+
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date pvm;
 	private Long seura_id;
 	private Long jasennumero;

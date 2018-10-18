@@ -25,7 +25,7 @@
 			</tr>
 			<tr>
 				<td>pelaajan jäsennumero:</td>
-				<td><input type='text' name='jasennumero' <#if (pelaaja.jasennumero)??> value='${pelaaja.jasennumero?c} </#if> /></td>
+				<td><input type='text' name='jasennumero' <#if (pelaaja.jasennumero)??> value='${pelaaja.jasennumero?c}' </#if> /></td>
 			</tr>
 			<tr>
 				<td>Valitse kenttä:</td>
@@ -42,7 +42,7 @@
 	        </tr>
 	        <tr>
 	            <td>pelaajan tasoitus:</td>
-	            <td><input type='text' name='tasoitus' <#if (pelaaja.tasoitus)??> value='${pelaaja.tasoitus} </#if> /> </td>
+	            <td><input type='text' name='tasoitus' <#if (pelaaja.tasoitus)??> value='${pelaaja.tasoitus}' </#if> /> </td>
 	        </tr>
 	        <tr>
 	            <td>Tii, jolta pelattu:</td>

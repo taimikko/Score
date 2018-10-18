@@ -79,7 +79,7 @@
         function pvmUpdate() {
         	var pvm = document.getElementById('pvm1').value; //.innerHTML; 
         	console.log("pvmUpdate", pvm);
-        	document.getElementById('pvm_str').innerHTML=pvm;
+        	document.getElementById('pvm_str').innerHTML = pvm;
         }
         
         function setRandomPvm() {
@@ -89,9 +89,9 @@
         	var d = date.getDate();
         	var pvm = [y, (m>9 ? '' : '0') + m, (d>9 ? '' : '0') + d].join('-');
         
-        	console.log("RandomPvm",date,y,m,d,pvm);
+        	console.log("RandomPvm",date,pvm);
         	
-        	//document.getElementById('pvm1').innerHTML = pvm; // pvmUpdate haki ennen innerHTML:ää
+        	document.getElementById('pvm1').innerHTML = pvm; // pvmUpdate haki ennen innerHTML:ää
         	document.getElementById('pvm1').value = pvm;  // value asettaa arvon näkyviin
         	pvmUpdate();
         }
@@ -104,6 +104,7 @@
  		}
         
     </script>
+    
 </head>
 
 <body>
@@ -129,8 +130,8 @@
 		  	<table>
 				<tr>
 					<td>pvm:</td>
-					<td><input id='pvm1' type="date" name='pvm1' onchange="pvmUpdate()" <#if (kierros.pvm)??> value='${kierros.pvm?string('yyyy-MM-dd')}'<#else>value='01/01/1999' </#if> /></td>
-					<td><p id='pvm_str' name='pvm'></p> 
+					<td><input id='pvm1' type="date" name='pvm' onchange="pvmUpdate()" <#if (kierros.pvm)??> value='${kierros.pvm?string('yyyy-MM-dd')}'<#else>value='01/01/1999' </#if> /></td>
+					<td><p id='pvm_str' name='pvm_str'></p> 
 					</td>
 				</tr>
 				<tr>

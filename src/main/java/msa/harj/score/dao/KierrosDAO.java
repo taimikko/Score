@@ -39,6 +39,7 @@ public class KierrosDAO extends JdbcDaoSupport {
 	}
 
 	public void addKierros(Kierros k) {
+		log.info("MSA: addKierros()"+ k);
 		String sql = "INSERT INTO kierros ( id, pvm, seura_id, jasennumero, kentta_id, tasoitus, tii_id, pelitasoitus, cba,\n"
 				+ " h1, h2, h3, h4, h5, h6, h7, h8, h9, h_out," + " h10, h11, h12, h13, h14, h15, h16, h17, h18, h_in,"
 				+ " yhteensa, merkitsija, lisatieto,"
@@ -54,8 +55,8 @@ public class KierrosDAO extends JdbcDaoSupport {
 				k.getP13(), k.getP14(), k.getP15(), k.getP16(), k.getP17(), k.getP18(), k.getP_in(), k.getP_yht(),
 				k.isTasoituskierros(), k.getUusi_tasoitus(), k.getPelattu() };
 
-		int info = this.getJdbcTemplate().update(sql, args);
-		System.out.println("päivitettiin " + Integer.toString(info) + " rivi kierros -tauluun.");
+		int lkm = this.getJdbcTemplate().update(sql, args);
+		log.info("MSA: päivitettiin " + Integer.toString(lkm) + " rivi kierros -tauluun.");
 	}
 
 	public List<Kierros> getKierros(Long seuraId, Long pelaajaId) {
