@@ -5,24 +5,10 @@
 <head>
     <title>Uusi Kierros</title>
     <link rel="stylesheet" type="text/css" href="/css/score.css">
-	<script type="application/javascript" src="/js/kierros.js" 	/>
-<#-- 
--->
-    <script language="javascript">
-		<#--
-		var kenttaId=0;
-		var tiiId = 0;
-		var kentat;
-		var tiit;
-		var seurat;
-		var jasentyypit;
-		var vaylat;
-		var pelaajanSukup; 
-		 -->
- 
-   	    window.onload = function(e) {
-	        console.log("kierrosAdd window.onLoad");
-		} 		         	
+	<script type="application/javascript" src="/js/kierros.js"></script>
+
+<script>
+	    console.log("nakkivene");
 
 		<#if seurat??>
 			seurat=[<#list seurat as seura>{id:"${seura.id?c}",lyhenne:"${seura.lyhenne}",nimi:"${seura.nimi}"}, </#list>];
@@ -57,43 +43,39 @@
 					{id:"665",kentta_id:"999",numero:"17",nimi:"",par:"3", pit1:"179",pit2:"155",pit3:"151",pit4:"148",hcp:"16"},
 					{id:"666",kentta_id:"999",numero:"18",nimi:"",par:"4", pit1:"400",pit2:"381",pit3:"359",pit4:"344",hcp:"2"}];
    		</#if>
-   
 
-
-    </script>
-<script>
-  	    	<#if kentat??>
-  	    	<#-- 
-   	    		if (kentat === undefined) {
-   	    		  console.log("kentät puuttuu");
-   	    		  var kentat=[{id:"1", nimi:"koe", seura_id:"0"}]
-   	    		} else {
-   	    		  console.log("kentät on olemassa");
-   	    		}
-   	    	 -->
-    			kentat=[<#list kentat as kentta>{id:"${kentta.id?c}", nimi:"${kentta.kentan_nimi}", seura_id:"${kentta.seura_id?c}"}, </#list>];
-    		<#else>
-    			kentat=[{id:"999",nimi:"Eduix testikenttä",seura_id:"999"}, {id:"1000",nimi:"Eduix toinen kenttä",seura_id:"999"}];
-    		</#if>
-    		console.log("KierrosAdd latasi kentät:",kentat);
-	   		<#if tiit??>
-   	    	<#--
-   	    		if (tiit === undefined) {
-   	    		  console.log("tiit puuttuu");
-   	    		  var tiit=[{id:"0"}]
-   	    		} else {
-   	    		  console.log("tiit on olemassa");
-   	    		}
-   	    	 -->
-            	tiit=[<#list tiit as tii>{id:"${tii.id?c}",kentta_id:"${tii.kentta_id?c}",tii_id:"${tii.tii_id?c}",nimi:"${tii.tii_nimi}",sukup:"${tii.sukup}",slope:"${tii.slope}",cr:"${tii.cr}"},</#list>];
- 			<#else>
-            	tiit=[{id:"121",kentta_id:"999",tii_id:"2",nimi:"Edu54",sukup:"1",slope:"125",cr:"72.0"}, 
-            	     {id:"126",kentta_id:"999",tii_id:"4",nimi:"Edu45",sukup:"2",slope:"125",cr:"72.0"}];
-	   		</#if>
-			console.log("KierrosAdd latasi tiit:",tiit);
-    	  	pelaajanSukup = <#if (pelaaja.sukup)??> ${pelaaja.sukup} <#else>1 </#if> ;
-    	  	if (pelaajanSukup != 2) pelaajanSukup = 1;
-			console.log("KierrosAdd latasi pelaajanSukup:",pelaajanSukup);
+	   	<#if kentat??>
+    	<#-- 
+    		if (kentat === undefined) {
+    		  console.log("kentät puuttuu");
+    		  var kentat=[{id:"1", nimi:"koe", seura_id:"0"}]
+    		} else {
+    		  console.log("kentät on olemassa");
+    		}
+    	 -->
+			kentat=[<#list kentat as kentta>{id:"${kentta.id?c}", nimi:"${kentta.kentan_nimi}", seura_id:"${kentta.seura_id?c}"}, </#list>];
+		<#else>
+			kentat=[{id:"999",nimi:"Eduix testikenttä",seura_id:"999"}, {id:"1000",nimi:"Eduix toinen kenttä",seura_id:"999"}];
+		</#if>
+		console.log("KierrosAdd latasi kentät:",kentat);
+   		<#if tiit??>
+    	<#--
+    		if (tiit === undefined) {
+    		  console.log("tiit puuttuu");
+    		  var tiit=[{id:"0"}]
+    		} else {
+    		  console.log("tiit on olemassa");
+    		}
+    	 -->
+        	tiit=[<#list tiit as tii>{id:"${tii.id?c}",kentta_id:"${tii.kentta_id?c}",tii_id:"${tii.tii_id?c}",nimi:"${tii.tii_nimi}",sukup:"${tii.sukup}",slope:"${tii.slope}",cr:"${tii.cr}"},</#list>];
+		<#else>
+        	tiit=[{id:"121",kentta_id:"999",tii_id:"2",nimi:"Edu54",sukup:"1",slope:"125",cr:"72.0"}, 
+        	     {id:"126",kentta_id:"999",tii_id:"4",nimi:"Edu45",sukup:"2",slope:"125",cr:"72.0"}];
+   		</#if>
+		console.log("KierrosAdd latasi tiit:",tiit);
+	  	pelaajanSukup = <#if (pelaaja.sukup)??> ${pelaaja.sukup} <#else>1 </#if> ;
+	  	if (pelaajanSukup != 2) pelaajanSukup = 1;
+		console.log("KierrosAdd latasi pelaajanSukup:",pelaajanSukup);
 </script>   
     
 </head>
