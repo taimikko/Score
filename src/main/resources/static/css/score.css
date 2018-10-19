@@ -1,0 +1,19 @@
+body {
+    background-color: lightblue;
+    margin-left: 20px;
+}
+
+h1 {
+    color: navy;
+    margin-left: 20px;
+}
+
+input.num {
+    width: 60px;
+}
+
+
+#kentta {
+    width: 150px;
+}
+
