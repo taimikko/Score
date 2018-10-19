@@ -5,11 +5,11 @@
 <head>
     <title>Uusi Kierros</title>
     <link rel="stylesheet" type="text/css" href="/css/score.css">
-<#-- 
 	<script type="application/javascript" src="/js/kierros.js" 	/>
+<#-- 
 -->
     <script language="javascript">
- 
+<#--
 var kenttaId=0;
 var tiiId = 0;
 var kentat;
@@ -17,120 +17,12 @@ var tiit;
 var seurat;
 var jasentyypit;
 var vaylat;
-var pelaajanSukup;
- 
-function kenttaValinta() {
-    kenttaId = document.getElementById('kentta').value;
-    if (kentat === undefined) {
-        console.log("DEBUG: kenttaValinta() id=", kenttaId, "kentat===undefined");
-    } else {
-        console.log("DEBUG: kenttaValinta() id=", kenttaId, "kenttiä on ",kentat.length);
-    }
-
-    var kentan_nimi;
-    var kentta;
-    for (var i = 0; i < kentat.length; i++) {
-        kentta = kentat[i];
-        if (kentta.id == kenttaId) {
-            kentan_nimi = kentta.nimi;
-            break;
-        }
-    }
-    console.log("DEBUG: id=", kenttaId, kentan_nimi);
-
-    var tii;
-    var ok = false;
-    var optiot = "";
-    for (i = 0; i < tiit.length; i++) {
-        tii = tiit[i];
-        if ((tii.kentta_id == kenttaId) && (tii.sukup == pelaajanSukup)) {
-            console.log("for[", i, "]:", tii.kentta_id, tii.nimi, tii.slope, tii.cr);
-            optiot += '<option value="' + tii.id + '">' + tii.tii_id + ' ' + tii.nimi + '</option> '
-            ok = true;
-        }
-    }
-    if (ok == true) {
-        document.getElementById('tiiluettelo').innerHTML = '`' + optiot + '`';
-    } else {
-        console.log("Alusta oletusarvoilla.");
-        document.getElementById('tiiluettelo').innerHTML = `
-        <option value="2">Keltainen</option>
-        <option value="3">Sininen</option>
-        <option value="4">Punainen</option>
-        `;
-    }
-    document.getElementById('tii').value = '';
-    document.getElementById('tii_nimi').innerHTML = '';
-    document.getElementById('kentta_nimi').innerHTML = kentan_nimi;
-}
-
-
-function tiiValinta() {
-    tiiId = document.getElementById('tii').value;
-    var tii_nimi;
-    var tii;
-    for (var i = 0; i < tiit.length; i++) {
-        tii = tiit[i];
-        if (tii.id == tiiId) {
-            tii_nimi = tii.nimi;
-            break;
-        }
-    }
-    console.log("DEBUG: tii=", tiiId, tii_nimi);
-    document.getElementById('tii_nimi').innerHTML = tii_nimi;
-}
-
-function getRandomPvm() {
-    var end = new Date();
-    var start = new Date(2000, 1, 1);
-    var date = new Date(+start + Math.random() * (end - start));
-    console.log("Date", date, date.toString(), date.getDate());
-    return date;
-}
-
-function pvmUpdate() {
-    var pvm = document.getElementById('pvm1').value; //.innerHTML; 
-    console.log("pvmUpdate", pvm);
-    document.getElementById('pvm_str').innerHTML = pvm;
-}
-
-function setRandomPvm() {
-    var date = getRandomPvm();
-    var y = date.getFullYear();
-    var m = date.getMonth() + 1;
-    var d = date.getDate();
-    var pvm = [y, (m > 9 ? '' : '0') + m, (d > 9 ? '' : '0') + d].join('-');
-
-    console.log("RandomPvm", date, pvm);
-
-    document.getElementById('pvm1').innerHTML = pvm; // pvmUpdate haki ennen innerHTML:ää
-    document.getElementById('pvm1').value = pvm; // value asettaa arvon näkyviin
-    pvmUpdate();
-}
-
-window.onload = function (e) {
-   // console.log("kierros.js window.onload", e);
-    setRandomPvm();
-<#-- 
-}
-	    window.onload = function(e) {
+var pelaajanSukup; 
  -->
+ 
+   	    window.onload = function(e) {
 	        console.log("kierrosAdd window.onLoad");
-	    	<#if kentat??>
-    			kentat=[<#list kentat as kentta>{id:"${kentta.id?c}", nimi:"${kentta.kentan_nimi}", seura_id:"${kentta.seura_id?c}"}, </#list>];
-    		<#else>
-    			kentat=[{id:"999",nimi:"Eduix testikenttä",seura_id:"999"}, {id:"1000",nimi:"Eduix toinen kenttä",seura_id:"999"}];
-    		</#if>
-    		console.log(kentat);
-    		<#if tiit??>
-            	tiit=[<#list tiit as tii>{id:"${tii.id?c}",kentta_id:"${tii.kentta_id?c}",tii_id:"${tii.tii_id?c}",nimi:"${tii.tii_nimi}",sukup:"${tii.sukup}",slope:"${tii.slope}",cr:"${tii.cr}"},</#list>];
- 			<#else>
-            	tiit=[{id:"121",kentta_id:"999",tii_id:"2",nimi:"Edu54",sukup:"1",slope:"125",cr:"72.0"}, 
-            	     {id:"126",kentta_id:"999",tii_id:"4",nimi:"Edu45",sukup:"2",slope:"125",cr:"72.0"}];
-	   		</#if>
-        	
- 			setRandomPvm();
- 			
+ 		         	
  			<#if seurat??>
  				seurat=[<#list seurat as seura>{id:"${seura.id?c}",lyhenne:"${seura.lyhenne}",nimi:"${seura.nimi}"}, </#list>];
 			<#else>
@@ -165,9 +57,7 @@ window.onload = function (e) {
 						{id:"666",kentta_id:"999",numero:"18",nimi:"",par:"4", pit1:"400",pit2:"381",pit3:"359",pit4:"344",hcp:"2"}];
 	   		</#if>
    
-    	  	pelaajanSukup = <#if (pelaaja.sukup)??> ${pelaaja.sukup} <#else>1 </#if> ;
-    	  	if (pelaajanSukup != 2) pelaajanSukup = 1;
- 		}   
+		}
 
     </script>
     
@@ -177,7 +67,41 @@ window.onload = function (e) {
     <#include "../_menu.ftl">
 
     <h2>uusi kierros</h2>
-    
+ 
+<script>
+  	    	<#if kentat??>
+  	    	<#-- 
+   	    		if (kentat === undefined) {
+   	    		  console.log("kentät puuttuu");
+   	    		  var kentat=[{id:"1", nimi:"koe", seura_id:"0"}]
+   	    		} else {
+   	    		  console.log("kentät on olemassa");
+   	    		}
+   	    	 -->
+    			kentat=[<#list kentat as kentta>{id:"${kentta.id?c}", nimi:"${kentta.kentan_nimi}", seura_id:"${kentta.seura_id?c}"}, </#list>];
+    		<#else>
+    			kentat=[{id:"999",nimi:"Eduix testikenttä",seura_id:"999"}, {id:"1000",nimi:"Eduix toinen kenttä",seura_id:"999"}];
+    		</#if>
+    		console.log("KierrosAdd latasi kentät:",kentat);
+	   		<#if tiit??>
+   	    	<#--
+   	    		if (tiit === undefined) {
+   	    		  console.log("tiit puuttuu");
+   	    		  var tiit=[{id:"0"}]
+   	    		} else {
+   	    		  console.log("tiit on olemassa");
+   	    		}
+   	    	 -->
+            	tiit=[<#list tiit as tii>{id:"${tii.id?c}",kentta_id:"${tii.kentta_id?c}",tii_id:"${tii.tii_id?c}",nimi:"${tii.tii_nimi}",sukup:"${tii.sukup}",slope:"${tii.slope}",cr:"${tii.cr}"},</#list>];
+ 			<#else>
+            	tiit=[{id:"121",kentta_id:"999",tii_id:"2",nimi:"Edu54",sukup:"1",slope:"125",cr:"72.0"}, 
+            	     {id:"126",kentta_id:"999",tii_id:"4",nimi:"Edu45",sukup:"2",slope:"125",cr:"72.0"}];
+	   		</#if>
+			console.log("KierrosAdd latasi tiit:",tiit);
+    	  	pelaajanSukup = <#if (pelaaja.sukup)??> ${pelaaja.sukup} <#else>1 </#if> ;
+    	  	if (pelaajanSukup != 2) pelaajanSukup = 1;
+			console.log("KierrosAdd latasi pelaajanSukup:",pelaajanSukup);
+</script>   
 
 	<#if message??>
 	     <div style="color:red;margin:10px 0px;">

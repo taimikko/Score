@@ -3,20 +3,27 @@
 
 var kenttaId=0;
 var tiiId = 0;
-//var kentat;
+var kentat;
 var tiit;
 var seurat;
 var jasentyypit;
 var vaylat;
 var pelaajanSukup;
-
-
+ 
 function kenttaValinta() {
+	//var modelkentat = //'<%: Model.kentat %>' ; // '@Model.kentat';
+	//console.log("ModelKentat",modelkentat);
+
     kenttaId = document.getElementById('kentta').value;
     if (kentat === undefined) {
         console.log("DEBUG: kenttaValinta() id=", kenttaId, "kentat===undefined");
     } else {
-        console.log("DEBUG: kenttaValinta() id=", kenttaId, "kenttiä on ",kentat.length);
+        console.log("DEBUG: kenttaValinta() id=", kenttaId, "kenttiä on ",kentat.length, kentat);
+    }
+    if (tiit === undefined) {
+        console.log("DEBUG: kenttaValinta() tiit===undefined");
+    } else {
+        console.log("DEBUG: kenttaValinta() tiit on ",tiit.length, tiit);
     }
 
     var kentan_nimi;
@@ -29,22 +36,25 @@ function kenttaValinta() {
         }
     }
     console.log("DEBUG: id=", kenttaId, kentan_nimi);
+    console.log("pelaajan sukup=",pelaajanSukup);
 
     var tii;
     var ok = false;
     var optiot = "";
-    for (i = 0; i < tiit.length; i++) {
+    for (var i = 0; i < tiit.length; i++) {
         tii = tiit[i];
         if ((tii.kentta_id == kenttaId) && (tii.sukup == pelaajanSukup)) {
             console.log("for[", i, "]:", tii.kentta_id, tii.nimi, tii.slope, tii.cr);
             optiot += '<option value="' + tii.id + '">' + tii.tii_id + ' ' + tii.nimi + '</option> '
             ok = true;
+        } else if (tii.kentta_id == kenttaId) {
+            console.log("for[", i, "]:", tii.kentta_id, tii.nimi, "eri sukup:",tii.sukup,pelaajanSukup);
         }
     }
     if (ok == true) {
         document.getElementById('tiiluettelo').innerHTML = '`' + optiot + '`';
     } else {
-        console.log("Alusta oletusarvoilla.");
+        console.log("Alusta tiit oletusarvoilla.");
         document.getElementById('tiiluettelo').innerHTML = `
         <option value="2">Keltainen</option>
         <option value="3">Sininen</option>
@@ -103,4 +113,5 @@ function setRandomPvm() {
 window.onload = function (e) {
     console.log("kierros.js window.onload", e);
     setRandomPvm();
+
 }
