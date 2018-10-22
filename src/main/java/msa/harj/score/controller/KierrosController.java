@@ -110,7 +110,7 @@ public class KierrosController {
 		Pelaaja pelaaja = pelaajaDAO.getPelaaja(kierros.getSeura_id(), kierros.getJasennumero());
 		log.info("MSA: Pelaaja:" + pelaaja);
 		model.addAttribute("pelaaja", pelaaja);
-		return "kierros/kierrosEdit"; // TODO
+		return "kierros/kierrosAdd"; // TODO Edit / Add ?
 	}
 
 	@PostMapping("/kierros/edit")

@@ -92,7 +92,6 @@ function getRandomPvm() {
 
 function pvmUpdate() {
     var pvm = document.getElementById('pvm1').value; //.innerHTML; 
-    console.log("pvmUpdate", pvm);
     document.getElementById('pvm_str').innerHTML = pvm;
 }
 
@@ -145,15 +144,49 @@ function laske_yhteensa() {
     document.getElementById('yhteensa').value = summa;
 }
 
+
+function validate_int(e) {
+    console.log("validate_int", e);
+    if (e >= 48 && e <= 57) // 0 - 9 
+    {
+        return true;
+    }
+    return false;
+}
+
+
+function validate_key(e) {
+    console.log("validate_key", e);
+    if (e == 16 //  shift
+        ||
+        e == 8 // backspace
+        ||
+        e == 9 // tab
+        ||
+        e == 10 // LF
+        ||
+        e == 13 // enter
+        ||
+        e == 116 // F5 
+        ||
+        e == 46 // delete
+        ||
+        (e >= 37 && e <= 40) // nuolet: vasen, ylös, oikea, alas
+    ) {
+        return true;
+    }
+    return false;
+}
+
 function seuraava(e, kentt1) {
-    var luku;
+    var key;
     if (window.event) { // IE                    
-        luku = Number.parseInt(String.fromCharCode(e.keyCode));
+        key = e.keyCode;
     } else if (e.which) { // Netscape/Firefox/Opera                   
-        luku = Number.parseInt(String.fromCharCode(e.which));
+        key = e.which;
     }
 
-    if (Number.isInteger(luku)) {
+    if (Number.isInteger(Number.parseInt(document.activeElement.value))) {
         document.activeElement.value = Number.parseInt(document.activeElement.value);
     } else {
         document.activeElement.value = "";
@@ -161,13 +194,13 @@ function seuraava(e, kentt1) {
 
     laske_yhteensa();
 
-    if (document.activeElement.value > 1) {
+    if (document.activeElement.value > 1 && !validate_key(key)) {
         document.getElementById(kentt1).focus();
+        document.getElementById(kentt1).select();
     }
 }
 
 window.onload = function (e) {
     console.log("kierros.js window.onload", e);
-    setRandomPvm();
-
+    //setRandomPvm();
 }

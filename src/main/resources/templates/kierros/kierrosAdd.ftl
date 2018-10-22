@@ -8,7 +8,7 @@
 	<script type="application/javascript" src="/js/kierros.js"></script>
 
 <script>
-	    console.log("nakkivene");
+	    <#-- console.log("nakkivene"); -->
 
 		<#if seurat??>
 			seurat=[<#list seurat as seura>{id:"${seura.id?c}",lyhenne:"${seura.lyhenne}",nimi:"${seura.nimi}"}, </#list>];
@@ -102,28 +102,26 @@
 		  	<table>
 				<tr>
 					<td>pvm:</td>
-					<td><input id='pvm1' type="date" name='pvm' onchange="pvmUpdate()" <#if (kierros.pvm)??> value='${kierros.pvm?string('yyyy-MM-dd')}'<#else>value='01/01/1999' </#if> /></td>
+					<td><input id='pvm1' type="date" name='pvm' onchange="pvmUpdate()" <#if (kierros.pvm)??> value='${kierros.pvm?string('yyyy-MM-dd')}'<#else>value='01/01/1999' </#if> ></td>
 					<td><p id='pvm_str' name='pvm_str'></p> 
 					</td>
 				</tr>
 				<tr>
 					<td>pelaajan kotiseura:</td>
-					<td><input type='number' min='0' class='num' name='seura_id' <#if (pelaaja.seuraId)??> value='${pelaaja.seuraId?c}' </#if>  /></td>
+					<td><input type='number' min='0' class='num' name='seura_id' <#if (kierros.seura_id)??> value='${kierros.seura_id?c}' <#else> <#if (pelaaja.seuraId)??> value='${pelaaja.seuraId?c}' </#if> </#if>  ></td>
 					<td><#if seurat??>
-						<#list seurat as seura>
-		                    <#if pelaaja.seuraId==seura.id> ${seura.nimi}</#if>
-		                </#list>
+						<#list seurat as seura> <#if pelaaja.seuraId==seura.id> ${seura.nimi}</#if> </#list>
 		                </#if>
 		            </td>
 				</tr>
 				<tr>
 					<td>pelaajan jäsennumero:</td>
-					<td><input type='number' class='num' name='jasennumero' <#if (pelaaja.jasennumero)??> value='${pelaaja.jasennumero?c}' </#if> /></td>
+					<td><input type='number' class='num' name='jasennumero' <#if (kierros.jasennumero)??> value='${kierros.jasennumero?c}' <#else> <#if (pelaaja.jasennumero)??> value='${pelaaja.jasennumero?c}' </#if> </#if> ></td>
 					<td><p id='pelaajan_nimi' name='pelaajan_nimi'></p>
 				</tr>
 				<tr>
 					<td>Valitse kenttä:</td>
-					<td><input style="color:blue;" list="kenttaluettelo" title="Valitse kenttä" class='num' id='kentta' name='kentta_id' onselect="kenttaValinta()" />
+					<td><input style="color:blue;" list="kenttaluettelo" title="Valitse kenttä" class='num' id='kentta' name='kentta_id' onselect="kenttaValinta()" <#if (kierros.kentta_id)??> value='${kierros.kentta_id?c}' </#if> >
 
 						<datalist id="kenttaluettelo" >
 		                    <#list kentat as kentta>
@@ -138,12 +136,12 @@
 		        </tr>
 		        <tr>
 		            <td>pelaajan tasoitus:</td>
-		            <td><input type='text'  class='num' name='tasoitus' <#if (pelaaja.tasoitus)??> value='${pelaaja.tasoitus}' </#if> /> </td>
+		            <td><input type='text'  class='num' name='tasoitus' <#if (kierros.tasoitus)??> value='${kierros.tasoitus}' <#else> <#if (pelaaja.tasoitus)??> value='${pelaaja.tasoitus}' </#if></#if> > </td>
 		        </tr>
 		       <tr>
 		            <td>Tii, jolta pelattu:</td>
 		            <td>
-		                <input id='tii'  class='num' list='tiiluettelo' name='tii_id' onselect="tiiValinta()" >
+		                <input id='tii'  class='num' list='tiiluettelo' name='tii_id' onselect="tiiValinta()" <#if (kierros.tii_id)??> value='${kierros.tii_id?c}' </#if>  >
 		            </td>
 		            <td id='tii_nimi'> </td>
 		        </tr>
@@ -165,47 +163,47 @@
 		        <tbody>
 		        <tr>
 		            <td>1.</td>
-		            <td><input type='text' maxlength='2' class='num' name='h1' id='h1' onkeyup="seuraava(event, 'h2')" <#if (kierros.h1)??> value='${kierros.h1}' </#if> /></td>
+		            <td><input type='text' maxlength='2' class='num' name='h1' id='h1' onkeyup="seuraava(event, 'h2')" <#if (kierros.h1)??> value='${kierros.h1}' </#if> ></td>
 		            <td>'p1' <#if (kierros.p1)??> '${kierros.p1}' </#if> </td>
 		        </tr>
 		        <tr>
 		            <td>2.</td>
-		            <td><input type='text' maxlength='2' class='num' name='h2' id='h2' onkeyup="seuraava(event, 'h3')"></td>
+		            <td><input type='text' maxlength='2' class='num' name='h2' id='h2' onkeyup="seuraava(event, 'h3')" <#if (kierros.h2)??> value='${kierros.h2}' </#if> ></td>
 		            <td>'p2'</td>
 		        </tr>
 		        <tr>
 		            <td>3.</td>
-		            <td><input type='text' maxlength='2' class='num' name='h3' id='h3' onkeyup="seuraava(event, 'h4')"></td>
+		            <td><input type='text' maxlength='2' class='num' name='h3' id='h3' onkeyup="seuraava(event, 'h4')" <#if (kierros.h3)??> value='${kierros.h3}' </#if> ></td>
 		            <td>'p3'</td>
 		        </tr>
 		        <tr>
 		            <td>4.</td>
-		            <td><input type='text' maxlength='2' class='num' name='h4' id='h4' onkeyup="seuraava(event, 'h5')"></td>
+		            <td><input type='text' maxlength='2' class='num' name='h4' id='h4' onkeyup="seuraava(event, 'h5')" <#if (kierros.h4)??> value='${kierros.h4}' </#if> ></td>
 		            <td>'p4'</td>
 		        </tr>
 		        <tr>
 		            <td>5.</td>
-					<td><input type='text' maxlength='2' class='num' name='h5' id='h5' onkeyup="seuraava(event, 'h6')"></td>
+					<td><input type='text' maxlength='2' class='num' name='h5' id='h5' onkeyup="seuraava(event, 'h6')" <#if (kierros.h5)??> value='${kierros.h5}' </#if> ></td>
 		            <td>'p5'</td>
 		        </tr>
 		        <tr>
 		            <td>6.</td>
-					<td><input type='text' maxlength='2' class='num' name='h6' id='h6' onkeyup="seuraava(event, 'h7')"></td>
+					<td><input type='text' maxlength='2' class='num' name='h6' id='h6' onkeyup="seuraava(event, 'h7')" <#if (kierros.h6)??> value='${kierros.h6}' </#if> ></td>
 		            <td>'p6'</td>
 		        </tr>
 		        <tr>
 		            <td>7.</td>
-					<td><input type='text' maxlength='2' class='num' name='h7' id='h7' onkeyup="seuraava(event, 'h8')"></td>
+					<td><input type='text' maxlength='2' class='num' name='h7' id='h7' onkeyup="seuraava(event, 'h8')" <#if (kierros.h7)??> value='${kierros.h7}' </#if> ></td>
 		            <td>'p7'</td>
 		        </tr>
 		        <tr>
 		            <td>8.</td>
-					<td><input type='text' maxlength='2' class='num' name='h8' id='h8' onkeyup="seuraava(event, 'h9')"></td>
+					<td><input type='text' maxlength='2' class='num' name='h8' id='h8' onkeyup="seuraava(event, 'h9')" <#if (kierros.h8)??> value='${kierros.h8}' </#if> ></td>
 		            <td>'p8'</td>
 		        </tr>
 		        <tr>
 		            <td>9.</td>
-					<td><input type='text' maxlength='2' class='num' name='h9' id='h9' onkeyup="seuraava(event, 'h10')"></td>
+					<td><input type='text' maxlength='2' class='num' name='h9' id='h9' onkeyup="seuraava(event, 'h10')" <#if (kierros.h9)??> value='${kierros.h9}' </#if> ></td>
 		            <td>'p9'</td>
 		        </tr>
 		        <tr>
@@ -215,47 +213,47 @@
 		        </tr>
 		        <tr>
 		            <td>10.</td>
-					<td><input type='text' maxlength='2' class='num' name='h10' id='h10' onkeyup="seuraava(event, 'h11')"></td>
+					<td><input type='text' maxlength='2' class='num' name='h10' id='h10' onkeyup="seuraava(event, 'h11')" <#if (kierros.h10)??> value='${kierros.h10}' </#if> ></td>
 		            <td>'p10'</td>
 		        </tr>
 		        <tr>
 		            <td>11.</td>
-					<td><input type='text' maxlength='2' class='num' name='h11' id='h11' onkeyup="seuraava(event, 'h12')"></td>
+					<td><input type='text' maxlength='2' class='num' name='h11' id='h11' onkeyup="seuraava(event, 'h12')" <#if (kierros.h11)??> value='${kierros.h11}' </#if> ></td>
 		            <td>'p11'</td>
 		        </tr>
 		        <tr>
 		            <td>12.</td>
-					<td><input type='text' maxlength='2' class='num' name='h12' id='h12' onkeyup="seuraava(event, 'h13')"></td>
+					<td><input type='text' maxlength='2' class='num' name='h12' id='h12' onkeyup="seuraava(event, 'h13')" <#if (kierros.h12)??> value='${kierros.h12}' </#if> ></td>
 		            <td>'p12'</td>
 		        </tr>
 		        <tr>
 		            <td>13.</td>
-					<td><input type='text' maxlength='2' class='num' name='h13' id='h13' onkeyup="seuraava(event, 'h14')"></td>
+					<td><input type='text' maxlength='2' class='num' name='h13' id='h13' onkeyup="seuraava(event, 'h14')" <#if (kierros.h13)??> value='${kierros.h13}' </#if> ></td>
 		            <td>'p13'</td>
 		        </tr>
 		        <tr>
 		            <td>14.</td>
-					<td><input type='text' maxlength='2' class='num' name='h14' id='h14' onkeyup="seuraava(event, 'h15')"></td>
+					<td><input type='text' maxlength='2' class='num' name='h14' id='h14' onkeyup="seuraava(event, 'h15')" <#if (kierros.h14)??> value='${kierros.h14}' </#if> ></td>
 		            <td>'p14'</td>
 		        </tr>
 		        <tr>
 		            <td>15.</td>
-					<td><input type='text' maxlength='2' class='num' name='h15' id='h15' onkeyup="seuraava(event, 'h16')"></td>
+					<td><input type='text' maxlength='2' class='num' name='h15' id='h15' onkeyup="seuraava(event, 'h16')" <#if (kierros.h15)??> value='${kierros.h15}' </#if> ></td>
 		            <td>'p15'</td>
 		        </tr>
 		        <tr>
 		            <td>16.</td>
-					<td><input type='text' maxlength='2' class='num' name='h16' id='h16' onkeyup="seuraava(event, 'h17')"></td>
+					<td><input type='text' maxlength='2' class='num' name='h16' id='h16' onkeyup="seuraava(event, 'h17')" <#if (kierros.h16)??> value='${kierros.h16}' </#if> ></td>
 		            <td>'p16'</td>
 		        </tr>
 		        <tr>
 		            <td>17.</td>
-					<td><input type='text' maxlength='2' class='num' name='h17' id='h17' onkeyup="seuraava(event, 'h18')"></td>
+					<td><input type='text' maxlength='2' class='num' name='h17' id='h17' onkeyup="seuraava(event, 'h18')"<#if (kierros.h17)??> value='${kierros.h17}' </#if> ></td>
 		            <td>'p17'</td>
 		        </tr>
 		        <tr>
 		            <td>18.</td>
-					<td><input type='text' maxlength='2' class='num' name='h18' id='h18' onkeyup="seuraava(event, 'merkitsija')"></td>
+					<td><input type='text' maxlength='2' class='num' name='h18' id='h18' onkeyup="seuraava(event, 'merkitsija')" <#if (kierros.h18)??> value='${kierros.h18}' </#if> ></td>
 		            <td>'p18'</td>
 		        </tr>
 		        <tr>
@@ -273,12 +271,12 @@
 		    <table>
 		        <tr>
 		            <td>merkitsijä:</td>
-					<td><input type='text' name='merkitsija' id='merkitsija'></td>
+					<td><input type='text' name='merkitsija' id='merkitsija' <#if (kierros.merkitsija)??> value='${kierros.merkitsija}' </#if> ></td>
 		            <#--  ${kierros.merkitsija} -->
 		        </tr>
 		        <tr>
 		            <td>lisätieto:</td>
-		            <td><input type='text' name='lisatieto' id='lisatieto'></td>
+		            <td><input type='text' name='lisatieto' id='lisatieto' <#if (kierros.lisatieto)??> value='${kierros.lisatieto}' </#if> ></td>
 		            <#--  ${kierros.lisatieto} -->
 		        </tr>
 		        <tr>
@@ -288,7 +286,7 @@
 		        </tr>
 		        <tr>
 		            <td>uusi tasoitus:</td>
-		            <td><input type='text' name='uusi_tasoitus' id='uusi_tasoitus' readonly ></td>
+		            <td><input type='text' name='uusi_tasoitus' id='uusi_tasoitus' readonly <#if (kierros.uusi_tasoitus)??> value='${kierros.uusi_tasoitus}' </#if> ></td>
 		            <#--  ${kierros.uusi_tasoitus} -->
 		        </tr>
 		        <tr>
@@ -299,7 +297,7 @@
 		            <#--  ${kierros.pelattu} -->
 		        </tr>
 		  		<tr>
-		             <td><input name="submit" type="submit" value="submit" ></td>
+		             <td><input name="submit" type="submit" value="submit" onclick='laske_yhteensa()' ></td>
 		        </tr>
 		    </table>
 		</form>		    

@@ -13,65 +13,64 @@
 
 	<#if kierros??>
     <form name='f' action="/kierros/edit" method='POST'>
-	
-		<table>
-			<tr>
-				<td>pvm:</td>
-				<td><input type='text' name='pvm' <#if (kierros.pvm)??> value='${kierros.pvm?string('yyyy-MM-dd')}' </#if> /></td>
-			</tr>
-			<tr>
-				<td>pelaajan kotiseura:</td>
-				<td><input type='text' name='seura_id' <#if (pelaaja.seura_id)??> value='${pelaaja.seura_id?c}' </#if> /></td>
-			</tr>
-			<tr>
-				<td>pelaajan jäsennumero:</td>
-				<td><input type='text' name='jasennumero' <#if (pelaaja.jasennumero)??> value='${pelaaja.jasennumero?c}' </#if> /></td>
-			</tr>
-			<tr>
-				<td>Valitse kenttä:</td>
-	            <#-- ${kierros.kentta_id?c} -->
-				<td><input list="kenttaluettelo" name='kentta_id' value='78'>
-					<datalist id="kenttaluettelo">
-	                    <#list kentat as kentta>
-	                        <option value="${kentta.id}">${kentta.seura_id} ${kentta.kentan_nimi}</option>
-	                    </#list>
-	                </datalist>
-	            </td>
-	
-	            <#--  kentän valinta pitäisi hakea kenttää vastaavat tiit seuraavaan listaan ja poistaa mahdollinen aiempi valinta tii:ltä  -->
-	        </tr>
-	        <tr>
-	            <td>pelaajan tasoitus:</td>
-	            <td><input type='text' name='tasoitus' <#if (pelaaja.tasoitus)??> value='${pelaaja.tasoitus}' </#if> /> </td>
-	        </tr>
-	        <tr>
-	            <td>Tii, jolta pelattu:</td>
-	            <#-- ${kierros.tii_id}
-	            <td>
-	                <input list="tiiluettelo" name='tii_id'>
-	                <datalist id="tiiluettelo">
-	                    <#list tiit as tii>
-	                        <#if tii.kentta_id==kentta.kentta_id>
-	                            <#if pelaaja.sukup==tii.sukup>
-	                                <option value="${tii.id}">${tii.tii_id} ${tii.tii_lyhenne}</option>
-	                            </#if>
-	                        </#if>
-	                
-	                    </#list>
-	                </datalist>
-	            </td>
-	             -->
-	            # tehtävä valintalista, josta haetaan
-	        </tr>
-	        <tr>
-	            <td>pelitasoitus:</td>
-	            <td>pitäisi askea jostain jos kiinnostaaa</td>
-	        </tr>
-	        <tr>
-	            <td>cba:</td>
-	            <td>tätä ei käyttäjä tiedä, tulee kilpailuissa jostain</td>
-	        </tr>
-	    </table>
+		  	<table>
+				<tr>
+					<td>pvm:</td>
+					<td><input id='pvm1' type="date" name='pvm' onchange="pvmUpdate()" <#if (kierros.pvm)??> value='${kierros.pvm?string('yyyy-MM-dd')}'<#else>value='01/01/1999' </#if> ></td>
+					<td><p id='pvm_str' name='pvm_str'></p> 
+					</td>
+				</tr>
+				<tr>
+					<td>pelaajan kotiseura:</td>
+					<td><input type='number' min='0' class='num' name='seura_id' <#if (kierros.seura_id)??> value='${kierros.seura_id?c}' <#else> <#if (pelaaja.seuraId)??> value='${pelaaja.seuraId?c}' </#if> </#if>  ></td>
+					<td><#if seurat??>
+						<#list seurat as seura>
+		                    <#if pelaaja.seuraId==seura.id> ${seura.nimi}</#if>
+		                </#list>
+		                </#if>
+		            </td>
+				</tr>
+				<tr>
+					<td>pelaajan jäsennumero:</td>
+					<td><input type='number' class='num' name='jasennumero' <#if (kierros.jasennumero)??> value='${kierros.jasennumero?c}' <#else> <#if (pelaaja.jasennumero)??> value='${pelaaja.jasennumero?c}' </#if> </#if> ></td>
+					<td><p id='pelaajan_nimi' name='pelaajan_nimi'></p>
+				</tr>
+				<tr>
+					<td>Valitse kenttä:</td>
+					<td><input style="color:blue;" list="kenttaluettelo" title="Valitse kenttä" class='num' id='kentta' name='kentta_id' onselect="kenttaValinta()" <#if (kierros.kentta_id)??> value='${kierros.kentta_id?c}' </#if> >
+
+						<datalist id="kenttaluettelo" >
+		                    <#list kentat as kentta>
+		                        <option value="${kentta.id?c}">${kentta.id?c} ${kentta.kentan_nimi} (${kentta.seura_id?c})</option>
+		                    </#list>
+		                </datalist>
+		                
+		            </td>
+		            <td id='kentta_nimi'>
+		            </td>
+
+		        </tr>
+		        <tr>
+		            <td>pelaajan tasoitus:</td>
+		            <td><input type='text'  class='num' name='tasoitus' <#if (kierros.tasoitus)??> value='${kierros.tasoitus}' <#else> <#if (pelaaja.tasoitus)??> value='${pelaaja.tasoitus}' </#if></#if> > </td>
+		        </tr>
+		       <tr>
+		            <td>Tii, jolta pelattu:</td>
+		            <td>
+		                <input id='tii'  class='num' list='tiiluettelo' name='tii_id' onselect="tiiValinta()" <#if (kierros.tii_id)??> value='${kierros.tii_id?c}' </#if>  >
+		            </td>
+		            <td id='tii_nimi'> </td>
+		        </tr>
+		        <tr>
+		            <td>pelitasoitus:</td>
+		            <td>pitäisi askea jostain jos kiinnostaaa</td>
+		        </tr>
+		        <tr>
+		            <td>cba:</td>
+		            <td>tätä ei käyttäjä tiedä, tulee kilpailuissa jostain</td>
+		        </tr>
+		   	</table>
+
 	    <table>
 	        <thead>
 	            <th scope="col">reikä</th>
