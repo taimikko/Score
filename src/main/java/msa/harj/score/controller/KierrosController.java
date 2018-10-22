@@ -98,6 +98,7 @@ public class KierrosController {
 	public String editKierros(Model model, @PathVariable("kierrosId") Long kierrosId, Principal principal) {
 		log.info("MSA: /kierros/edit/" + kierrosId);
 		Kierros kierros = kierrosDAO.getKierros(kierrosId);
+		log.info("löytyi kierros "+kierros);
 		model.addAttribute("kierros", kierros);
 		List<Kentta> kentat = kenttaDAO.getKentat();
 		model.addAttribute("kentat", kentat);

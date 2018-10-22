@@ -81,13 +81,17 @@
 	        <tbody>
 	        <tr>
 	            <td>1.</td>
-	            <td><input type='number' name='h1' <#if (kierros.h1)??> value='${kierros.h1} </#if> /></td>
-	            <td><input type='number' name='p1' <#if (kierros.p1)??> value='${kierros.p1} </#if> /></td>
+	            <td><input type='number' name='h1' <#if (kierros.h1)??> value='${kierros.h1}' </#if> /></td>
+	            <td><input type='number' name='p1' <#if (kierros.p1)??> value='${kierros.p1}' </#if> /></td>
+<#-- 
+		            		            <td><input type='text' maxlength='2' class='num' name='h1' id='h1' onkeyup="seuraava(event, 'h2')" <#if (kierros.h1)??> value='${kierros.h1} </#if> /></td>
+		            <td>'p1' <#if (kierros.p1)??> '${kierros.p1} </#if> </td>
+ -->		            
 	        </tr>
 	        <tr>
 	            <td>2.</td>
-	            <td><input type='number' name='h2' /></td>
-	            <td><input type='number' name='p2' /></td>
+	            <td><input type='text' name='h2' value='${kierros.h1}'></td>
+	            <td><input type='text' name='p2' value='${kierros.p1}'></td>
 	        </tr>
 	        <tr>
 	            <td>3.</td>

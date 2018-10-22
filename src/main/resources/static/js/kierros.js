@@ -1,7 +1,7 @@
 //<#assign security=JspTaglibs["http://www.springframework.org/security/tags"]/>
 //<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-var kenttaId=0;
+var kenttaId = 0;
 var tiiId = 0;
 var kentat;
 var tiit;
@@ -9,21 +9,21 @@ var seurat;
 var jasentyypit;
 var vaylat;
 var pelaajanSukup;
- 
+
 function kenttaValinta() {
-	//var modelkentat = //'<%: Model.kentat %>' ; // '@Model.kentat';
-	//console.log("ModelKentat",modelkentat);
+    //var modelkentat = //'<%: Model.kentat %>' ; // '@Model.kentat';
+    //console.log("ModelKentat",modelkentat);
 
     kenttaId = document.getElementById('kentta').value;
     if (kentat === undefined) {
         console.log("DEBUG: kenttaValinta() id=", kenttaId, "kentat===undefined");
     } else {
-        console.log("DEBUG: kenttaValinta() id=", kenttaId, "kenttiä on ",kentat.length, kentat);
+        console.log("DEBUG: kenttaValinta() id=", kenttaId, "kenttiä on ", kentat.length, kentat);
     }
     if (tiit === undefined) {
         console.log("DEBUG: kenttaValinta() tiit===undefined");
     } else {
-        console.log("DEBUG: kenttaValinta() tiit on ",tiit.length, tiit);
+        console.log("DEBUG: kenttaValinta() tiit on ", tiit.length, tiit);
     }
 
     var kentan_nimi;
@@ -36,7 +36,7 @@ function kenttaValinta() {
         }
     }
     console.log("DEBUG: id=", kenttaId, kentan_nimi);
-    console.log("pelaajan sukup=",pelaajanSukup);
+    console.log("pelaajan sukup=", pelaajanSukup);
 
     var tii;
     var ok = false;
@@ -48,7 +48,7 @@ function kenttaValinta() {
             optiot += '<option value="' + tii.id + '">' + tii.tii_id + ' ' + tii.nimi + '</option> '
             ok = true;
         } else if (tii.kentta_id == kenttaId) {
-            console.log("for[", i, "]:", tii.kentta_id, tii.nimi, "eri sukup:",tii.sukup,pelaajanSukup);
+            console.log("for[", i, "]:", tii.kentta_id, tii.nimi, "eri sukup:", tii.sukup, pelaajanSukup);
         }
     }
     if (ok == true) {
@@ -108,6 +108,62 @@ function setRandomPvm() {
     document.getElementById('pvm1').innerHTML = pvm; // pvmUpdate haki ennen innerHTML:ää
     document.getElementById('pvm1').value = pvm; // value asettaa arvon näkyviin
     pvmUpdate();
+}
+
+function lisaa(element) {
+    if (Number.isInteger(Number.parseInt(element.value))) {
+        return Number.parseInt(element.value);
+    }
+    return 0;
+}
+
+function laske_yhteensa() {
+    var summa = 0;
+    summa += lisaa(document.getElementById('h1'));
+    summa += lisaa(document.getElementById('h2'));
+    summa += lisaa(document.getElementById('h3'));
+    summa += lisaa(document.getElementById('h4'));
+    summa += lisaa(document.getElementById('h5'));
+    summa += lisaa(document.getElementById('h6'));
+    summa += lisaa(document.getElementById('h7'));
+    summa += lisaa(document.getElementById('h8'));
+    summa += lisaa(document.getElementById('h9'));
+    document.getElementById('h_out').value = summa;
+    summa = 0;
+    summa += lisaa(document.getElementById('h10'));
+    summa += lisaa(document.getElementById('h11'));
+    summa += lisaa(document.getElementById('h12'));
+    summa += lisaa(document.getElementById('h13'));
+    summa += lisaa(document.getElementById('h14'));
+    summa += lisaa(document.getElementById('h15'));
+    summa += lisaa(document.getElementById('h16'));
+    summa += lisaa(document.getElementById('h17'));
+    summa += lisaa(document.getElementById('h18'));
+    document.getElementById('h_in').value = summa;
+
+    summa += Number.parseInt(document.getElementById('h_out').value);
+    document.getElementById('yhteensa').value = summa;
+}
+
+function seuraava(e, kentt1) {
+    var luku;
+    if (window.event) { // IE                    
+        luku = Number.parseInt(String.fromCharCode(e.keyCode));
+    } else if (e.which) { // Netscape/Firefox/Opera                   
+        luku = Number.parseInt(String.fromCharCode(e.which));
+    }
+
+    if (Number.isInteger(luku)) {
+        document.activeElement.value = Number.parseInt(document.activeElement.value);
+    } else {
+        document.activeElement.value = "";
+    }
+
+    laske_yhteensa();
+
+    if (document.activeElement.value > 1) {
+        document.getElementById(kentt1).focus();
+    }
 }
 
 window.onload = function (e) {
