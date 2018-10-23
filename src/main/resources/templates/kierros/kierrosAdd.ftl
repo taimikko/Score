@@ -73,9 +73,29 @@
         	     {id:"126",kentta_id:"999",tii_id:"4",nimi:"Edu45",sukup:"2",slope:"125",cr:"72.0"}];
    		</#if>
 		console.log("KierrosAdd latasi tiit:",tiit);
+
+<#-- 		
+		if (kierros === undefined) {
+			console.log("kierros undefined");
+			var kierros = 0;
+		} else {
+			console.log("kierros on defined");
+		}
+
+		<#if kierros??>
+			kierros = ${kierros};
+		<#else>
+			kierros = "kierros puuttuu";
+		</#if>
+		console.log("KierrosAdd latasi kierroksen:", kierros);
+	 -->
 	  	pelaajanSukup = <#if (pelaaja.sukup)??> ${pelaaja.sukup} <#else>1 </#if> ;
 	  	if (pelaajanSukup != 2) pelaajanSukup = 1;
-		console.log("KierrosAdd latasi pelaajanSukup:",pelaajanSukup);
+<#-- 	  	pelaaja = ${pelaaja};
+		console.log("KierrosAdd latasi pelaajanSukup:",pelaajanSukup, pelaaja);
+		 -->
+
+		
 </script>   
     
 </head>
@@ -103,8 +123,8 @@
 				<tr>
 					<td>pvm:</td>
 					<td><input id='pvm1' type="date" name='pvm' onchange="pvmUpdate()" <#if (kierros.pvm)??> value='${kierros.pvm?string('yyyy-MM-dd')}'<#else>value='01/01/1999' </#if> ></td>
-					<td><p id='pvm_str' name='pvm_str'></p> 
-					</td>
+					<td><p id='pvm_str' name='pvm_str'></p> </td>
+					<td> <#if (kierros.id)??> <p id='id' name='id'>id:${kierros.id}</p> </#if> </td> 
 				</tr>
 				<tr>
 					<td>pelaajan kotiseura:</td>
@@ -121,7 +141,9 @@
 				</tr>
 				<tr>
 					<td>Valitse kenttä:</td>
-					<td><input style="color:blue;" list="kenttaluettelo" title="Valitse kenttä" class='num' id='kentta' name='kentta_id' onselect="kenttaValinta()" <#if (kierros.kentta_id)??> value='${kierros.kentta_id?c}' </#if> >
+					<td><input style="color:blue;" list="kenttaluettelo" title="Valitse kenttä" class='num' id='kentta' name='kentta_id' onselect="kenttaValinta()" <#if (kierros.kentta_id)??> value='${kierros.kentta_id?c}' 
+					<#-- TODO: tässä pitäisi myös alustaa oletuksena asettetun kentän tiit -->
+					</#if> >
 
 						<datalist id="kenttaluettelo" >
 		                    <#list kentat as kentta>
@@ -207,8 +229,8 @@
 		            <td>'p9'</td>
 		        </tr>
 		        <tr>
-		            <td>h_out</td>
-					<td><input type='text' maxlength='3' class='num' name='h_out' id='h_out' readonly"></td>
+		            <td>1-9</td>
+					<td><input type='text' maxlength='3' class='num' name='hout' id='hout' readonly <#if (kierros.hout)??> value='${kierros.hout}' </#if>  ></td>
 		            <td>'p_out'</td>
 		        </tr>
 		        <tr>
@@ -257,13 +279,13 @@
 		            <td>'p18'</td>
 		        </tr>
 		        <tr>
-		            <td>h_in</td>
-					<td><input type='text' maxlength='3' class='num' name='h_in' id='h_in' readonly></td>
+		            <td>10-18</td>
+					<td><input type='text' maxlength='3' class='num' name='hin' id='hin' readonly <#if (kierros.hin)??> value='${kierros.hin}' </#if> ></td>
 		            <td>'p_in'</td>
 		        </tr>
 		        <tr>
 		            <td>yhteensä</td>
-					<td><input type='text' maxlength='3' class='num' name='yhteensa' id='yhteensa' readonly></td>
+					<td><input type='text' maxlength='3' class='num' name='yhteensa' id='yhteensa' readonly <#if (kierros.yhteensa)??> value='${kierros.yhteensa}' </#if> ></td>
 		            <td>'p_yht'</td>
 		        </tr>
 		        </tbody>

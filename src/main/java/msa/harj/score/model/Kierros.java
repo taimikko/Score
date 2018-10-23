@@ -30,7 +30,8 @@ public class Kierros {
 	private Integer h7;
 	private Integer h8;
 	private Integer h9;
-	private Integer out;
+	
+	private Integer hout;
 	private Integer h10;
 	private Integer h11;
 	private Integer h12;
@@ -40,7 +41,8 @@ public class Kierros {
 	private Integer h16;
 	private Integer h17;
 	private Integer h18;
-	private Integer in;
+	
+	private Integer hin;
 	private Integer yhteensa;
 	private String merkitsija;
 	private String lisatieto;
@@ -230,12 +232,24 @@ public class Kierros {
 		this.h9 = h9;
 	}
 
-	public Integer getOut() {
-		return out;
+	public Integer laskeH_Out() {
+		Integer i = 0;
+		try {
+			i = h1+h2+h3+h4+h5+h6+h7+h8+h9;
+		} catch (Exception e) {
+			i = null;
+		} 
+		this.hout = i;
+		return hout;
 	}
 
-	public void setOut(Integer out) {
-		this.out = out;
+	public Integer getHout() {
+		return hout; //laskeH_Out();
+	}
+
+	public void setHout(Integer hout) {
+		this.hout = hout;
+		//laskeH_Out();
 	}
 
 	public Integer getH10() {
@@ -310,12 +324,24 @@ public class Kierros {
 		this.h18 = h18;
 	}
 
-	public Integer getIn() {
-		return in;
+	public Integer laskeH_In() {
+		Integer i = 0;
+		try {
+			i = h10+h11+h12+h13+h14+h15+h16+h17+h18;
+		} catch (Exception e) {
+			i = null;
+		} 
+		this.hin = i; 
+		return hin;
+	}
+	
+	public Integer getHin() {
+		return hin; //laskeH_In();
 	}
 
-	public void setIn(Integer in) {
-		this.in = in;
+	public void setHin(Integer hin) {
+		this.hin = hin;
+		//laskeH_In();
 	}
 
 	public Integer getYhteensa() {
@@ -547,9 +573,13 @@ public class Kierros {
 		return "Kierros [id=" + id + ", pvm=" + pvm + ", seura_id=" + seura_id + ", jasennumero=" + jasennumero
 				+ ", kentta_id=" + kentta_id + ", tasoitus=" + tasoitus + ", tii_id=" + tii_id + ", pelitasoitus="
 				+ pelitasoitus + ", cba=" + cba + ", h1=" + h1 + ", h2=" + h2 + ", h3=" + h3 + ", h4=" + h4 + ", h5="
-				+ h5 + ", h6=" + h6 + ", h7=" + h7 + ", h8=" + h8 + ", h9=" + h9 + ", out=" + out + ", h10=" + h10
+				+ h5 + ", h6=" + h6 + ", h7=" + h7 + ", h8=" + h8 + ", h9=" + h9 
+				+ ", hout=" + hout
+				+ ", h10=" + h10
 				+ ", h11=" + h11 + ", h12=" + h12 + ", h13=" + h13 + ", h14=" + h14 + ", h15=" + h15 + ", h16=" + h16
-				+ ", h17=" + h17 + ", h18=" + h18 + ", in=" + in + ", yhteensa=" + yhteensa + ", merkitsija="
+				+ ", h17=" + h17 + ", h18=" + h18  
+				+ ", hin=" + hin  
+				+ ", yhteensa=" + yhteensa + ", merkitsija="
 				+ merkitsija + ", lisatieto=" + lisatieto + ", p1=" + p1 + ", p2=" + p2 + ", p3=" + p3 + ", p4=" + p4
 				+ ", p5=" + p5 + ", p6=" + p6 + ", p7=" + p7 + ", p8=" + p8 + ", p9=" + p9 + ", p_out=" + p_out
 				+ ", p10=" + p10 + ", p11=" + p11 + ", p12=" + p12 + ", p13=" + p13 + ", p14=" + p14 + ", p15=" + p15
@@ -560,8 +590,8 @@ public class Kierros {
 
 	public Kierros(Long id, Date pvm, Long seura_id, Long jasennumero, Long kentta_id, Double tasoitus,
 			Long tii_id, Integer pelitasoitus, Double cba, Integer h1, Integer h2, Integer h3, Integer h4, Integer h5,
-			Integer h6, Integer h7, Integer h8, Integer h9, Integer out, Integer h10, Integer h11, Integer h12,
-			Integer h13, Integer h14, Integer h15, Integer h16, Integer h17, Integer h18, Integer in, Integer yhteensa,
+			Integer h6, Integer h7, Integer h8, Integer h9, Integer hout, Integer h10, Integer h11, Integer h12,
+			Integer h13, Integer h14, Integer h15, Integer h16, Integer h17, Integer h18, Integer hin, Integer yhteensa,
 			String merkitsija, String lisatieto, Integer p1, Integer p2, Integer p3, Integer p4, Integer p5, Integer p6,
 			Integer p7, Integer p8, Integer p9, Integer p_out, Integer p10, Integer p11, Integer p12, Integer p13,
 			Integer p14, Integer p15, Integer p16, Integer p17, Integer p18, Integer p_in, Integer p_yht,
@@ -585,7 +615,8 @@ public class Kierros {
 		this.h7 = h7;
 		this.h8 = h8;
 		this.h9 = h9;
-		this.out = out;
+		
+		this.hout = hout;
 		this.h10 = h10;
 		this.h11 = h11;
 		this.h12 = h12;
@@ -595,7 +626,8 @@ public class Kierros {
 		this.h16 = h16;
 		this.h17 = h17;
 		this.h18 = h18;
-		this.in = in;
+		
+		this.hin = hin;
 		this.yhteensa = yhteensa;
 		this.merkitsija = merkitsija;
 		this.lisatieto = lisatieto;

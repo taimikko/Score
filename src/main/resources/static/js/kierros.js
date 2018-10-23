@@ -9,6 +9,7 @@ var seurat;
 var jasentyypit;
 var vaylat;
 var pelaajanSukup;
+var kierros=0;
 
 function kenttaValinta() {
     //var modelkentat = //'<%: Model.kentat %>' ; // '@Model.kentat';
@@ -127,7 +128,7 @@ function laske_yhteensa() {
     summa += lisaa(document.getElementById('h7'));
     summa += lisaa(document.getElementById('h8'));
     summa += lisaa(document.getElementById('h9'));
-    document.getElementById('h_out').value = summa;
+    document.getElementById('hout').value = summa;
     summa = 0;
     summa += lisaa(document.getElementById('h10'));
     summa += lisaa(document.getElementById('h11'));
@@ -138,9 +139,9 @@ function laske_yhteensa() {
     summa += lisaa(document.getElementById('h16'));
     summa += lisaa(document.getElementById('h17'));
     summa += lisaa(document.getElementById('h18'));
-    document.getElementById('h_in').value = summa;
+    document.getElementById('hin').value = summa;
 
-    summa += Number.parseInt(document.getElementById('h_out').value);
+    summa += Number.parseInt(document.getElementById('hout').value);
     document.getElementById('yhteensa').value = summa;
 }
 
@@ -203,4 +204,6 @@ function seuraava(e, kentt1) {
 window.onload = function (e) {
     console.log("kierros.js window.onload", e);
     //setRandomPvm();
+    
+    console.log("kierros", kierros);
 }

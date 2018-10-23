@@ -48,8 +48,8 @@ public class KierrosDAO extends JdbcDaoSupport {
 				+ " values (?,?,?,?,?,?,?,?,?,?, ?,?,?,?,?,?,?,?,?,?,?, ?,?,?,?,?,?,?,?,?,?, ?,?,?,?,?,?,?,?,?,?, ?,?,?,?,?,?,?,?,?, ?,?,?,?,?,?)";
 		Object[] args = new Object[] { 0, k.getPvm(), k.getSeura_id(), k.getJasennumero(), k.getKentta_id(),
 				k.getTasoitus(), k.getTii_id(), k.getPelitasoitus(), k.getCba(), k.getH1(), k.getH2(), k.getH3(),
-				k.getH4(), k.getH5(), k.getH6(), k.getH7(), k.getH8(), k.getH9(), k.getOut(), k.getH10(), k.getH11(),
-				k.getH12(), k.getH13(), k.getH14(), k.getH15(), k.getH16(), k.getH17(), k.getH18(), k.getIn(),
+				k.getH4(), k.getH5(), k.getH6(), k.getH7(), k.getH8(), k.getH9(), k.getHout(), k.getH10(), k.getH11(),
+				k.getH12(), k.getH13(), k.getH14(), k.getH15(), k.getH16(), k.getH17(), k.getH18(), k.getHin(),
 				k.getYhteensa(), k.getMerkitsija(), k.getLisatieto(), k.getP1(), k.getP2(), k.getP3(), k.getP4(),
 				k.getP5(), k.getP6(), k.getP7(), k.getP8(), k.getP9(), k.getP_out(), k.getP10(), k.getP11(), k.getP12(),
 				k.getP13(), k.getP14(), k.getP15(), k.getP16(), k.getP17(), k.getP18(), k.getP_in(), k.getP_yht(),
@@ -60,7 +60,7 @@ public class KierrosDAO extends JdbcDaoSupport {
 	}
 
 	public List<Kierros> getKierros(Long seuraId, Long pelaajaId) {
-		String sql = "SELECT * FROM kierros WHERE seura_id = ? AND jasennumero = ?  ORDER BY pvm";
+		String sql = "SELECT * FROM kierros WHERE seura_id = ? AND jasennumero = ?  ORDER BY pvm, id";
 		Object[] args = new Object[] { seuraId, pelaajaId };
 		return this.getJdbcTemplate().query(sql, args, KIERROS_MAPPER);
 	}
@@ -95,8 +95,8 @@ public class KierrosDAO extends JdbcDaoSupport {
 
 		Object[] args = new Object[] { k.getPvm(), k.getSeura_id(), k.getJasennumero(), k.getKentta_id(),
 				k.getTasoitus(), k.getTii_id(), k.getPelitasoitus(), k.getCba(), k.getH1(), k.getH2(), k.getH3(),
-				k.getH4(), k.getH5(), k.getH6(), k.getH7(), k.getH8(), k.getH9(), k.getOut(), k.getH10(), k.getH11(),
-				k.getH12(), k.getH13(), k.getH14(), k.getH15(), k.getH16(), k.getH17(), k.getH18(), k.getIn(),
+				k.getH4(), k.getH5(), k.getH6(), k.getH7(), k.getH8(), k.getH9(), k.getHout(), k.getH10(), k.getH11(),
+				k.getH12(), k.getH13(), k.getH14(), k.getH15(), k.getH16(), k.getH17(), k.getH18(), k.getHin(),
 				k.getYhteensa(), k.getMerkitsija(), k.getLisatieto(), k.getP1(), k.getP2(), k.getP3(), k.getP4(),
 				k.getP5(), k.getP6(), k.getP7(), k.getP8(), k.getP9(), k.getP_out(), k.getP10(), k.getP11(), k.getP12(),
 				k.getP13(), k.getP14(), k.getP15(), k.getP16(), k.getP17(), k.getP18(), k.getP_in(), k.getP_yht(),

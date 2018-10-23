@@ -62,8 +62,9 @@ public class KierrosController {
 
 	@PostMapping("/kierros/add")
 	public String postKierros(Model model, Kierros kierros, Principal principal) {
-		log.info("MSA(post) /kierros/add " + kierros.getJasennumero());
-		model.addAttribute("kierros", kierros);
+		log.info("MSA(post) /kierros/add " + kierros.getJasennumero()+"\t"+kierros);
+		//kierros.laskeH_In();
+		//kierros.laskeH_Out();
 
 		try {
 			kierrosDAO.addKierros(kierros);
@@ -82,6 +83,7 @@ public class KierrosController {
 			model.addAttribute("kentat", kentat);
 			model.addAttribute("tiit", tiit);
 			model.addAttribute("pelaaja", pelaaja);
+			model.addAttribute("kierros", kierros);
 			return "kierros/kierrosAdd";
 		}
 	}
