@@ -120,6 +120,12 @@
             </datalist>
 
 		  	<table>
+		  		<tr>
+					<td>pelaaja:</td>
+					<td><input type='text' id='' name='seura_id' <#if (kierros.seura_id)??> value='${kierros.seura_id?c}' <#else> <#if (pelaaja.seuraId)??> value='${pelaaja.seuraId?c}' </#if> </#if>  ></td>
+					<td><p id='pvm_str' name='pvm_str'></p> </td>
+					<td> <#if (kierros.id)??> <p id='id' name='id'>id:${kierros.id}</p> </#if> </td> 
+				</tr>
 				<tr>
 					<td>pvm:</td>
 					<td><input id='pvm1' type="date" name='pvm' onchange="pvmUpdate()" <#if (kierros.pvm)??> value='${kierros.pvm?string('yyyy-MM-dd')}'<#else>value='01/01/1999' </#if> ></td>
@@ -319,7 +325,7 @@
 		            <#--  ${kierros.pelattu} -->
 		        </tr>
 		  		<tr>
-		             <td><input name="submit" type="submit" value="submit" onclick='laske_yhteensa()' ></td>
+		             <td><input name="submit" type="submit" value="submit" onclick='laske_yhteensa()' ></td>           
 		        </tr>
 		    </table>
 		</form>		    

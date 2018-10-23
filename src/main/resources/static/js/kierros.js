@@ -201,6 +201,22 @@ function seuraava(e, kentt1) {
     }
 }
 
+function poista_kierros(id, pvm, etunimi, sukunimi, lisatieto, yhteensa) {
+    var txt;
+    txt = "poistetaan kierros ("+id+")\n"+
+          "pvm :"+pvm+"\n"+
+          "pelaaja:"+etunimi+" "+sukunimi+"\n"+
+          "huom:"+lisatieto+"\n"+
+          "tulos:"+yhteensa;
+    console.log("poista_kierros:",txt)
+    if (confirm(txt)) {
+        txt = "Valitsit OK, mutta poistoa ei ole toteutettu";
+    } else {
+        txt = "peruit koko homman";
+    }
+    document.getElementById("demo").innerHTML = txt;
+}
+
 window.onload = function (e) {
     console.log("kierros.js window.onload", e);
     //setRandomPvm();

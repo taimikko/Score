@@ -47,7 +47,7 @@
 						 -->
 						<td>${k.seura_id?c}</td>
 						<td>${k.jasennumero?c}</td>
-						<td>${k.id}</td>
+						<td><a href="/kierros/edit/${k.id?c}">${k.id}</a></td>
 						<td>${k.pvm?string('dd.MM.yyyy')}</td>
 						<td>${k.kentta_id?c} <#-- +kentän nimi --></td>
 						<td>${k.tii_id?c} <#-- +tiin nimi --></td>
@@ -56,10 +56,7 @@
 						<td>${k.tasoituskierros?string('kyllä', 'ei')}</td>
 						<td>${k.pelattu?replace(1,"etuysi")?replace(2,"takaysi")?replace(3,"koko kierros")} </td>
 						<td>${k.lisatieto}</td>
-						<td>
-						   <a href="/kierros/del/${k.id?c}">Del</a>
-						   <a href="/kierros/edit/${k.id?c}">Edit</a>
-						</td>
+						<td> <a href="/kierros/del/${k.id?c}">Del</a> </td>
 					</tr>
 				</#list>
 			</tbody>

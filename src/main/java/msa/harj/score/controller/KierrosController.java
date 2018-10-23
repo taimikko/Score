@@ -8,7 +8,6 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -129,6 +128,7 @@ public class KierrosController {
 
 	@GetMapping("/kierros/omat")
 	public String getOmatKierrokset(Model model, Principal principal) {
+		log.info("MSA: GET /kierros/omat "+principal.getName());
 		Pelaaja pelaaja = pelaajaDAO.getPelaaja(principal.getName());
 		model.addAttribute("pelaaja", pelaaja);
 		List<Kierros> kierrokset = kierrosDAO.getKierros(pelaaja.getSeuraId(), pelaaja.getJasennumero());
@@ -139,6 +139,8 @@ public class KierrosController {
 	@GetMapping("/kierros/pelaaja/{seuraId}+{pelaajaId}")
 	public String getPelaajanKierrokset(Model model, @PathVariable("seuraId") Long seuraId,
 			@PathVariable("pelaajaId") Long pelaajaId) {
+		log.info("MSA: GET /kierros/pelaaja/{seuraId}+{pelaajaId} "+seuraId+"+"+pelaajaId);
+
 		Pelaaja pelaaja = pelaajaDAO.getPelaaja(seuraId, pelaajaId);
 		model.addAttribute("pelaaja", pelaaja);
 		List<Kierros> kierrokset = kierrosDAO.getKierros(pelaaja.getSeuraId(), pelaaja.getJasennumero());
@@ -146,10 +148,17 @@ public class KierrosController {
 		return "kierros/kierrosHistoria";
 	}
 
-	@DeleteMapping("/kierros")
-	public String deleteKierros(Model model, Kierros kierros) {
-		// TODO:
-		return "welcomePage";
+	@PostMapping("/kierros/del/{kierrosId}")
+	public String deleteKierros(Model model, Principal principal, @PathVariable("kierrosId") Long kierrosId) {
+		log.info("MSA: POST /kierros/del/"+kierrosId);
+		// tässä voisi tarkistaa että principal.user vastaa kierroksen pelaajaa tai principal on ADMIN
+		kierrosDAO.deleteKierros(kierrosId);
+		
+		Pelaaja pelaaja = pelaajaDAO.getPelaaja(principal.getName());
+		model.addAttribute("pelaaja", pelaaja);
+		List<Kierros> kierrokset = kierrosDAO.getKierros(pelaaja.getSeuraId(), pelaaja.getJasennumero());
+		model.addAttribute("kierrokset", kierrokset);
+		return "kierros/kierrosHistoria";
 	}
 
 }
