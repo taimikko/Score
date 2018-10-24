@@ -70,6 +70,24 @@ public class Kierros {
 	private boolean tasoituskierros;
 	private Double uusi_tasoitus;
 	private Integer pelattu;
+	private String etunimi;
+	public String getEtunimi() {
+		return etunimi;
+	}
+
+	public void setEtunimi(String etunimi) {
+		this.etunimi = etunimi;
+	}
+
+	public String getSukunimi() {
+		return sukunimi;
+	}
+
+	public void setSukunimi(String sukunimi) {
+		this.sukunimi = sukunimi;
+	}
+
+	private String sukunimi;
 
 	public Kierros() {
 		super();
@@ -571,6 +589,7 @@ public class Kierros {
 	@Override
 	public String toString() {
 		return "Kierros [id=" + id + ", pvm=" + pvm + ", seura_id=" + seura_id + ", jasennumero=" + jasennumero
+				+ ", etunimi=" + etunimi+ ", sukunimi=" + sukunimi
 				+ ", kentta_id=" + kentta_id + ", tasoitus=" + tasoitus + ", tii_id=" + tii_id + ", pelitasoitus="
 				+ pelitasoitus + ", cba=" + cba + ", h1=" + h1 + ", h2=" + h2 + ", h3=" + h3 + ", h4=" + h4 + ", h5="
 				+ h5 + ", h6=" + h6 + ", h7=" + h7 + ", h8=" + h8 + ", h9=" + h9 
@@ -595,7 +614,7 @@ public class Kierros {
 			String merkitsija, String lisatieto, Integer p1, Integer p2, Integer p3, Integer p4, Integer p5, Integer p6,
 			Integer p7, Integer p8, Integer p9, Integer p_out, Integer p10, Integer p11, Integer p12, Integer p13,
 			Integer p14, Integer p15, Integer p16, Integer p17, Integer p18, Integer p_in, Integer p_yht,
-			boolean tasoituskierros, Double uusi_tasoitus, Integer pelattu) {
+			boolean tasoituskierros, Double uusi_tasoitus, Integer pelattu, String etunimi, String sukunimi) {
 		super();
 		this.id = id;
 		this.pvm = pvm;
@@ -655,6 +674,8 @@ public class Kierros {
 		this.tasoituskierros = tasoituskierros;
 		this.uusi_tasoitus = uusi_tasoitus;
 		this.pelattu = pelattu;
+		this.etunimi = etunimi;
+		this.sukunimi = sukunimi;
 	}
 
 }

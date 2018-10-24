@@ -20,10 +20,8 @@
 		<table  class="table">
 			<thead>
 				<tr>
-				<#-- 
 				<th scope="col">Etunimi</th>
 				<th scope="col">Sukunimi</th>
-				 -->
 				<th scope="col">Seura</th>
 				<th scope="col">Jäsennumero</th>
 				<th scope="col">Id</th>
@@ -40,11 +38,9 @@
 			</thead>
 			<tbody>
 				<#list kierrokset as k>
-					<tr>
-						<#-- 
+					<tr> 
 						<tdscope="row">${k.etunimi}</td>
 						<td>${k.sukunimi}</td>
-						 -->
 						<td>${k.seura_id?c}</td>
 						<td>${k.jasennumero?c}</td>
 						<td><a href="/kierros/edit/${k.id?c}">${k.id}</a></td>
@@ -56,7 +52,12 @@
 						<td>${k.tasoituskierros?string('kyllä', 'ei')}</td>
 						<td>${k.pelattu?replace(1,"etuysi")?replace(2,"takaysi")?replace(3,"koko kierros")} </td>
 						<td>${k.lisatieto}</td>
-						<td> <a href="/kierros/del/${k.id?c}">Del</a> </td>
+						<td>							
+							<form name='f' action="/kierros/del/${k.id}" method='POST'>
+  								<#if _csrf??><input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/></#if>
+ 								<input name="submit" type="submit" value="delete" />
+						   	</form>
+ 						</td>
 					</tr>
 				</#list>
 			</tbody>

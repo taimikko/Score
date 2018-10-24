@@ -52,6 +52,8 @@ public class KierrosController {
 		model.addAttribute("tiit", tiit);
 		List<Seura> seurat = seuraDAO.getSeurat();
 		model.addAttribute("seurat", seurat);
+		log.info(principal);
+		model.addAttribute("principal", principal);  // TODO: testiin
 
 		Pelaaja pelaaja = pelaajaDAO.getPelaaja(principal.getName());
 		log.info("MSA: Pelaaja:" + pelaaja);

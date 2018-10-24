@@ -44,8 +44,8 @@ public class KierrosDAO extends JdbcDaoSupport {
 				+ " h1, h2, h3, h4, h5, h6, h7, h8, h9, h_out," + " h10, h11, h12, h13, h14, h15, h16, h17, h18, h_in,"
 				+ " yhteensa, merkitsija, lisatieto,"
 				+ " p1, p2, p3, p4, p5, p6, p7, p8, p9, p_out, p10, p11, p12, p13, p14, p15, p16, p17, p18, p_in,\n"
-				+ " p_yht, tasoituskierros, uusi_tasoitus, pelattu)\n"
-				+ " values (?,?,?,?,?,?,?,?,?,?, ?,?,?,?,?,?,?,?,?,?,?, ?,?,?,?,?,?,?,?,?,?, ?,?,?,?,?,?,?,?,?,?, ?,?,?,?,?,?,?,?,?, ?,?,?,?,?,?)";
+				+ " p_yht, tasoituskierros, uusi_tasoitus, pelattu, etunimi, sukunimi)\n"
+				+ " values (?,?,?,?,?,?,?,?,?,?, ?,?,?,?,?,?,?,?,?,?,?, ?,?,?,?,?,?,?,?,?,?, ?,?,?,?,?,?,?,?,?,?, ?,?,?,?,?,?,?,?,?, ?,?,?,?,?,?,?,?)";
 		Object[] args = new Object[] { 0, k.getPvm(), k.getSeura_id(), k.getJasennumero(), k.getKentta_id(),
 				k.getTasoitus(), k.getTii_id(), k.getPelitasoitus(), k.getCba(), k.getH1(), k.getH2(), k.getH3(),
 				k.getH4(), k.getH5(), k.getH6(), k.getH7(), k.getH8(), k.getH9(), k.getHout(), k.getH10(), k.getH11(),
@@ -53,7 +53,7 @@ public class KierrosDAO extends JdbcDaoSupport {
 				k.getYhteensa(), k.getMerkitsija(), k.getLisatieto(), k.getP1(), k.getP2(), k.getP3(), k.getP4(),
 				k.getP5(), k.getP6(), k.getP7(), k.getP8(), k.getP9(), k.getP_out(), k.getP10(), k.getP11(), k.getP12(),
 				k.getP13(), k.getP14(), k.getP15(), k.getP16(), k.getP17(), k.getP18(), k.getP_in(), k.getP_yht(),
-				k.isTasoituskierros(), k.getUusi_tasoitus(), k.getPelattu() };
+				k.isTasoituskierros(), k.getUusi_tasoitus(), k.getPelattu(), k.getEtunimi(), k.getSukunimi() };
 
 		int lkm = this.getJdbcTemplate().update(sql, args);
 		log.info("MSA: päivitettiin " + Integer.toString(lkm) + " rivi kierros -tauluun.");
@@ -80,8 +80,7 @@ public class KierrosDAO extends JdbcDaoSupport {
 					rs.getInt("p10"), rs.getInt("p11"), rs.getInt("p12"), rs.getInt("p13"), rs.getInt("p14"),
 					rs.getInt("p15"), rs.getInt("p16"), rs.getInt("p17"), rs.getInt("p18"), rs.getInt("p_in"),
 					rs.getInt("p_yht"), rs.getBoolean("tasoituskierros"), rs.getDouble("uusi_tasoitus"),
-					rs.getInt("pelattu"));
-
+					rs.getInt("pelattu"), rs.getString("etunimi"), rs.getString("sukunimi"));
 		}
 
 	};
@@ -91,7 +90,7 @@ public class KierrosDAO extends JdbcDaoSupport {
 				+ " h1=?, h2=?, h3=?, h4=?, h5=?, h6=?, h7=?, h8=?, h9=?, h_out=?, h10=?, h11=?, h12=?, h13=?, h14=?, h15=?, h16=?, h17=?, h18=?, h_in=?,"
 				+ " yhteensa=?, merkitsija=?, lisatieto=?,"
 				+ " p1=?, p2=?, p3=?, p4=?, p5=?, p6=?, p7=?, p8=?, p9=?, p_out=?, p10=?, p11=?, p12=?, p13=?, p14=?, p15=?,p16=?,p17=?,p18=?, p_in=?,"
-				+ " p_yht=?, tasoituskierros=?, uusi_tasoitus=?, pelattu=? WHERE id = ?";
+				+ " p_yht=?, tasoituskierros=?, uusi_tasoitus=?, pelattu=?, etunimi=?, sukunimi=? WHERE id = ?";
 
 		Object[] args = new Object[] { k.getPvm(), k.getSeura_id(), k.getJasennumero(), k.getKentta_id(),
 				k.getTasoitus(), k.getTii_id(), k.getPelitasoitus(), k.getCba(), k.getH1(), k.getH2(), k.getH3(),
@@ -100,7 +99,7 @@ public class KierrosDAO extends JdbcDaoSupport {
 				k.getYhteensa(), k.getMerkitsija(), k.getLisatieto(), k.getP1(), k.getP2(), k.getP3(), k.getP4(),
 				k.getP5(), k.getP6(), k.getP7(), k.getP8(), k.getP9(), k.getP_out(), k.getP10(), k.getP11(), k.getP12(),
 				k.getP13(), k.getP14(), k.getP15(), k.getP16(), k.getP17(), k.getP18(), k.getP_in(), k.getP_yht(),
-				k.isTasoituskierros(), k.getUusi_tasoitus(), k.getPelattu(), k.getId() };
+				k.isTasoituskierros(), k.getUusi_tasoitus(), k.getPelattu(), k.getEtunimi(), k.getSukunimi(), k.getId() };
 		int lkm = this.getJdbcTemplate().update(sql, args);
 		log.info("MSA: updateKierros päivitti " + lkm + " riviä (id=" + k.getId() + ")");
 	}
