@@ -54,6 +54,7 @@ public class AdminController {
 	public String adminKierrokset2(Model model) { // , @PathVariable("seuraId") Long seuraId
 		List<Kierros> kierrokset = kierrosDAO.getSeuraKierrokset(78L); /// seuraId
 		model.addAttribute("kierrokset", kierrokset);
+
 		return "kierros/kierrosLuettelo";
 	}
 

@@ -13,9 +13,25 @@ input.num {
     text-align: right;
 }
 
+input.info {
+    width: 40px;
+    text-align: right;
+    /* border-style: none; */
+}
+
 input.num2 {
     width: 100px;
     text-align: right;
+}
+
+th.rako {
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+table.rako {
+    margin-left: 50px;
+    margin-right: 50px;
 }
 
 #kentta {

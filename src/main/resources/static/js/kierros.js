@@ -1,5 +1,5 @@
-//<#assign security=JspTaglibs["http://www.springframework.org/security/tags"]/>
-//<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+// <#assign security=JspTaglibs["http://www.springframework.org/security/tags"]/>
+// <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
 var kenttaId = 0;
 var tiiId = 0;
@@ -143,6 +143,32 @@ function laske_yhteensa() {
 
     summa += Number.parseInt(document.getElementById('hout').value);
     document.getElementById('yhteensa').value = summa;
+
+    summa = 0;
+    summa += lisaa(document.getElementById('p1'));
+    summa += lisaa(document.getElementById('p2'));
+    summa += lisaa(document.getElementById('p3'));
+    summa += lisaa(document.getElementById('p4'));
+    summa += lisaa(document.getElementById('p5'));
+    summa += lisaa(document.getElementById('p6'));
+    summa += lisaa(document.getElementById('p7'));
+    summa += lisaa(document.getElementById('p8'));
+    summa += lisaa(document.getElementById('p9'));
+    document.getElementById('p_out').value = summa;
+    summa = 0;
+    summa += lisaa(document.getElementById('p10'));
+    summa += lisaa(document.getElementById('p11'));
+    summa += lisaa(document.getElementById('p12'));
+    summa += lisaa(document.getElementById('p13'));
+    summa += lisaa(document.getElementById('p14'));
+    summa += lisaa(document.getElementById('p15'));
+    summa += lisaa(document.getElementById('p16'));
+    summa += lisaa(document.getElementById('p17'));
+    summa += lisaa(document.getElementById('p18'));
+    document.getElementById('p_in').value = summa;
+
+    summa += Number.parseInt(document.getElementById('p_out').value);
+    document.getElementById('p_yht').value = summa;
 }
 
 
@@ -179,13 +205,23 @@ function validate_key(e) {
     return false;
 }
 
+function laske_pisteet(reika) {
+    var pisteet;
+    var p_kentta = 'p'+(document.activeElement.id).substr(1);
+    var lyonnit = document.activeElement.value;
+
+    if (Number.isInteger(Number.parseInt(lyonnit))) {
+        var oma_par = 5;
+        pisteet = (lyonnit<=0 || lyonnit>(oma_par+2)) ? 0 : (oma_par + 2) - lyonnit;
+    } else {
+        pisteet = 0;
+    }
+    console.log(document.activeElement.id,"lyönnit",lyonnit,"pisteet",pisteet);
+    document.getElementById(p_kentta).value = pisteet;
+}
+
 function seuraava(e, kentt1) {
     var key;
-    if (window.event) { // IE                    
-        key = e.keyCode;
-    } else if (e.which) { // Netscape/Firefox/Opera                   
-        key = e.which;
-    }
 
     if (Number.isInteger(Number.parseInt(document.activeElement.value))) {
         document.activeElement.value = Number.parseInt(document.activeElement.value);
@@ -193,7 +229,14 @@ function seuraava(e, kentt1) {
         document.activeElement.value = "";
     }
 
+    laske_pisteet(kentt1);
     laske_yhteensa();
+
+    if (window.event) { // IE                    
+        key = e.keyCode;
+    } else if (e.which) { // Netscape/Firefox/Opera                   
+        key = e.which;
+    }
 
     if (document.activeElement.value > 1 && !validate_key(key)) {
         document.getElementById(kentt1).focus();
@@ -220,6 +263,8 @@ function poista_kierros(id, pvm, etunimi, sukunimi, lisatieto, yhteensa) {
 window.onload = function (e) {
     console.log("kierros.js window.onload", e);
     //setRandomPvm();
-    
-    console.log("kierros", kierros);
+    var width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth; 
+    var height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+
+    console.log("näytön koko", width, height);
 }
