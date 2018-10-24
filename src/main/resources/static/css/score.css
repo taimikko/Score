@@ -10,10 +10,15 @@ h1 {
 
 input.num {
     width: 40px;
+    text-align: right;
 }
 
+input.num2 {
+    width: 100px;
+    text-align: right;
+}
 
 #kentta {
-    width: 250px;
+    width: 200px;
 }
 

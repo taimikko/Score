@@ -129,25 +129,27 @@
 		  		<tr>
 	  	  			<#-- ADMIN voi tehdä vähän enemmän -->
 					<@security.authorize access="hasRole('ROLE_ADMIN')">
-						<td>ADMIN pelaajan kotiseura:
-						<#-- kotiseura = readonly, pitäisi tulla pelaajan nimen perusteella -->
-						<input type='number' min='0' class='num' id='seura_id' name='seura_id'  <#if (kierros.seura_id)??> value='${kierros.seura_id?c}' <#elseif (pelaaja.seuraId)??> value='${pelaaja.seuraId?c}' </#if>  >
-						</td>
-						<td><#if seurat??>
+						<td>pelaajan kotiseura:
+						</td><td>
+							<input type='number' min='0' class='num2' id='seura_id' name='seura_id'  <#if (kierros.seura_id)??> value='${kierros.seura_id?c}' <#elseif (pelaaja.seuraId)??> value='${pelaaja.seuraId?c}' </#if>  >
+							<#if seurat??>
 							<#list seurat as seura> <#if pelaaja.seuraId==seura.id> ${seura.nimi}</#if> </#list>
 			                </#if>
 			            </td>
-						<td>
-							<span> jäsennumero:</span>
+						</tr><tr>
+						<td>jäsennumero:
+						</td><td>
 						<#-- jäsennumero = readonly, tulee kirjautuneen käytäjän tietojen mukaan paitsi adminilla, joka voi syöttää muidenkin tietoja -->
-							<input type='number' class='num' name='jasennumero' <#if (kierros.jasennumero)??> value='${kierros.jasennumero?c}' <#elseif (pelaaja.jasennumero)??> value='${pelaaja.jasennumero?c}' </#if> >
+							<input type='number' class='num2' name='jasennumero' <#if (kierros.jasennumero)??> value='${kierros.jasennumero?c}' <#elseif (pelaaja.jasennumero)??> value='${pelaaja.jasennumero?c}' </#if> >
 						</td>
 						</tr><tr>
 						<#--  etu- ja sukunimi voidaan täyttää kotiseuran ja jäsennumeron perusteella -->	
-			            <td>etunimi:  <input type='text' maxlength='50' class='txt' name='etunimi' id='etunimi' readonly <#if (kierros.etunimi)??> value='${kierros.etunimi}' <#elseif (pelaaja.etunimi)??>  value='${pelaaja.etunimi}' </#if> >
+			            <td>etunimi:
+			            </td><td>
+			            	<input type='text' maxlength='50' class='txt' name='etunimi' id='etunimi' <#if (kierros.etunimi)??> value='${kierros.etunimi}' <#elseif (pelaaja.etunimi)??>  value='${pelaaja.etunimi}' </#if> >
 			            </td>
 			            <td>
-							sukunimi: <input type='text' maxlength='50' class='txt' name='sukunimi' id='sukunimi' readonly <#if (kierros.sukunimi)??> value='${kierros.sukunimi}' <#elseif (pelaaja.sukunimi)??>  value='${pelaaja.sukunimi}'  </#if> >
+							sukunimi: <input type='text' maxlength='50' class='txt' name='sukunimi' id='sukunimi' <#if (kierros.sukunimi)??> value='${kierros.sukunimi}' <#elseif (pelaaja.sukunimi)??>  value='${pelaaja.sukunimi}'  </#if> >
 						</td>
 					</@security.authorize>
 					<@security.authorize access="! hasRole('ROLE_ADMIN')">
@@ -199,11 +201,7 @@
 		            </td>
 
 		        </tr>
-		        <tr>
-		            <td>pelaajan tasoitus:</td>
-		            <td><input type='text'  class='num' name='tasoitus' <#if (kierros.tasoitus)??> value='${kierros.tasoitus}' <#elseif (pelaaja.tasoitus)??> value='${pelaaja.tasoitus}' </#if> > </td>
-		        </tr>
-		       <tr>
+				<tr>
 		            <td>Tii, jolta pelattu:</td>
 		            <td>
 		                <input id='tii'  class='num' list='tiiluettelo' name='tii_id' onselect="tiiValinta()" <#if (kierros.tii_id)??> value='${kierros.tii_id?c}' </#if>  >
@@ -211,8 +209,9 @@
 		            <td id='tii_nimi'> </td>
 		        </tr>
 		        <tr>
-		            <td>pelitasoitus:</td>
-		            <td>lasketaan myöhemmin</td>
+		            <td>pelaajan tasoitus:</td>
+		            <td><input type='text'  class='num' name='tasoitus' <#if (kierros.tasoitus)??> value='${kierros.tasoitus}' <#elseif (pelaaja.tasoitus)??> value='${pelaaja.tasoitus}' </#if> > </td>
+		            <td>pelitasoitus: lasketaan myöhemmin</td>
 		        </tr>
 		        <tr>
 				<@security.authorize access="hasRole('ROLE_ADMIN')">
@@ -239,7 +238,8 @@
 					 -->
 				</thead>
 				<tbody>
-					<tr>
+					<tr style="vertical-align:top">
+ 
 					<td> <#-- etuysi -->
 						<table>
 							<thead>
@@ -309,9 +309,6 @@
 									<td>
 										<input type='text' maxlength='3' class='num' name='hout' id='hout' readonly <#if (kierros.hout)??> value='${kierros.hout}' </#if> ></td>
 									<td>p_out</td>
-								</tr>
-								<tr>
-									<#-- tilaa yhteensä -riville -->
 								</tr>
 							</tbody>
 						</table>
