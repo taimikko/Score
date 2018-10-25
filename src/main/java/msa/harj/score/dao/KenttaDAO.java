@@ -27,7 +27,7 @@ public class KenttaDAO extends JdbcDaoSupport {
 	}
 
 	public List<Kentta> getKentat() {
-		String sql = "SELECT *  FROM kentta ORDER BY id";
+		String sql = "SELECT *  FROM kentta ORDER BY seura_id, id";
 
 		List<Kentta> kentat = this.getJdbcTemplate().query(sql, KENTTA_MAPPER);
 

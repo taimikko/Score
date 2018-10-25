@@ -100,6 +100,7 @@ public class KierrosController {
 		log.info("MSA: /kierros/edit/" + kierrosId);
 		Kierros kierros = kierrosDAO.getKierros(kierrosId);
 		log.info("löytyi kierros "+kierros);
+		log.info("model:"+model);
 		model.addAttribute("kierros", kierros);
 		List<Kentta> kentat = kenttaDAO.getKentat();
 		model.addAttribute("kentat", kentat);
@@ -107,7 +108,7 @@ public class KierrosController {
 		model.addAttribute("tiit", tiit);
 		List<Seura> seurat = seuraDAO.getSeurat();
 		model.addAttribute("seurat", seurat);
-
+		
 		Pelaaja pelaaja = pelaajaDAO.getPelaaja(kierros.getSeura_id(), kierros.getJasennumero());
 		log.info("MSA: Pelaaja:" + pelaaja);
 		model.addAttribute("pelaaja", pelaaja);
@@ -123,7 +124,11 @@ public class KierrosController {
 		model.addAttribute("pelaaja", pelaaja);
 		List<Kierros> kierrokset = kierrosDAO.getKierros(pelaaja.getSeuraId(), pelaaja.getJasennumero());
 		model.addAttribute("kierrokset", kierrokset);
-		return "kierros/kierrosHistoria";
+		
+//		if (! from.isEmpty()) 
+//			return from;
+//		else
+			return "kierros/kierrosHistoria";
 	}
 
 	@GetMapping("/kierros/omat")

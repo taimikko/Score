@@ -1,25 +1,15 @@
 <!DOCTYPE HTML>
 <html>
-   <head>
-      <title>Uusi Käyttäjä</title>
+   	<head>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	    <link rel="stylesheet" type="text/css" href="/css/score.css">
+	    <title>Uusi Käyttäjä</title>
    </head>
    <body>
 	<#include "../_menu.ftl">
        
       <h1>Luo uusi käyttäjä</h1>
-       
-      <#-- /login?error=true 
-      <div th:if="${#request.getParameter('error') == 'true'}"
-            style="color:red;margin:10px 0px;">
-         Ei tänne ny ihan kaikki pääse.<br />
-         Reason :
-         <span th:if="${#session!= null and #session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION') != null}"
-            th:utext="${#session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION').message}">
-                Static summary
-         </span>
-           
-      </div>
-      -->
+
       <div>
       <#-- " style="color: red;" -->
       <#if message??>

@@ -110,8 +110,16 @@ public class KierrosDAO extends JdbcDaoSupport {
 	}
 
 	public List<Kierros> getSeuraKierrokset(Long seuraId) {
-		String sql = "SELECT * FROM kierros WHERE seura_id = ? ORDER BY pvm, seura_id, jasennumero";
-		Object[] args = new Object[] { seuraId };
+		String sql;
+		Object[] args;
+		if (seuraId == null || seuraId == 0L) {
+			sql = "SELECT * FROM kierros ORDER BY pvm, seura_id, jasennumero";
+			args = new Object[] { };
+		}
+		else {
+			sql = "SELECT * FROM kierros WHERE seura_id = ? ORDER BY pvm, seura_id, jasennumero";
+			args = new Object[] { seuraId };
+		}
 		return this.getJdbcTemplate().query(sql, args, KIERROS_MAPPER);
 	}
 

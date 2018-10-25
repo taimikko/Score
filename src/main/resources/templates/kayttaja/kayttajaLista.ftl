@@ -3,22 +3,9 @@
 <html>
 	<head>
 		<title>User list</title>
-		<script>
-			function deleteUser(user_name) {
-				console.log("DEBUG:", user_name);
-				window.location = "/kayttaja/del/" + user_name;
-			}
-		</script>
-<#--		
-    <script src="jquery.js"></script> 
-    <script> 
-    $(function(){
-      $("#menu").load("_menu.html"); 
-    });
-    </script> 
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	    <link rel="stylesheet" type="text/css" href="/css/score.css">
 
-
--->
 		</head>
 	<body>
 		<h1>kayttajaLista.FTL</h1>
@@ -52,7 +39,6 @@
   							<form name='f' action="/kayttaja/del/${user.username}" method='POST'>
   								<#if _csrf??><input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/></#if>
  								<input name="submit" type="submit" value="delete" />
-								<#--  <button id="del" onclick="deleteUser('${user.username}')">Delete</button>  -->
 							   	<a href="/pelaaja/${user.seuraId}/${user.jasennumero?replace(",","")}">pelaajatiedot</a>
 						   </form>
 						</td>

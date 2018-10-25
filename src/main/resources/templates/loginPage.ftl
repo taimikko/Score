@@ -1,18 +1,15 @@
 <!DOCTYPE HTML>
 <html>
-   <head>
-      <title>Login</title>
+	<head>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    	<link rel="stylesheet" type="text/css" href="/css/score.css">
+
+      	<title>Login</title>
    </head>
    <body>
       <#include "/_menu.ftl">
        
       <h1>Login</h1>
-       
-  <#--    <#if (request.getParameter('error')) == 'true'> 
-  		</#if>
-  -->
-  
- 
   
       <#if (requestParameters.error)??>
       <div style="color:red;margin:10px 0px;">

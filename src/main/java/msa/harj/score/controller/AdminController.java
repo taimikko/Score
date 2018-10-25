@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import msa.harj.score.dao.KenttaDAO;
 import msa.harj.score.dao.KierrosDAO;
@@ -49,10 +50,17 @@ public class AdminController {
 
 	}
 	
-	
-	@GetMapping("/admin/kierrokset")  // /${seuraId}
-	public String adminKierrokset2(Model model) { // , @PathVariable("seuraId") Long seuraId
-		List<Kierros> kierrokset = kierrosDAO.getSeuraKierrokset(78L); /// seuraId
+	@GetMapping("/admin/kierrokset/{seuraId}")
+	public String adminSeuraKierrokset(Model model, @PathVariable("seuraId") Long seuraId) {
+		List<Kierros> kierrokset = kierrosDAO.getSeuraKierrokset(seuraId); 
+		model.addAttribute("kierrokset", kierrokset);
+
+		return "kierros/kierrosLuettelo";
+	}
+
+	@GetMapping("/admin/kierrokset")
+	public String adminKaikkiKierrokset(Model model) {
+		List<Kierros> kierrokset = kierrosDAO.getSeuraKierrokset(0L); 
 		model.addAttribute("kierrokset", kierrokset);
 
 		return "kierros/kierrosLuettelo";

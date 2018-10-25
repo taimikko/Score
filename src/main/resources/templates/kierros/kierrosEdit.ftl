@@ -50,6 +50,12 @@
 		<#else>
 			pelaaja = 'pelaaja puuttuu'; 
 		</#if>
+		
+		<#if from??>
+			var from = '${from};
+			console.log("from:", from);
+		</#if>
+		
 </script>   
     
 </head>
@@ -181,6 +187,8 @@
 
 		   	</table>
 		   	
+
+
 <#include "/kierros/kierros.ftl">
 
 		    <table>

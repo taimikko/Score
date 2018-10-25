@@ -46,7 +46,7 @@
 						<td><#if (k.etunimi)??>${k.sukunimi}</#if></td>
 						<td><#if (k.seura_id)??>${k.seura_id?c}</#if></td>
 						<td><#if (k.jasennumero)??>${k.jasennumero?c}</#if></td>
-						<td><a href="/kierros/edit/${k.id?c}">${k.id}</a></td>
+						<td><a href="/kierros/edit/${k.id?c}">${k.id?c}</a></td> <#-- from tänne ?? -->
 						<td><#if (k.pvm)??>${k.pvm?string('dd.MM.yyyy')}</#if></td>
 						<td><#if (k.kentta_id)??>${k.kentta_id?c}</#if> <#-- +kentän nimi --></td>
 						<td><#if (k.tii_id)??>${k.tii_id?c}</#if> <#-- +tiin nimi --></td>
