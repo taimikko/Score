@@ -7,13 +7,6 @@
 		<script type="application/javascript" src="/js/kierros.js"></script>
 
 		<title>Kierros lista</title>
-		<script>
-		</script>
-<#--		
-		<input type="hidden"
-				name="${_csrf.parameterName}"
-				value="${_csrf.token}"/>
--->
 		</head>
 	<body>
 		<h1>kierrosHistoria.FTL</h1>
@@ -22,13 +15,30 @@
 	<div>
 	<#if pelaaja??>
 		<table>
-			<tr><td>Käyttäjätunnus:</td><td><a href="/kayttaja/${pelaaja.username}">${pelaaja.username}</a></td></tr>
+			<tr><td>Käyttäjätunnus:</td>
+				<td>
+				<@security.authorize access="hasRole('ROLE_ADMIN')">
+	  	  			<a href="/kayttaja/${pelaaja.username}">${pelaaja.username}</a>
+				</@security.authorize>
+				<@security.authorize access="! hasRole('ROLE_ADMIN')">
+	  	  			<span>${pelaaja.username}</span>
+				</@security.authorize>
+				</td>
+			</tr>
 			<tr><td>Etunimi:</td><td>${pelaaja.etunimi}</td></tr>
 			<tr><td>Sukunimi:</td><td>${pelaaja.sukunimi}</td></tr>
-			<tr><td>Seura:</td><td>${pelaaja.seuraId?c}</td></tr>
+			<tr><td>Seura:</td><td>${pelaaja.seuraId?c}</td>
+				<#if seurat??>
+				<td>
+					<#list seurat as s>
+						<#if s.id==pelaaja.seuraId><span>${s.nimi}</span></#if>
+					</#list>
+				</td>
+				</#if>
+			</tr>
 			<tr><td>Jäsennumero:</td><td>${pelaaja.jasennumero?c}</td></tr>
 			<tr><td>Voimassa:</td><td>${pelaaja.enabled?string('kyllä', 'ei')}</td></tr>
-			<tr><td>.</td></tr>
+			<tr><td><br></td></tr>
 		</table>
 	</#if>
 	</div>
@@ -70,9 +80,5 @@
 			</tbody>
 
 		</table>
-		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-
 	</body>
 </html>

@@ -143,7 +143,7 @@
 				</tr>
 				<tr>
 					<td>Valitse kenttä:</td>
-					<td><input style="color:blue;" list="kenttaluettelo" title="Valitse kenttä" class='num' id='kentta' name='kentta_id' onselect="kenttaValinta()" <#if (kierros.kentta_id)??> value='${kierros.kentta_id?c}' 
+					<td><input style="color:blue;" list="kenttaluettelo" title="Valitse kenttä" class='num' id='kentta' name='kentta_id' onselect="kenttaValinta2()" <#if (kierros.kentta_id)??> value='${kierros.kentta_id?c}' 
 					<#-- TODO: select myös alustaa oletuksena valitun kentän tiit -->
 					</#if> >
 
@@ -162,8 +162,12 @@
 		            <td>Tii, jolta pelattu:</td>
 		            <td>
 		                <input id='tii'  class='num' list='tiiluettelo' name='tii_id' onselect="tiiValinta()" <#if (kierros.tii_id)??> value='${kierros.tii_id?c}' </#if>  >
+       		            <#-- 
+  		                <select id='tii' name='tii_id' onselect="tiiValinta()" <#if (kierros.tii_id)??> value='${kierros.tii_id?c}' </#if>  >
+   						</select>
+			            -->
 		            </td>
-		            <td id='tii_nimi'> </td>
+		            <td id='tii_nimi'><#if (kierros.tii_id)??>${kierros.tii_id?c}</#if> <#if (kierros.tii_nimi)??>${kierros.tii_nimi}</#if></td>
 		        </tr>
 		        <tr>
 		            <td>pelaajan tasoitus:</td>

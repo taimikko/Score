@@ -71,6 +71,8 @@ public class KierrosController {
 			model.addAttribute("pelaaja", pelaaja);
 			List<Kierros> kierrokset = kierrosDAO.getKierros(pelaaja.getSeuraId(), pelaaja.getJasennumero());
 			model.addAttribute("kierrokset", kierrokset);
+			List<Seura> seurat = seuraDAO.getSeurat();
+			model.addAttribute("seurat", seurat);
 			return "kierros/kierrosHistoria";
 		} catch (Exception e) {
 			model.addAttribute("message", e.getMessage()); // return "/error";
@@ -124,6 +126,8 @@ public class KierrosController {
 		model.addAttribute("pelaaja", pelaaja);
 		List<Kierros> kierrokset = kierrosDAO.getKierros(pelaaja.getSeuraId(), pelaaja.getJasennumero());
 		model.addAttribute("kierrokset", kierrokset);
+		List<Seura> seurat = seuraDAO.getSeurat();
+		model.addAttribute("seurat", seurat);
 		
 //		if (! from.isEmpty()) 
 //			return from;
@@ -138,6 +142,8 @@ public class KierrosController {
 		model.addAttribute("pelaaja", pelaaja);
 		List<Kierros> kierrokset = kierrosDAO.getKierros(pelaaja.getSeuraId(), pelaaja.getJasennumero());
 		model.addAttribute("kierrokset", kierrokset);
+		List<Seura> seurat = seuraDAO.getSeurat();
+		model.addAttribute("seurat", seurat);
 		return "kierros/kierrosHistoria";
 	}
 
@@ -150,6 +156,8 @@ public class KierrosController {
 		model.addAttribute("pelaaja", pelaaja);
 		List<Kierros> kierrokset = kierrosDAO.getKierros(pelaaja.getSeuraId(), pelaaja.getJasennumero());
 		model.addAttribute("kierrokset", kierrokset);
+		List<Seura> seurat = seuraDAO.getSeurat();
+		model.addAttribute("seurat", seurat);
 		return "kierros/kierrosHistoria";
 	}
 
@@ -163,6 +171,8 @@ public class KierrosController {
 		model.addAttribute("pelaaja", pelaaja);
 		List<Kierros> kierrokset = kierrosDAO.getKierros(pelaaja.getSeuraId(), pelaaja.getJasennumero());
 		model.addAttribute("kierrokset", kierrokset);
+		List<Seura> seurat = seuraDAO.getSeurat();
+		model.addAttribute("seurat", seurat);
 		return "kierros/kierrosHistoria";
 	}
 

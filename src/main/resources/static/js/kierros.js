@@ -11,20 +11,97 @@ var vaylat;
 var pelaajanSukup;
 var kierros=0;
 
-function kenttaValinta() {
-    //var modelkentat = //'<%: Model.kentat %>' ; // '@Model.kentat';
-    //console.log("ModelKentat",modelkentat);
+function alustaTiitInput() { // input -tyyppisen kentän alustus ja valinta (valinta ei toimi)
+    var tii;
+    var ok = false;
+    var optiot = "";
 
+    if (tiit === undefined) {
+        console.log("DEBUG: tiit===undefined");
+    } else {
+        console.log("DEBUG: tiit on ", tiit.length, tiit);
+    }
+    console.log("pelaajan sukupuoli=", pelaajanSukup);
+
+    for (var i = 0; i < tiit.length; i++) {
+        tii = tiit[i];
+        if ((tii.kentta_id == kenttaId) && (tii.sukup == pelaajanSukup)) {
+            console.log("for[", i, "]:", tii.kentta_id, tii.nimi, tii.slope, tii.cr);
+            optiot += '<option value="' + tii.id + '" >' + tii.id + ' ' + tii.nimi + '</option> '
+            ok = true;
+        } 
+    }
+    if (ok == true) {
+        document.getElementById('tiiluettelo').innerHTML = '`' + optiot + '`';
+    } else {
+        console.log("Alusta tiit oletusarvoilla.");
+        document.getElementById('tiiluettelo').innerHTML = `
+        <option value="2" selected>Keltainen</option>
+        <option value="3">Sininen</option>
+        <option value="4">Punainen</option>
+        `;
+    }
+    document.getElementById('tii_nimi').innerHTML = '';
+
+    var t = document.getElementById('tii'); 
+    console.log("MSA:",t); 
+//    t.value = t.options[0].value; // "";
+
+    t.focus();
+    //t.select();
+
+    //tiiValinta();
+}
+
+function alustaTiitSelect() { // select -tyyppisen kentän alustus ja valinta
+    var tii;
+    var ok = false;
+    var optiot = "";
+
+    if (tiit === undefined) {
+        console.log("DEBUG: tiit===undefined");
+    } else {
+        console.log("DEBUG: tiit on ", tiit.length, tiit);
+    }
+    console.log("pelaajan sukupuoli=", pelaajanSukup);
+
+    for (var i = 0; i < tiit.length; i++) {
+        tii = tiit[i];
+        if ((tii.kentta_id == kenttaId) && (tii.sukup == pelaajanSukup)) {
+            console.log("for[", i, "]:", tii.kentta_id, tii.nimi, tii.slope, tii.cr);
+            optiot += '<option value="' + tii.id + '" >' + tii.nimi + '</option> '
+            ok = true;
+        } 
+    }
+
+    var t = document.getElementById('tii'); 
+
+    if (ok == true) {
+        t.innerHTML = '`' + optiot + '`';
+    } else {
+        console.log("Alusta tiit oletusarvoilla.");
+        t.innerHTML = `
+        <option value="2" selected >Keltainen</option>
+        <option value="3">Sininen</option>
+        <option value="4">Punainen</option>
+        `;
+    }
+    document.getElementById('tii_nimi').innerHTML = '';
+
+    console.log("MSA:",t); //.options[0].text);
+    // t.value = t.options[0].value; // "";
+
+    t.options[1].selected = true;
+    t.focus();
+}
+
+function kenttaValinta() {
+    // uutta kierrosta tehtäessä
     kenttaId = document.getElementById('kentta').value;
     if (kentat === undefined) {
         console.log("DEBUG: kenttaValinta() id=", kenttaId, "kentat===undefined");
     } else {
         console.log("DEBUG: kenttaValinta() id=", kenttaId, "kenttiä on ", kentat.length, kentat);
-    }
-    if (tiit === undefined) {
-        console.log("DEBUG: kenttaValinta() tiit===undefined");
-    } else {
-        console.log("DEBUG: kenttaValinta() tiit on ", tiit.length, tiit);
     }
 
     var kentan_nimi;
@@ -37,34 +114,33 @@ function kenttaValinta() {
         }
     }
     console.log("DEBUG: id=", kenttaId, kentan_nimi);
-    console.log("pelaajan sukup=", pelaajanSukup);
+    document.getElementById('kentta_nimi').innerHTML = kentan_nimi;
 
-    var tii;
-    var ok = false;
-    var optiot = "";
-    for (var i = 0; i < tiit.length; i++) {
-        tii = tiit[i];
-        if ((tii.kentta_id == kenttaId) && (tii.sukup == pelaajanSukup)) {
-            console.log("for[", i, "]:", tii.kentta_id, tii.nimi, tii.slope, tii.cr);
-            optiot += '<option value="' + tii.id + '">' + tii.tii_id + ' ' + tii.nimi + '</option> '
-            ok = true;
-        } else if (tii.kentta_id == kenttaId) {
-            console.log("for[", i, "]:", tii.kentta_id, tii.nimi, "eri sukup:", tii.sukup, pelaajanSukup);
+    alustaTiitSelect();
+}
+
+function kenttaValinta2() {
+    // tulosta päivitettäessä
+    kenttaId = document.getElementById('kentta').value;
+    if (kentat === undefined) {
+        console.log("DEBUG: kenttaValinta() id=", kenttaId, "kentat===undefined");
+    } else {
+        console.log("DEBUG: kenttaValinta() id=", kenttaId, "kenttiä on ", kentat.length, kentat);
+    }
+
+    var kentan_nimi;
+    var kentta;
+    for (var i = 0; i < kentat.length; i++) {
+        kentta = kentat[i];
+        if (kentta.id == kenttaId) {
+            kentan_nimi = kentta.nimi;
+            break;
         }
     }
-    if (ok == true) {
-        document.getElementById('tiiluettelo').innerHTML = '`' + optiot + '`';
-    } else {
-        console.log("Alusta tiit oletusarvoilla.");
-        document.getElementById('tiiluettelo').innerHTML = `
-        <option value="2">Keltainen</option>
-        <option value="3">Sininen</option>
-        <option value="4">Punainen</option>
-        `;
-    }
-    document.getElementById('tii').value = '';
-    document.getElementById('tii_nimi').innerHTML = '';
+    console.log("DEBUG: id=", kenttaId, kentan_nimi);
     document.getElementById('kentta_nimi').innerHTML = kentan_nimi;
+
+    alustaTiitInput();
 }
 
 
@@ -81,6 +157,7 @@ function tiiValinta() {
     }
     console.log("DEBUG: tii=", tiiId, tii_nimi);
     document.getElementById('tii_nimi').innerHTML = tii_nimi;
+    //document.getElementById('h1').focus();
 }
 
 function getRandomPvm() {
@@ -109,6 +186,19 @@ function setRandomPvm() {
     document.getElementById('pvm1').value = pvm; // value asettaa arvon näkyviin
     pvmUpdate();
 }
+
+function alustaPvm() {
+    var date = new Date();
+    var y = date.getFullYear();
+    var m = date.getMonth() + 1;
+    var d = date.getDate();
+    var pvm = [y, (m > 9 ? '' : '0') + m, (d > 9 ? '' : '0') + d].join('-');
+
+    document.getElementById('pvm1').innerHTML = pvm; // pvmUpdate haki ennen innerHTML:ää
+    document.getElementById('pvm1').value = pvm; // value asettaa arvon näkyviin
+    pvmUpdate();
+}
+
 
 function lisaa(element) {
     if (Number.isInteger(Number.parseInt(element.value))) {
@@ -263,6 +353,7 @@ function poista_kierros(id, pvm, etunimi, sukunimi, lisatieto, yhteensa) {
 window.onload = function (e) {
     console.log("kierros.js window.onload", e);
     //setRandomPvm();
+    alustaPvm();
     var width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth; 
     var height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
 
