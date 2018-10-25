@@ -5,12 +5,13 @@
 <head>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="/css/score.css">
-	<script type="application/javascript" src="/js/kierros.js"></script>
 
 	<title>Uusi Kierros</title>
 
-    <script type="application/javascript" src="/js/vaylat.js"></script>    
+    <script type="application/javascript" src="/js/kierros.js"></script>    
 	<script>
+	    <#include "/util/vaylat.ftl">
+
 		<#if seurat??>
 			seurat=[<#list seurat as seura>{id:"${seura.id?c}",lyhenne:"${seura.lyhenne}",nimi:"${seura.nimi}"}, </#list>];
 		<#else>
@@ -165,25 +166,31 @@
 				</tr>
 				<tr>
 					<td>Valitse kenttä:</td>
-					<td><input autofocus list="kenttaluettelo" title="Valitse kenttä" class='num' id='kentta' name='kentta_id' onselect="kenttaValinta()" <#if (kierros.kentta_id)??> value='${kierros.kentta_id?c}' 
-					<#-- TODO: select myös alustaa oletuksena valitun kentän tiit -->
-					</#if> >
+					<td>
+						<#--
+						<select title="Valitse kenttä" id='kentta' name='kentta_id' onselect="alustaTiitSelect()" > 
+		                    <#list kentat as kentta>
+		                        <option <#if (kierros.kentta_id)??> <#if (kierros.kentta_id?c) == (kentta.id?c)> selected="selected" </#if> </#if> value="${kentta.id?c}">${kentta.id?c} ${kentta.kentan_nimi} (${kentta.seura_id?c})</option>
+		                    </#list>
+						</select>
+						-->
+						
+						<input autofocus list="kenttaluettelo" autocomplete="off" title="Valitse kenttä" class='num' id='kentta' name='kentta_id' onselect="kenttaValinta()" 
+						<#if (kierros.kentta_id)??> value='${kierros.kentta_id?c}' 
+						 
+						</#if> > </input>
 						<datalist id="kenttaluettelo" >
 		                    <#list kentat as kentta>
 		                        <option value="${kentta.id?c}">${kentta.id?c} ${kentta.kentan_nimi} (${kentta.seura_id?c})</option>
 		                    </#list>
 		                </datalist>
+		                 
 		            </td>
-		            <td id='kentta_nimi'>
-		            </td>
-
+		            <td id='kentta_nimi'> </td>
 		        </tr>
 				<tr>
 		            <td>Tii, jolta pelattu:</td>
 		            <td>
-		            <#-- 
-		                <input id='tii'  class='num' list='tiiluettelo' name='tii_id' onselect="tiiValinta()" <#if (kierros.tii_id)??> value='${kierros.tii_id?c}' </#if>  >
-		             -->
   		                <select id='tii' name='tii_id' onselect="tiiValinta()" <#if (kierros.tii_id)??> value='${kierros.tii_id?c}' </#if>  >
    						</select>
 		            </td>

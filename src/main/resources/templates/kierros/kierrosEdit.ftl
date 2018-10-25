@@ -8,8 +8,9 @@
 	<script type="application/javascript" src="/js/kierros.js"></script>
 
 	<title>Edit Kierros</title>
-	    <script type="application/javascript" src="/js/vaylat.js"></script>    
 	<script>
+	    <#include "/util/vaylat.ftl">
+
 		<#if seurat??>
 			seurat=[<#list seurat as seura>{id:"${seura.id?c}",lyhenne:"${seura.lyhenne}",nimi:"${seura.nimi}"}, </#list>];
 		<#else>
@@ -143,9 +144,9 @@
 				</tr>
 				<tr>
 					<td>Valitse kenttä:</td>
-					<td><input style="color:blue;" list="kenttaluettelo" title="Valitse kenttä" class='num' id='kentta' name='kentta_id' onselect="kenttaValinta2()" <#if (kierros.kentta_id)??> value='${kierros.kentta_id?c}' 
+					<td><input style="color:blue;" list="kenttaluettelo" autocomplete="off" title="Valitse kenttä" class='num' id='kentta' name='kentta_id' onselect="kenttaValinta2()" <#if (kierros.kentta_id)??> value='${kierros.kentta_id?c}' 
 					<#-- TODO: select myös alustaa oletuksena valitun kentän tiit -->
-					</#if> >
+					</#if> ></input>
 
 						<datalist id="kenttaluettelo" >
 		                    <#list kentat as kentta>
@@ -161,7 +162,7 @@
 				<tr>
 		            <td>Tii, jolta pelattu:</td>
 		            <td>
-		                <input id='tii'  class='num' list='tiiluettelo' name='tii_id' onselect="tiiValinta()" <#if (kierros.tii_id)??> value='${kierros.tii_id?c}' </#if>  >
+		                <input id='tii'  class='num' list='tiiluettelo' name='tii_id' autocomplete="off" onselect="tiiValinta()" <#if (kierros.tii_id)??> value='${kierros.tii_id?c}' </#if>  >
        		            <#-- 
   		                <select id='tii' name='tii_id' onselect="tiiValinta()" <#if (kierros.tii_id)??> value='${kierros.tii_id?c}' </#if>  >
    						</select>

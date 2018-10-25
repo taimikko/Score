@@ -45,10 +45,9 @@ function alustaTiitInput() { // input -tyyppisen kentän alustus ja valinta (val
 
     var t = document.getElementById('tii'); 
     console.log("MSA:",t); 
-//    t.value = t.options[0].value; // "";
-
+    t.value = "";
     t.focus();
-    //t.select();
+    t.select();
 
     //tiiValinta();
 }
