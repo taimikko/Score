@@ -65,7 +65,7 @@
                 </tr>
             </#if>
             <tr>
-               <td><input name="submit" type="submit" value="submit" /></td>
+               <td><input name="submit" type="submit" value="Päivitä" /></td>
             </tr>
         </table>
         </form>

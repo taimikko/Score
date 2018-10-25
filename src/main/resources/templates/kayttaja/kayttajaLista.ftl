@@ -39,7 +39,7 @@
   							<form name='f' action="/kayttaja/del/${user.username}" method='POST'>
   								<#if _csrf??><input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/></#if>
  								<input name="submit" type="submit" value="delete" />
-							   	<a href="/pelaaja/${user.seuraId}/${user.jasennumero?replace(",","")}">pelaajatiedot</a>
+							   	<a href="/pelaaja/history/${user.seuraId}/${user.jasennumero?replace(",","")}">pelaajahistoria</a>
 						   </form>
 						</td>
 					</tr>

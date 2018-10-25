@@ -2,6 +2,8 @@
 <#-- <#import "/spring.ftl" as spring/>  -->
 <html>
 	<head>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	    <link rel="stylesheet" type="text/css" href="/css/score.css">
 		<title>User list</title>
 		<script>
 			function deleteUser(user_name) {
@@ -28,7 +30,7 @@
 			<tr><td>Seura:</td><td>${kayttaja.seuraId?replace(",","")}</td></tr>
 			<tr><td>Jäsennumero:</td><td>${kayttaja.jasennumero?replace(",","")}</td></tr>
 			<tr><td>Voimassa:</td><td>${kayttaja.enabled?string('kyllä', 'ei')}</td></tr>
-			<tr><td>.</td></tr>
+			<tr><td><br></td></tr>
 		</table>
 	</#if>
 	</div>
@@ -37,18 +39,18 @@
 				<tr>
 				<th scope="col">Id</th>
 				<th scope="col">Pvm</th>
-				<th scope="col"><a href="/users/seura">Seura</a></th>
-				<th scope="col"><a href="/users/jasennumero">Jäsennumero</a></th>
+				<th scope="col">Seura</th>
+				<th scope="col">Jäsennumero</th>
 				<th scope="col">Tyyppi</th>
 				<th scope="col">HCP</th>
 				<th scope="col">HCP voimassa</th>
-				<#--  <th scope="col">suku</th>  -->
+				<th> </th>
 				</tr>
 			</thead>
 			<tbody>
 				<#list pelaajat as p>
 					<tr>
-						<td scope="row">${p.id}</td>
+						<td scope="row"><a href="/pelaaja/get/${p.id?c}">${p.id}</a></td>
 						<td>${p.pvm?string('dd.MM.yyyy HH:mm:ss')}</td>
 						<td>${p.seuraId?replace(",","")}</td>
 						<td>${p.jasennumero?replace(",","")}</td>
@@ -56,9 +58,11 @@
 						<td>${p.tasoitus}</td>
 						<td>${p.tasoitus_voimassa?string('kyllä', 'ei')}</td>
 						<td>
-						   <a href="/pelaaja/del/${p.id?c}">Del (ei toteutettu) </a>
-						   <#-- <button id="del" onclick="deletePelaaja('${p.id?c}')">Delete</button>  --> 
-						   <a href="/pelaaja/edit/${p.id?c}">Edit</a>
+  							<form name='f' action="/pelaaja/del/${p.id?c}" method='POST'>
+  								<#if _csrf??><input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/></#if>
+ 								<input name="submit" type="submit" value="delete" />
+							   	<a href="/pelaaja/edit/${p.id?c}">Edit</a>
+						   </form>
 						</td>
 					</tr>
 				</#list>

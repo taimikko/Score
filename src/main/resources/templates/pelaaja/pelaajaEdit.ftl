@@ -1,9 +1,10 @@
 <#-- assign security=JspTaglibs[ "http://www.springframework.org/security/tags"]/ -->
-<#-- Saadaanko JSP -tagit _menusta vai pitääkö ladata joka sivulle erikseen ? -->
 <!DOCTYPE HTML>
 <html lang="fi">
 
 <head>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/css/score.css">
     <title>Pelaajan tiedot</title>
 </head>
 
@@ -69,15 +70,20 @@
             </tr>
  	    </#if>
             <tr>
-               <td><input name="submit" type="submit" value="submit" /></td>
+               <td><input name="submit" type="submit" value="Päivitä uudet tiedot" /></td>
             </tr>
          </table>
       </form>  
  
     <br/>
-    <#if (pelaaja.id)??>
+
+    <#if (pelaaja.seuraId)??> <#if (pelaaja.jasennumero)??>
+      <a href="/pelaaja/history/${pelaaja.seuraId?c}/${pelaaja.jasennumero?c}" >pelaajahistoria</a>
+    </#if>
+    <#elseif (pelaaja.id)??>
       <a href="/pelaaja/get/${pelaaja.id?c}" >Peru/Katso</a>
     </#if>
+     
     <br/>
 
 </body>

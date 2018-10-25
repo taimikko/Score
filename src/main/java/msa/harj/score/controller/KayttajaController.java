@@ -120,7 +120,8 @@ public class KayttajaController {
 		List<String> roolit = rooliDAO.getRoleNames(kayttaja.getKayttajaId()); 
 		model.addAttribute("roolit", roolit);
 
-		return "kayttaja/kayttajaTiedot";
+		return "redirect:/kayttajaluettelo";
+//		return "kayttaja/kayttajaLista";
 	}
 
 	@PostMapping("/kayttaja/add")

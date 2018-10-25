@@ -48,12 +48,16 @@ public class PelaajaController {
 		return "pelaaja/pelaajaTiedot"; // TODO
 	}
 
-	@GetMapping("/pelaaja/del/{pelaajaId}")
-	public String deletePelaaja(@PathVariable("pelaajaId") Long pelaajaId) {
+	@PostMapping("/pelaaja/del/{pelaajaId}")
+	public String deletePelaaja(Model model, @PathVariable("pelaajaId") Long pelaajaId) {
 		log.info("MSA: /pelaaja/del/" + Long.toString(pelaajaId));
-		// TODO: ei poisteta GET:illä
-		// pelaajaDAO.deletePelaaja(pelaajaId); // Toimii
-		return "redirect:/pelaaja/"; // TODO: /pelaajat puuttuu
+		Pelaaja p = pelaajaDAO.getPelaaja(pelaajaId);
+		pelaajaDAO.deletePelaaja(pelaajaId); // Toimii
+		List<Pelaaja> ph = pelaajaDAO.getPelaajaHistoria(p.getSeuraId(), p.getJasennumero());
+		model.addAttribute("pelaajat", ph);
+		Kayttaja k = (Kayttaja)ph.get(0);
+		model.addAttribute("kayttaja", k);
+		return "pelaaja/pelaajaHistoria"; 
 	}
 
 	@GetMapping("/pelaaja/history/{seuraId}/{jasennumero}")
