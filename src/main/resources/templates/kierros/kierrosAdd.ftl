@@ -175,7 +175,7 @@
 						</select>
 						-->
 						
-						<input autofocus list="kenttaluettelo" autocomplete="off" title="Valitse kenttä" class='num' id='kentta' name='kentta_id' onselect="kenttaValinta()" 
+						<input autofocus list="kenttaluettelo" autocomplete="off" title="Valitse kenttä" class='num' id='kentta' name='kentta_id' onselect="kenttaValintaInput()" 
 						<#if (kierros.kentta_id)??> value='${kierros.kentta_id?c}' 
 						 
 						</#if> > </input>

@@ -1,75 +1,55 @@
 // <#assign security=JspTaglibs["http://www.springframework.org/security/tags"]/>
 // <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-var kenttaId = 0;
-var tiiId = 0;
 var kentat;
 var tiit;
 var seurat;
 var jasentyypit;
 var vaylat;
 var pelaajanSukup;
-var kierros=0;
 
-function alustaTiitInput() { // input -tyyppisen kentän alustus ja valinta (valinta ei toimi)
+
+function alustaTiitSelect(kentta_selected, tii_selected) { // select -tyyppisen kentän alustus ja valinta
     var tii;
     var ok = false;
     var optiot = "";
 
     if (tiit === undefined) {
-        console.log("DEBUG: tiit===undefined");
+        console.log("alustaTiitSelect: tiit===undefined");
     } else {
-        console.log("DEBUG: tiit on ", tiit.length, tiit);
+        console.log("alustaTiitSelect: tiit on ", tiit.length, tiit);
     }
-    console.log("pelaajan sukupuoli=", pelaajanSukup);
 
+    if (kentta_selected === undefined){
+        console.log("alustaTiitSelect: kentta_selected === undefined");
+        kentta_selected = kenttaId;
+    } else {
+        console.log("alustaTiitSelect: kentta_selected ===  ", kentta_selected);
+    }
+    
+    console.log("pelaajan sukupuoli=", pelaajanSukup, "tii_selected",tii_selected, kentta_selected);
+
+    //optiot += '<option value="" >Valitse tii</option> '
     for (var i = 0; i < tiit.length; i++) {
         tii = tiit[i];
-        if ((tii.kentta_id == kenttaId) && (tii.sukup == pelaajanSukup)) {
-            console.log("for[", i, "]:", tii.kentta_id, tii.nimi, tii.slope, tii.cr);
-            optiot += '<option value="' + tii.id + '" >' + tii.id + ' ' + tii.nimi + '</option> '
+        if ((tii.kentta_id == kentta_selected) && (tii.sukup == pelaajanSukup)) {
+            if ((tii_selected == undefined) || (tii_selected == 0)) { // asetaan ensimmäinen tii valituksi
+                if (ok) {
+                    optiot += '<option value="' + tii.id + '" >' + tii.nimi + '</option> '
+                } else {
+                    optiot += '<option value="' + tii.id + '" selected="selected" >' + tii.nimi + '</option> '
+                    console.log("AlustaTiit ok:", tii.id, tii.nimi, tii.slope, tii.cr);
+                }
+            } else { // asetetaan parametrina saatu tii valituksi
+                if (tii_selected == tii.id) {
+                    optiot += '<option value="' + tii.id + '" selected="selected" >' + tii.nimi + '</option> '
+                    console.log("AlustaTiit selected:", tii.id, tii.nimi, tii.slope, tii.cr);
+                } else {
+                    optiot += '<option value="' + tii.id + '" >' + tii.nimi + '</option> '
+                }
+            }
             ok = true;
-        } 
-    }
-    if (ok == true) {
-        document.getElementById('tiiluettelo').innerHTML = '`' + optiot + '`';
-    } else {
-        console.log("Alusta tiit oletusarvoilla.");
-        document.getElementById('tiiluettelo').innerHTML = `
-        <option value="2" selected>Keltainen</option>
-        <option value="3">Sininen</option>
-        <option value="4">Punainen</option>
-        `;
-    }
-    document.getElementById('tii_nimi').innerHTML = '';
-
-    var t = document.getElementById('tii'); 
-    console.log("MSA:",t); 
-    t.value = "";
-    t.focus();
-    t.select();
-
-    //tiiValinta();
-}
-
-function alustaTiitSelect() { // select -tyyppisen kentän alustus ja valinta
-    var tii;
-    var ok = false;
-    var optiot = "";
-
-    if (tiit === undefined) {
-        console.log("DEBUG: tiit===undefined");
-    } else {
-        console.log("DEBUG: tiit on ", tiit.length, tiit);
-    }
-    console.log("pelaajan sukupuoli=", pelaajanSukup);
-
-    for (var i = 0; i < tiit.length; i++) {
-        tii = tiit[i];
-        if ((tii.kentta_id == kenttaId) && (tii.sukup == pelaajanSukup)) {
-            console.log("for[", i, "]:", tii.kentta_id, tii.nimi, tii.slope, tii.cr);
-            optiot += '<option value="' + tii.id + '" >' + tii.nimi + '</option> '
-            ok = true;
+            console.log("for[", i, "]:", tii.kentta_id, tii.id, tii.nimi, tii.slope, tii.cr);
         } 
     }
 
@@ -80,83 +60,85 @@ function alustaTiitSelect() { // select -tyyppisen kentän alustus ja valinta
     } else {
         console.log("Alusta tiit oletusarvoilla.");
         t.innerHTML = `
-        <option value="2" selected >Keltainen</option>
+        <option value="2" selected="selected" >Keltainen</option>
         <option value="3">Sininen</option>
         <option value="4">Punainen</option>
         `;
     }
     document.getElementById('tii_nimi').innerHTML = '';
 
-    console.log("MSA:",t); //.options[0].text);
-    // t.value = t.options[0].value; // "";
-
-    t.options[1].selected = true;
+    console.log("MSA: focus tii");
     t.focus();
 }
 
-function kenttaValinta() {
+function kenttaValintaInput() {
     // uutta kierrosta tehtäessä
-    kenttaId = document.getElementById('kentta').value;
+    var kentta_selected = document.getElementById('kentta').value;
     if (kentat === undefined) {
-        console.log("DEBUG: kenttaValinta() id=", kenttaId, "kentat===undefined");
+        console.log("DEBUG: kenttaValinta() id=", kentta_selected, "kentat===undefined");
     } else {
-        console.log("DEBUG: kenttaValinta() id=", kenttaId, "kenttiä on ", kentat.length, kentat);
+        console.log("DEBUG: kenttaValinta() id=", kentta_selected, "kenttiä on ", kentat.length, kentat);
     }
 
     var kentan_nimi;
     var kentta;
     for (var i = 0; i < kentat.length; i++) {
         kentta = kentat[i];
-        if (kentta.id == kenttaId) {
+        if (kentta.id == kentta_selected) {
             kentan_nimi = kentta.nimi;
             break;
         }
     }
-    console.log("DEBUG: id=", kenttaId, kentan_nimi);
+    console.log("DEBUG:kenttaValinta() id=", kentta_selected, kentan_nimi);
     document.getElementById('kentta_nimi').innerHTML = kentan_nimi;
 
-    alustaTiitSelect();
+    alustaTiitSelect(kentta_selected); // valittu tii puuttuuu
 }
 
-function kenttaValinta2() {
-    // tulosta päivitettäessä
-    kenttaId = document.getElementById('kentta').value;
-    if (kentat === undefined) {
-        console.log("DEBUG: kenttaValinta() id=", kenttaId, "kentat===undefined");
+function kenttaValinta() {
+    var kentta_selected = document.getElementById('kentta').value;
+    console.log("kenttaValinta2 ", kentta_selected);
+
+    alustaTiitSelect(kentta_selected, 0);
+}
+
+function alustaKentta(kentta_selected, tii_selected) {
+    var kentta;
+    var optiot="";
+
+    if (kentta_selected == undefined) {
+        console.log("alustaKentta kentta_selected === undefined:");
+        kentta_selected = 0;
     } else {
-        console.log("DEBUG: kenttaValinta() id=", kenttaId, "kenttiä on ", kentat.length, kentat);
+        console.log("alustaKentta", kentta_selected, tii_selected);
     }
 
-    var kentan_nimi;
-    var kentta;
     for (var i = 0; i < kentat.length; i++) {
         kentta = kentat[i];
-        if (kentta.id == kenttaId) {
-            kentan_nimi = kentta.nimi;
-            break;
+        if (kentta.id == kentta_selected)  {
+            optiot += '<option value="' + kentta.id + '" selected="selected" >' + kentta.id + ". "+  kentta.nimi + '</option> '
+            console.log("AlustaKentta selected:", kentta.id, kentta.nimi);
+        } else {
+            optiot += '<option value="' + kentta.id + '" >' + kentta.id +". "+ kentta.nimi + '</option> '
         }
     }
-    console.log("DEBUG: id=", kenttaId, kentan_nimi);
-    document.getElementById('kentta_nimi').innerHTML = kentan_nimi;
 
-    alustaTiitInput();
+    document.getElementById('kentta').innerHTML = '`' + optiot + '`';
+
+    if (kentta_selected === 0) { // asetaan ensimmäinen valituksi
+        console.log("AlustaKentta kentta_selected === 0:", kentat[0].id, kentat[0].nimi);
+        document.getElementById('kentta').options[0].selected = true;
+    } 
+
+    console.log("AlustaKentta -> alustaTiit:", kentta_selected, tii_selected);
+
+    alustaTiitSelect(kentta_selected,tii_selected);
 }
 
 
 function tiiValinta() {
-    tiiId = document.getElementById('tii').value;
-    var tii_nimi;
-    var tii;
-    for (var i = 0; i < tiit.length; i++) {
-        tii = tiit[i];
-        if (tii.id == tiiId) {
-            tii_nimi = tii.nimi;
-            break;
-        }
-    }
-    console.log("DEBUG: tii=", tiiId, tii_nimi);
-    document.getElementById('tii_nimi').innerHTML = tii_nimi;
-    //document.getElementById('h1').focus();
+    document.getElementById('h1').focus();
+    document.getElementById('h1').select();
 }
 
 function getRandomPvm() {
