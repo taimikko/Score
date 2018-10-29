@@ -1,10 +1,6 @@
 package msa.harj.score.model;
 
-import jdk.internal.jline.internal.Log;
-
 public class Kayttaja {
-	// private static final Log log = LogFactory.getLog(Kayttaja.class);
-
 	protected Long kayttajaId;
 	protected String username;
 	protected String encrytedPassword;
@@ -121,7 +117,7 @@ public class Kayttaja {
 
 	public void setSukup(Integer sukup) {
 		if (sukup == null) {
-			Log.info("MSA: Sukup== null \t->3");
+//			log.info("MSA: Sukup== null \t->3");
 			sukup=3; // ei tietoa
 		}
 		this.sukup = sukup;

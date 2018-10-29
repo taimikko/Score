@@ -92,10 +92,12 @@
 					<@security.authorize access="hasRole('ROLE_ADMIN')">
 						<td>pelaajan kotiseura:
 						</td><td>
-							<input type='number' min='0' class='num2' id='seura_id' name='seura_id'  <#if (kierros.seura_id)??> value='${kierros.seura_id?c}' <#elseif (pelaaja.seuraId)??> value='${pelaaja.seuraId?c}' </#if>  >
+							<#--  <#if (kierros.seura_id)??> value='${kierros.seura_id?c}' <#elseif (pelaaja.seuraId)??> value='${pelaaja.seuraId?c}' </#if>  -->
+							<select class='num2' id='seura_id' name='seura_id' onchange="seuraChange()" >
 							<#if seurat??>
-							<#list seurat as seura> <#if pelaaja.seuraId==seura.id> ${seura.nimi}</#if> </#list>
+								<#list seurat as seura><option value='${seura.id}' <#if kierros.seura_id==seura.id>" selected='selected'" </#if> > ${seura.id}. ${seura.nimi}</option></#list>
 			                </#if>
+			                </select>
 			            </td>
 						</tr><tr>
 						<td>jäsennumero:
@@ -148,7 +150,7 @@
 				</tr>
 				<tr>
 					<td>Valitse kenttä:</td>
-					<td><select title="Valitse kenttä" id='kentta' name='kentta_id' onchange="kenttaValinta()" <#if (kierros.kentta_id)??> value='${kierros.kentta_id?c}'
+					<td><select title="Valitse kenttä" id='kentta' name='kentta_id' onchange="kenttaChange()" <#if (kierros.kentta_id)??> value='${kierros.kentta_id?c}'
 						</#if> ></select>
 					<#-- TODO: select myös alustaa oletuksena valitun kentän tiit    -->    
 		            </td>
@@ -157,7 +159,7 @@
 				<tr>
 		            <td>Tii, jolta pelattu:</td>
 		            <td>
-  		                <select id='tii' name='tii_id' onselect="tiiValinta()" <#if (kierros.tii_id)??> value='${kierros.tii_id?c}' </#if>  >
+  		                <select id='tii' name='tii_id' onchange="tiiChange()" <#if (kierros.tii_id)??> value='${kierros.tii_id?c}' </#if>  >
    						</select>
 		            </td>
 		            <td id='tii_nimi'><#if (kierros.tii_id)??>${kierros.tii_id?c}</#if> <#if (kierros.tii_nimi)??>${kierros.tii_nimi}</#if></td>

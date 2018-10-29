@@ -80,7 +80,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         //if (securityProperties.isRequireSsl()) http.requiresChannel().anyRequest().requiresSecure(); // MSA
 
 		// The pages does not require login
-		http.authorizeRequests().antMatchers("/", "/login", "/logout", "index").permitAll();
+		http.authorizeRequests().antMatchers("/", "/login", "/logout", "index", "/nakkivene").permitAll();
 		http.authorizeRequests().antMatchers("/kierros", "/kierros/*").access("hasAnyRole('ROLE_PELAAJA', 'ROLE_ADMIN')");
 		
 		http.authorizeRequests().antMatchers(HttpMethod.GET, "/kentta/**", "/admin/kentat").access("hasAnyRole('ROLE_PELAAJA')");
@@ -93,6 +93,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().antMatchers("/kayttajaTiedot").access("hasAnyRole('ROLE_SEURA_MANAGER', 'ROLE_ADMIN')");
 
 		// For ADMIN only.
+		http.authorizeRequests().antMatchers("/seura/**").access("hasRole('ROLE_ADMIN')");
+		
 		http.authorizeRequests().antMatchers("/admin", "/admin/**").access("hasRole('ROLE_ADMIN')");
 		http.authorizeRequests().antMatchers("/kentta", "/kentta/**").access("hasRole('ROLE_ADMIN')");
 		

@@ -89,17 +89,20 @@ function kenttaValintaInput() {
             break;
         }
     }
-    console.log("DEBUG:kenttaValinta() id=", kentta_selected, kentan_nimi);
+    console.log("kenttaValintainput() id=", kentta_selected, kentan_nimi);
     document.getElementById('kentta_nimi').innerHTML = kentan_nimi;
 
-    alustaTiitSelect(kentta_selected); // valittu tii puuttuuu
+    alustaTiitSelect(kentta_selected, 0); // valittu tii puuttuuu
 }
 
-function kenttaValinta() {
-    var kentta_selected = document.getElementById('kentta').value;
-    console.log("kenttaValinta2 ", kentta_selected);
+function kenttaChange() {
+    console.log("kenttaChange", document.getElementById('kentta').value);
+    alustaTiitSelect(document.getElementById('kentta').value, 0);
+}
 
-    alustaTiitSelect(kentta_selected, 0);
+function seuraChange() {
+    console.log("seuraChange", document.getElementById('seura_id').value);
+    // alustaPelaajat(document.getElementById('seura').value, 0);
 }
 
 function alustaKentta(kentta_selected, tii_selected) {
@@ -135,8 +138,8 @@ function alustaKentta(kentta_selected, tii_selected) {
     alustaTiitSelect(kentta_selected,tii_selected);
 }
 
-
-function tiiValinta() {
+function tiiChange() {
+    console.log("tiiChange()",document.getElementById('tii').value);
     document.getElementById('h1').focus();
     document.getElementById('h1').select();
 }

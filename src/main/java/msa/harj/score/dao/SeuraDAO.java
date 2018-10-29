@@ -33,6 +33,31 @@ public class SeuraDAO extends JdbcDaoSupport {
 
 		return seurat;
 	}
+	
+	public void deleteSeura(Long seuraId) {
+		int lkm = this.getJdbcTemplate().update("DELETE FROM seura WHERE id=?", seuraId);
+		log.info("MSA: Taulusta \"seura\" poistettu " + lkm + " riviä (id=" + seuraId+")");
+	}
+
+	public Seura getSeura(Long seuraId) {
+		String sql = "SELECT *  FROM seura WHERE id=?";
+		Object[] args = new Object[] { seuraId };
+		return this.getJdbcTemplate().queryForObject(sql, args, SEURA_MAPPER);
+	}
+
+	public void updateSeura(Seura s) {
+		String sql = "UPDATE seura SET lyhenne=?, nimi=? WHERE id=?";
+		Object[] args = new Object[] { s.getLyhenne(), s.getNimi(), s.getId() };
+		int lkm = this.getJdbcTemplate().update(sql, args);
+		log.info("MSA: updateSeura päivitti " + lkm + " riviä " + s);
+	}
+
+	public void addSeura(Seura s) {
+		String sql = "INSERT INTO seura (id, lyhenne, nimi) VALUES (?, ?, ?)";
+		Object[] args = new Object[] {  s.getId(), s.getLyhenne(), s.getNimi() };
+		int lkm = this.getJdbcTemplate().update(sql, args);
+		log.info("MSA: addSeura lisäsi " + lkm + " riviä " + s);
+	}
 
 	private static RowMapper<Seura> SEURA_MAPPER = new RowMapper<Seura>() {
 

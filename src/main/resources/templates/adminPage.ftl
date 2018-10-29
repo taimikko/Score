@@ -20,7 +20,12 @@
       <div>
             <a href="/admin/kentat">kentät</a>
       </div>
-      <@security.authorize url="/admin/kierrokset">
+
+      <div>
+            <a href="/seura/seuraluettelo">seurat</a>
+      </div>
+
+        <@security.authorize url="/admin/kierrokset">
       <#--  <form name='f' action="/admin/kierrokset" method='get' autocomplete='off'> </form>  --> 
       	<div>Valitse kenttä --> 78
  	  

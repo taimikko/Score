@@ -199,6 +199,19 @@ public class KayttajaController {
 		return "kayttaja/kayttajaLista";
 	}
 
+	@GetMapping("/kayttaja/seura/{seura_id}")
+	public String kayttajaLista(Model model, @PathVariable("seura_id") Long seura_id) {
+		log.info("MSA: /kayttaja/seura/"+Long.toString(seura_id));
+		List<Kayttaja> k = kayttajaDAO.getKayttajat(seura_id);
+		model.addAttribute("kayttajat", k);
+		String str = "";
+		for (Kayttaja kayttaja : k) {
+			str += kayttaja.toString() + "\t";
+		}
+		log.info("userList palauttaa(" + Integer.toString(k.size()) + "):" + str);
+		return "kayttaja/kayttajaLista";
+	}
+
 	@GetMapping("/kayttajaInfo")
 	public String userInfo(Model model, Principal principal) {
 		// After user login successfully.
