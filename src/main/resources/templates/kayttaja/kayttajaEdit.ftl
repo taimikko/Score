@@ -64,6 +64,16 @@
                     </#list>
                 </tr>
             </#if>
+       		<tr>
+    			<td>jäsenyyden tyyppi:</td>
+    			<td><select required id='jasen_tyyppi' name='jasen_tyyppi'>
+                 	<#list jasentyypit as jt>
+                    	<option value="${jt.id}">${jt.id}. ${jt.tyyppi}</option>
+                	</#list>
+					</select>
+				</td>
+			</tr>
+
             <tr>
                <td><input name="submit" type="submit" value="Päivitä" /></td>
             </tr>

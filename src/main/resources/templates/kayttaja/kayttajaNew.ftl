@@ -110,13 +110,13 @@
     		</tr>
      		<tr>
     			<td>jäsenyyden tyyppi:</td>
-    			<td><input list="jasenyys" name='jasen_tyyppi'>
-  					<datalist id="jasenyys">
-                     	<#list jasentyypit as jt>
-                        	<option value="${jt.id}">${jt.id}. ${jt.tyyppi}</option>
-                    	</#list>
-  					</datalist></td>
-    		</tr>
+    			<td><select required id='jasen_tyyppi' name='jasen_tyyppi'>
+                 	<#list jasentyypit as jt>
+                    	<option value="${jt.id}">${jt.id}. ${jt.tyyppi}</option>
+                	</#list>
+					</select>
+				</td>
+			</tr>
     		<tr>
     			<td>sukupuoli:</td>
     			<td><input type='radio' name='sukup' value='1'>Mies</input><br>
