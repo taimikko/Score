@@ -102,8 +102,24 @@
 						</tr><tr>
 						<td>jäsennumero:
 						</td><td>
-						<#-- jäsennumero = readonly, tulee kirjautuneen käytäjän tietojen mukaan paitsi adminilla, joka voi syöttää muidenkin tietoja -->
-							<input type='number' class='num2' name='jasennumero' <#if (kierros.jasennumero)??> value='${kierros.jasennumero?c}' <#elseif (pelaaja.jasennumero)??> value='${pelaaja.jasennumero?c}' </#if> >
+
+						
+						<datalist id="jasenluettelo" >
+							<#if pelaajat??>
+		                    <#list pelaajat as pelaaja>
+		                        <option value="${pelaaja.jasennumero?c}">${pelaaja.jasennumero?c} ${pelaaja.etunimi} ${pelaaja.sukunimi}</option>
+		                    </#list>
+		                    <#else>
+		                        <option <#if (kierros.jasennumero)??> value='${kierros.jasennumero?c}' <#elseif (pelaaja.jasennumero)??> value='${pelaaja.jasennumero?c}' </#if> >
+		                        ${kierros.jasennumero?c} ${kierros.etunimi} ${kierros.sukunimi}</option>
+		                       
+		                    </#if>
+		                </datalist>
+
+												
+<#-- jäsennumero = readonly, tulee kirjautuneen käytäjän tietojen mukaan paitsi adminilla, joka voi syöttää muidenkin tietoja -->
+							<input list="jasenluettelo" autocomplete="off" class='num2' id='jasennumero' name='jasennumero' onselect="pelaajaValinta()"  <#if (kierros.jasennumero)??> value='${kierros.jasennumero?c}' <#elseif (pelaaja.jasennumero)??> value='${pelaaja.jasennumero?c}' </#if> >
+							</input>
 						</td>
 						</tr><tr>
 						<#--  etu- ja sukunimi voidaan täyttää kotiseuran ja jäsennumeron perusteella -->	

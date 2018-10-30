@@ -10,6 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import msa.harj.score.dao.PelaajaDAO;
 import msa.harj.score.dao.RooliDAO;
@@ -33,11 +36,21 @@ public class PelaajaController {
 		Pelaaja p = pelaajaDAO.getPelaaja(seuraId, jasennumero);
 		model.addAttribute("pelaaja", p);
 		log.info("MSA: pelaajan.käyttäjäid:" + Long.toString(p.getKayttajaId()) + "\t" + p);
-		
-		List<String> roolit = rooliDAO.getRoleNames(p.getKayttajaId()); 
+
+		List<String> roolit = rooliDAO.getRoleNames(p.getKayttajaId());
 		model.addAttribute("roolit", roolit);
 
 		return "pelaaja/pelaajaTiedot";
+	}
+	
+	@RequestMapping("/pelaaja/seuranjasenet")
+	public @ResponseBody List<Pelaaja> seuranjasenet(@RequestParam(value = "seura_id", required = false) Long seura_id) {
+		log.info("MSA: /pelaaja/seuranjasenet "+seura_id );
+		if (seura_id == null)
+			log.info("MSA: seura_id == null");
+		List<Pelaaja> pelaajat = pelaajaDAO.getSeuranPelaajat(seura_id);
+		log.info("MSA: seuranjasenet "+pelaajat );
+		return pelaajat;
 	}
 
 	@GetMapping("/pelaaja/get/{pelaajaId}")
@@ -55,9 +68,9 @@ public class PelaajaController {
 		pelaajaDAO.deletePelaaja(pelaajaId); // Toimii
 		List<Pelaaja> ph = pelaajaDAO.getPelaajaHistoria(p.getSeuraId(), p.getJasennumero());
 		model.addAttribute("pelaajat", ph);
-		Kayttaja k = (Kayttaja)ph.get(0);
+		Kayttaja k = (Kayttaja) ph.get(0);
 		model.addAttribute("kayttaja", k);
-		return "pelaaja/pelaajaHistoria"; 
+		return "pelaaja/pelaajaHistoria";
 	}
 
 	@GetMapping("/pelaaja/history/{seuraId}/{jasennumero}")
@@ -66,7 +79,7 @@ public class PelaajaController {
 		log.info("MSA: /pelaaja/history/" + Long.toString(seuraId) + "/" + Long.toString(jasennumero));
 		List<Pelaaja> ph = pelaajaDAO.getPelaajaHistoria(seuraId, jasennumero);
 		model.addAttribute("pelaajat", ph);
-		Kayttaja k = (Kayttaja)ph.get(0);
+		Kayttaja k = (Kayttaja) ph.get(0);
 		model.addAttribute("kayttaja", k);
 		String str = "";
 		for (Pelaaja p : ph) {
@@ -86,12 +99,12 @@ public class PelaajaController {
 
 	@PostMapping("/pelaaja/edit")
 	public String updatePelaaja(Model model, Pelaaja p) {
-		log.info("MSA(post): /pelaaja/edit/" + p.getUsername()+" "+p.getSeuraId()+":"+p.getJasennumero());
+		log.info("MSA(post): /pelaaja/edit/" + p.getUsername() + " " + p.getSeuraId() + ":" + p.getJasennumero());
 		try {
 			pelaajaDAO.updatePelaaja(p);
-			//model.addAttribute("pelaaja", p);
-			return "redirect:/pelaaja/"+p.getSeuraId()+"/"+p.getJasennumero();
-			//return "redirect:/pelaajat"; // TODO
+			// model.addAttribute("pelaaja", p);
+			return "redirect:/pelaaja/" + p.getSeuraId() + "/" + p.getJasennumero();
+			// return "redirect:/pelaajat"; // TODO
 		} catch (Exception e) {
 			model.addAttribute("message", e.getMessage());
 			return "/pelaaja/edit/" + p.getId();
@@ -111,7 +124,7 @@ public class PelaajaController {
 		try {
 			pelaajaDAO.addPelaaja(p);
 			return "redirect:/pelaajat";
-		} catch (Exception e) { 
+		} catch (Exception e) {
 			model.addAttribute("message", e.getMessage()); // return "/error";
 			return "pelaaja/pelaajaAdd";
 		}

@@ -100,9 +100,32 @@ function kenttaChange() {
     alustaTiitSelect(document.getElementById('kentta').value, 0);
 }
 
-function seuraChange() {
-    console.log("seuraChange", document.getElementById('seura_id').value);
-    // alustaPelaajat(document.getElementById('seura').value, 0);
+
+function pelaajaValinta() {
+    console.log("pelaajaValinta");
+}
+
+async function seuraChange() {
+    var seura_id = document.getElementById('seura_id').value;
+    console.log("seuraChange", seura_id);
+    // alustaPelaajat(seura_id, 0);
+    try { 
+        const res = await fetch('/pelaaja/seuranjasenet?seura_id=' + seura_id); 
+        var parent = document.getElementById('jasenluettelo'); 
+        parent.innerHTML = ''; 
+        if(res.status != 200){ return; } 
+        const data = await res.text(); 
+        console.log(data);
+        var pelaajat = JSON.parse(data);
+        var txt = "";
+        for (pelaaja of pelaajat) {
+            txt += '<option value="'+pelaaja.jasennumero+'">'+pelaaja.jasennumero+' '+pelaaja.etunimi+' '+pelaaja.sukunimi+'</option>';
+        } 
+        parent.innerHTML = '`' + txt +'`' ;
+        console.log("seuraChange txt", txt);
+     } finally {
+        console.log("seuraChange finally", pelaajat);
+     }
 }
 
 function alustaKentta(kentta_selected, tii_selected) {

@@ -132,7 +132,7 @@ public class PelaajaDAO extends KayttajaDAO {
 
 	public List<Pelaaja> getSeuranPelaajat(Long seuranumero) {
 		log.info("MSA: getSeuranPelaajat(" + Long.toString(seuranumero) + ")");
-		String sql = PELAAJA_SELECT + " WHERE seura_id = ? AND " + PELAAJA_NEWEST + " ORDER BY seura_id, jasennumero";
+		String sql = PELAAJA_SELECT + " WHERE p.seura_id = ? AND " + PELAAJA_NEWEST + " ORDER BY p.seura_id, p.jasennumero";
 		Object[] args = new Object[] { seuranumero };
 		return this.getJdbcTemplate().query(sql, args, PELAAJA_MAPPER);
 	}
