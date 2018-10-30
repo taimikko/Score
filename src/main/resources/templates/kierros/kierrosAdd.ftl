@@ -80,6 +80,11 @@
 		 var principal = "principal puuttuu";
 		</#if>
 		console.log("principal",principal);
+
+		window.onload = function (e) {
+			console.log("kierrosAdd window.onload");
+		    alustaPvm();
+		}
 </script>   
     
 </head>

@@ -105,27 +105,38 @@ function pelaajaValinta() {
     console.log("pelaajaValinta");
 }
 
-async function seuraChange() {
-    var seura_id = document.getElementById('seura_id').value;
-    console.log("seuraChange", seura_id);
-    // alustaPelaajat(seura_id, 0);
+async function alustaPelaajat(seura_id) {
     try { 
         const res = await fetch('/pelaaja/seuranjasenet?seura_id=' + seura_id); 
-        var parent = document.getElementById('jasenluettelo'); 
-        parent.innerHTML = ''; 
+        var parent = document.getElementById('jasennumero'); 
+        var pelaaja_id = parent.value; // vanha valinta jonnekin jemmaan (näytetäänkö käyttäjälle?)
+        document.getElementById('vanha_jasennumero').innerHTML = "("+pelaaja_id+")"; 
         if(res.status != 200){ return; } 
         const data = await res.text(); 
         console.log(data);
         var pelaajat = JSON.parse(data);
         var txt = "";
         for (pelaaja of pelaajat) {
-            txt += '<option value="'+pelaaja.jasennumero+'">'+pelaaja.jasennumero+' '+pelaaja.etunimi+' '+pelaaja.sukunimi+'</option>';
-        } 
+            if (pelaaja.jasennumero == parent.value) {
+                txt += '<option value="'+pelaaja.jasennumero+'" selected="selected" >'+pelaaja.jasennumero+' '+pelaaja.etunimi+' '+pelaaja.sukunimi+'</option>';
+            } else {
+                txt += '<option value="'+pelaaja.jasennumero+'">'+pelaaja.jasennumero+' '+pelaaja.etunimi+' '+pelaaja.sukunimi+'</option>';
+            }
+        }
+        if (txt.length == 0) 
+            txt = pelaaja_id; // seurassa ei pelaajia  
         parent.innerHTML = '`' + txt +'`' ;
         console.log("seuraChange txt", txt);
      } finally {
         console.log("seuraChange finally", pelaajat);
      }
+
+} 
+
+async function seuraChange() {
+    var seura_id = document.getElementById('seura_id').value;
+    console.log("seuraChange", seura_id);
+    alustaPelaajat(seura_id);
 }
 
 function alustaKentta(kentta_selected, tii_selected) {
@@ -360,7 +371,7 @@ function poista_kierros(id, pvm, etunimi, sukunimi, lisatieto, yhteensa) {
 window.onload = function (e) {
     console.log("kierros.js window.onload", e);
     //setRandomPvm();
-    alustaPvm();
+
     var width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth; 
     var height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
 
