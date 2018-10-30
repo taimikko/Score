@@ -28,7 +28,7 @@
 				<#list kayttajat as user>
 					<tr>
 						<td scope="row">${user.kayttajaId}</td>
-						<td ><a href="/kayttaja/${user.username}">${user.username}</a></td>
+						<td ><a href="/kayttaja/info?kayttajatunnus=${user.username}">${user.username}</a></td>
 						<td>${user.etunimi}</td>
 						<td>${user.sukunimi}</td>
 						<td>${user.seuraId}</td>

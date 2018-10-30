@@ -36,13 +36,10 @@
                 <br/>
             </@security.authorize>
         </div>
-        <div>
-            <#if userInfo??>
-                ${userInfo}
-            </#if>
-        </div>
 
-        <a href="/kayttaja/<@security.authentication property="principal.username" />"> omat käyttäjätiedot</a>
+        <#-- <div> <#if userInfo??>${userInfo}</#if> </div>  -->        
+
+        <a href="/kayttajaInfo?kayttajatunnus=<@security.authentication property="principal.username" />"> omat käyttäjätiedot</a>
 </body>
 
 </html>

@@ -6,13 +6,12 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import msa.harj.score.dao.JasenTyyppiDAO;
 import msa.harj.score.dao.KayttajaDAO;
@@ -27,7 +26,6 @@ import msa.harj.score.model.Pelaaja;
 import msa.harj.score.model.Rooli;
 import msa.harj.score.model.Seura;
 import msa.harj.score.model.UusiKayttaja;
-import msa.harj.score.utils.WebUtils;
 
 @Controller
 public class KayttajaController {
@@ -213,31 +211,32 @@ public class KayttajaController {
 	}
 
 	@GetMapping("/kayttajaInfo")
-	public String userInfo(Model model, Principal principal) {
-		// After user login successfully.
+	public String kayttajaTiedot(Model model, Principal principal, @RequestParam(value = "kayttajatunnus", required = false) String kayttajatunnus) {
 		String username = principal.getName();
-
-		log.info("MSA: /kayttajaInfo User Name: " + username);
-
-		User loginedUser = (User) ((Authentication) principal).getPrincipal();
-
-		String userInfo = WebUtils.toString(loginedUser);
-		model.addAttribute("userInfo", userInfo);
-
-		return "kayttaja/kayttajaInfo";
+		log.info("MSA: /kayttajaInfo?kayttajatunnus=" + kayttajatunnus+" "+username);
+		if ( (kayttajatunnus == null) || (! username.equals(kayttajatunnus))) {
+			return "kayttaja/kayttajaInfo";
+		} else {
+			log.info("MSA: kayttajatunnus = username " + kayttajatunnus  + " = "+ username );
+			Kayttaja k = kayttajaDAO.getKayttaja(kayttajatunnus);
+			model.addAttribute("kayttaja", k);
+			List<String> roolit = rooliDAO.getRoleNames(k.getKayttajaId()); 
+			model.addAttribute("roolit", roolit);
+			
+			return "kayttaja/kayttajaTiedot";
+		}
 	}
 
-	@GetMapping("/kayttaja/{kayttajatunnus}")
-	public String kayttajaTiedot(Model model, Principal principal, @PathVariable("kayttajatunnus") String kayttajatunnus) {
-		log.info("MSA: /kayttaja/" + kayttajatunnus);
-		Kayttaja k = kayttajaDAO.getKayttaja(kayttajatunnus);
-		model.addAttribute("kayttaja", k);
-		log.info("MSA: käyttäjä:"+k);
-		
-		List<String> roolit = rooliDAO.getRoleNames(k.getKayttajaId()); 
-		model.addAttribute("roolit", roolit);
-		
-		return "kayttaja/kayttajaTiedot";
+	@GetMapping("/kayttaja/info")
+	public String kayttajaInfo(Model model, Principal principal, @RequestParam(value = "kayttajatunnus", required = false) String kayttajatunnus) {
+		String username = principal.getName();
+			log.info("MSA: ADMIN only: kayttajatunnus username " + kayttajatunnus  + " "+ username );
+			Kayttaja k = kayttajaDAO.getKayttaja(kayttajatunnus);
+			model.addAttribute("kayttaja", k);
+			List<String> roolit = rooliDAO.getRoleNames(k.getKayttajaId()); 
+			model.addAttribute("roolit", roolit);
+			
+			return "kayttaja/kayttajaTiedot";
 	}
 
 }

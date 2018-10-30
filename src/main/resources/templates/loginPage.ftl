@@ -24,11 +24,11 @@
       </#if>
             
       <#if user??><h1>Welcome ${user}!</h1>
-      <#else>Käyttäjää ei ole tunnistettu?
+      <#else>
       </#if> 
       
       
-      <h3>Nyt tarvittais sitä käyttäjätunnusta ja salasanaa, viittikkö antaa:</h3>
+      <h3>Nyt tarvittais sitä käyttäjätunnusta ja salasanaa:</h3>
       <form name='f' action="/j_spring_security_check" method='POST'>
          <table>
             <tr>

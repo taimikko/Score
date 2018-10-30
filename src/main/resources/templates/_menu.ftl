@@ -4,7 +4,9 @@
  -->
 <div style="border: 1px solid #ccc;padding:5px;margin-bottom:20px;">
  
-  <a href="/">Alku</a> | &nbsp;
+	<@security.authorize access="! isAuthenticated()">
+  	<a href="/">Alku</a> | &nbsp;
+	</@security.authorize>
  
    <@security.authorize url="/admin">
 		<a href="/admin">Vaan guruille (admin)</a> | &nbsp;
@@ -48,6 +50,7 @@
 	</@security.authorize>
 	<@security.authorize access="! isAuthenticated()">
     Et vielä ole kirjautunut
+    <a href="/login">Kirjaudu</a>
 	</@security.authorize>
   
 </div>
