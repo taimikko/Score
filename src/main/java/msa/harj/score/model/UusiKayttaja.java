@@ -83,9 +83,14 @@ public class UusiKayttaja {
 		return false;
 	}
 
+
 	@Override
 	public String toString() {
-		return this.username + "(" + this.userrole + ")";
+		return "UusiKayttaja [username=" + username + ", password=" + password + ", password2=" + password2
+				+ ", userrole=" + userrole + ", encrytedPassword=" + encrytedPassword + ", seuraId=" + seuraId
+				+ ", jasennumero=" + jasennumero + ", etunimi=" + etunimi + ", sukunimi=" + sukunimi + ", tasoitus="
+				+ tasoitus + ", tasoitus_voimassa=" + tasoitus_voimassa + ", jasen_tyyppi=" + jasen_tyyppi + ", sukup="
+				+ sukup + "]";
 	}
 
 	public String getEncrytedPassword() {

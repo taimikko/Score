@@ -4,6 +4,33 @@
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 	    <link rel="stylesheet" type="text/css" href="/css/score.css">
 	    <title>Uusi Käyttäjä</title>
+
+	    <script>
+	    function haeVapaaNumero() {
+	    	const seura_id = document.getElementById('seuraId').value; 
+            haeSeuranVapaaNumero(seura_id);
+	    };
+	    
+		async function haeSeuranVapaaNumero(seura_id) {
+		    try { 
+		        const res = await fetch('/kayttaja/vapaaJasennumero/' + seura_id); 
+		         
+		        if(res.status != 200){ return; } 
+		        const data = await res.text(); 
+		        console.log(data);
+		        document.getElementById('jasennumero').value = JSON.parse(data);  
+		        //.innerHTML = '`' + txt +'`' ;
+		     } finally {
+		        console.log("vapaa jäsennumero");
+		     }
+		 }
+
+async function seuraChange() {
+    var seura_id = document.getElementById('seura_id').value;
+    console.log("seuraChange", seura_id);
+    alustaPelaajat(seura_id);
+}
+	    </script>
    </head>
    <body>
 	<#include "../_menu.ftl">
@@ -68,7 +95,7 @@
             </tr>
             <tr>
                <td>Seura:</td>
-               <td><input list="seuralista" name='seuraId' required value=78>
+               <td><input list="seuralista" name='seuraId' id='seuraId' required value=78 onchange="haeVapaaNumero()" >
                	   <datalist id="seuralista">
                	   <#list seurat as seura>
                	   	<option value="${seura.id}">${seura.id}. ${seura.nimi}</option> <#-- ${seura.lyhenne} ${seura.nimi} -->
@@ -84,7 +111,7 @@
             <tr>
                <td>jäsennumero:</td>
                <#-- Autonumber seuran sisällä ? -->
-               <td><input type='number' min=1 name='jasennumero' required > 
+               <td><input type='number' min=1 name='jasennumero' id='jasennumero' required <#if vapaanumero??>value='${vapaanumero}'</#if> > 
                <#if user??>
 				${user.jasennumero}
                 </#if>

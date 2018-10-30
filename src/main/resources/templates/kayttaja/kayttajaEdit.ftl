@@ -66,9 +66,9 @@
             </#if>
        		<tr>
     			<td>jäsenyyden tyyppi:</td>
-    			<td><select required id='jasen_tyyppi' name='jasen_tyyppi'>
+    			<td><select required id='jasentyyppi' name='jasentyyppi'>
                  	<#list jasentyypit as jt>
-                    	<option value="${jt.id}">${jt.id}. ${jt.tyyppi}</option>
+                    	<option value="${jt.id}" <#if (kayttaja.jasentyyppi==jt.id)> selected="selected" </#if> >${jt.id}. ${jt.tyyppi}</option>
                 	</#list>
 					</select>
 				</td>

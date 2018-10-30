@@ -21,8 +21,8 @@ import msa.harj.score.model.Pelaaja;
 public class PelaajaDAO extends KayttajaDAO {
 	private static final Log log = LogFactory.getLog(PelaajaDAO.class);
 
-	private static String PELAAJA_SELECT = "SELECT k.kayttaja_id, k.kayttajatunnus, k.encryted_password, k.enabled, "
-			+ " p.id, p.seura_id, p.jasennumero, k.sukunimi, k.etunimi, p.jasen_tyyppi, p.tasoitus, p.pvm, p.tasoitus_voimassa"
+	private static String PELAAJA_SELECT = "SELECT k.kayttaja_id, k.kayttajatunnus, k.encryted_password, k.enabled, k.jasen_tyyppi,"
+			+ " p.id, p.seura_id, p.jasennumero, k.sukunimi, k.etunimi, p.tasoitus, p.pvm, p.tasoitus_voimassa"
 			+ " FROM pelaaja p, kayttaja k";
 	private static String PELAAJA_NEWEST = " k.jasennumero=p.jasennumero AND k.seura_id = p.seura_id"
 			+ "  AND  (p.seura_id, p.jasennumero, p.pvm) IN ( SELECT q.seura_id, q.jasennumero, max(q.pvm) as pvm"
@@ -36,27 +36,6 @@ public class PelaajaDAO extends KayttajaDAO {
 
 	public Pelaaja getPelaaja(String username) {
 		String sql = PELAAJA_SELECT + " WHERE k.kayttajatunnus=? AND " + PELAAJA_NEWEST;
-
-//		 SELECT k.kayttaja_id, k.kayttajatunnus, k.encryted_password,
-//	      p.id, p.seura_id, p.jasennumero, p.sukunimi, p.etunimi, p.jasen_tyyppi, p.tasoitus, p.pvm
-//	      FROM kayttaja k, pelaaja p 
-//	      INNER JOIN (  
-//	       SELECT seura_id as sid, jasennumero as jnro, max(pvm) as maxpvm 
-//	        FROM pelaaja  
-//	        GROUP BY seura_id, jasennumero) ij 
-//	      ON sid = p.seura_id  AND jnro = p.jasennumero   AND p.pvm = ij.maxpvm 
-//	      WHERE k.kayttajatunnus="msa" AND p.seura_id=k.seura_id AND p.jasennumero = k.jasennumero;
-//	---------
-//
-//		SELECT k.kayttaja_id, k.kayttajatunnus, k.encryted_password,
-//		 p.id, p.seura_id, p.jasennumero, p.sukunimi, p.etunimi, p.jasen_tyyppi, p.tasoitus, p.pvm
-//		 FROM pelaaja p, kayttaja k  
-//		 WHERE k.kayttajatunnus="msa" AND k.jasennumero=p.jasennumero AND k.seura_id = p.seura_id 
-//		   AND  (p.seura_id, p.jasennumero, p.pvm) IN (
-//				   SELECT q.seura_id, q.jasennumero, max(q.pvm) as pvm  
-//				   FROM pelaaja q 
-//				   GROUP BY q.seura_id, q.jasennumero );
-
 		Object[] params = new Object[] { username };
 		try {
 			Pelaaja pelaaja = this.getJdbcTemplate().queryForObject(sql, params, PELAAJA_MAPPER);
@@ -146,9 +125,9 @@ public class PelaajaDAO extends KayttajaDAO {
 	public void addPelaaja(Pelaaja p) {
 		log.info("MSA: addPelaaja "+p.toString());
 		String sql = "INSERT INTO pelaaja ("
-				+ "id, pvm, seura_id, jasennumero, jasen_tyyppi, tasoitus, tasoitus_voimassa) "
-				+ "values (?, ?, ?, ?, ?, ?, ?)";
-		Object[] args = new Object[] { 0, null, p.getSeuraId(), p.getJasennumero(), p.getJasen_tyyppi(),
+				+ "id, pvm, seura_id, jasennumero, tasoitus, tasoitus_voimassa) "
+				+ "values (?, ?, ?, ?, ?, ?)";
+		Object[] args = new Object[] { 0, null, p.getSeuraId(), p.getJasennumero(), 
 				p.getTasoitus(), p.isTasoitus_voimassa() };
 
 		try {

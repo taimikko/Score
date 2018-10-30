@@ -16,7 +16,6 @@ public class Pelaaja extends Kayttaja {
 //  protected int sukup;
 	private Long id;
 	private Timestamp pvm;
-	private Integer jasen_tyyppi;
 	private Long tasoitus;
 	private boolean tasoitus_voimassa;
 
@@ -52,14 +51,6 @@ public class Pelaaja extends Kayttaja {
 		this.etunimi = etunimi;
 	}
 
-	public Integer getJasen_tyyppi() {
-		return jasen_tyyppi;
-	}
-
-	public void setJasen_tyyppi(Integer jasen_tyyppi) {
-		this.jasen_tyyppi = jasen_tyyppi;
-	}
-
 	public Long getTasoitus() {
 		return tasoitus;
 	}
@@ -77,7 +68,7 @@ public class Pelaaja extends Kayttaja {
 	}
 
 	public Pelaaja(Long kayttaja_id, String kayttajatunnus, boolean enabled, Long id, Long seuraId, Long jasennumero,
-			String sukunimi, String etunimi, Integer jasen_tyyppi, Long tasoitus,
+			String sukunimi, String etunimi, Integer jasentyyppi, Long tasoitus,
 			boolean tasoitus_voimassa, Timestamp pvm) {
 		super(kayttajatunnus, "");
 		this.kayttajaId = kayttaja_id;
@@ -87,32 +78,28 @@ public class Pelaaja extends Kayttaja {
 		this.jasennumero = jasennumero;
 		this.sukunimi = sukunimi;
 		this.etunimi = etunimi;
-		this.jasen_tyyppi = jasen_tyyppi;
+		this.jasentyyppi = jasentyyppi; // käyttäjällä
 		this.tasoitus = tasoitus;
 		this.tasoitus_voimassa = tasoitus_voimassa;
 		this.pvm = pvm;
 	}
-
+	
 	@Override
 	public String toString() {
 		return "Pelaaja [id=" + id + ", pvm=" + pvm + ", seuraId=" + seuraId + ", jasennumero=" + jasennumero
-				+ ", sukunimi=" + sukunimi + ", etunimi=" + etunimi + ", sukup=" + sukup + ", jasen_tyyppi="
-				+ jasen_tyyppi + ", tasoitus=" + tasoitus + ", tasoitus_voimassa=" + tasoitus_voimassa + "]";
+				+ ", sukunimi=" + sukunimi + ", etunimi=" + etunimi + ", sukup=" + sukup + ", tasoitus=" + tasoitus + ", tasoitus_voimassa=" + tasoitus_voimassa + "]";
 	}
 
 	public Pelaaja() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Pelaaja(String username, Long seuraId, Long jasennumero) {
 		super(username, seuraId, jasennumero);
-		// TODO Auto-generated constructor stub
 	}
 
 	public Pelaaja(String username, String encrytedPassword) {
 		super(username, encrytedPassword);
-		// TODO Auto-generated constructor stub
 	}
 
 }

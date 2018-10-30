@@ -24,12 +24,13 @@
 	<div>
 	<#if kayttaja??>
 		<table>
-			<tr><td>Käyttäjätunnus:</td><td><a href="/kayttaja/${kayttaja.username}">${kayttaja.username}</a></td></tr>
+			<tr><td>Käyttäjätunnus:</td><td><a href="/kayttaja/info?kayttajatunnus=${kayttaja.username}">${kayttaja.username}</a></td></tr>
 			<tr><td>Etunimi:</td><td>${kayttaja.etunimi}</td></tr>
 			<tr><td>Sukunimi:</td><td>${kayttaja.sukunimi}</td></tr>
 			<tr><td>Seura:</td><td>${kayttaja.seuraId?replace(",","")}</td></tr>
 			<tr><td>Jäsennumero:</td><td>${kayttaja.jasennumero?replace(",","")}</td></tr>
 			<tr><td>Voimassa:</td><td>${kayttaja.enabled?string('kyllä', 'ei')}</td></tr>
+			<tr><td>Tyyppi:</td><td>${kayttaja.jasen_tyyppi?string('kyllä', 'ei')}</td></tr>
 			<tr><td><br></td></tr>
 		</table>
 	</#if>
@@ -41,7 +42,6 @@
 				<th scope="col">Pvm</th>
 				<th scope="col">Seura</th>
 				<th scope="col">Jäsennumero</th>
-				<th scope="col">Tyyppi</th>
 				<th scope="col">HCP</th>
 				<th scope="col">HCP voimassa</th>
 				<th> </th>

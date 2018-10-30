@@ -42,10 +42,10 @@ public class KayttajaDAO extends JdbcDaoSupport {
 	public void addNewUserAccount(UusiKayttaja uk) {
 		// TODO: tätä ennen on lisättävä pelaaja omaan tauluun, koska usr on rajoitettu
 		// (poistettu toistaiseksi)
-		String sql = "INSERT INTO kayttaja (kayttaja_id, kayttajatunnus, encryted_password, enabled, seura_id, jasennumero, etunimi, sukunimi, sukup) "
-				+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO kayttaja (kayttaja_id, kayttajatunnus, encryted_password, enabled, seura_id, jasennumero, etunimi, sukunimi, sukup, jasen_tyyppi) "
+				+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		Object[] args = new Object[] { 0, uk.getUsername(), uk.getEncrytedPassword(), 1, uk.getSeuraId(),
-				uk.getJasennumero(), uk.getEtunimi(), uk.getSukunimi(), uk.getSukup() };
+				uk.getJasennumero(), uk.getEtunimi(), uk.getSukunimi(), uk.getSukup(), uk.getJasen_tyyppi() };
 
 		int info = this.getJdbcTemplate().update(sql, args);
 		System.out.println("päivitettiin " + Integer.toString(info) + " riviä kayttaja tauluun.");
@@ -62,7 +62,8 @@ public class KayttajaDAO extends JdbcDaoSupport {
 		public Kayttaja mapRow(ResultSet resultSet, int row) throws SQLException {
 			return new Kayttaja(resultSet.getLong("kayttaja_id"), resultSet.getString("kayttajatunnus"),
 					resultSet.getLong("seura_id"), resultSet.getLong("jasennumero"), resultSet.getBoolean("enabled"),
-					resultSet.getString("etunimi"), resultSet.getString("sukunimi"), resultSet.getInt("sukup"));
+					resultSet.getString("etunimi"), resultSet.getString("sukunimi"), resultSet.getInt("sukup"),
+					resultSet.getInt("jasen_tyyppi"));
 		}
 
 	};
@@ -70,13 +71,14 @@ public class KayttajaDAO extends JdbcDaoSupport {
 	public void updateKayttaja(Kayttaja kayttaja) {
 		// jos käyttäjälle vaihdetaan seuraa tai jäsennumeroa niin aiemmat kierrokset
 		// pitäisi poistaa, samoin tasoitushistoria ? TODO:
-		String sql = "UPDATE kayttaja SET kayttajatunnus=?, enabled=?, seura_id=?, jasennumero=?, etunimi=?, sukunimi=?, sukup=? WHERE kayttaja_id=?";
+		String sql = "UPDATE kayttaja SET kayttajatunnus=?, enabled=?, seura_id=?, jasennumero=?, etunimi=?, sukunimi=?, sukup=?, jasen_tyyppi=? WHERE kayttaja_id=?";
 		if (kayttaja.getEnabled() == null) {
 			log.info("MSA: enabled == null\t -> false");
 			kayttaja.setEnabled(false);
 		}
 		Object[] args = new Object[] { kayttaja.getUsername(), kayttaja.getEnabled(), kayttaja.getSeuraId(),
-				kayttaja.getJasennumero(), kayttaja.getEtunimi(), kayttaja.getSukunimi(), kayttaja.getSukup(), kayttaja.getKayttajaId()	 };
+				kayttaja.getJasennumero(), kayttaja.getEtunimi(), kayttaja.getSukunimi(), kayttaja.getSukup(),
+				kayttaja.getJasentyyppi(), kayttaja.getKayttajaId() };
 		int lkm = this.getJdbcTemplate().update(sql, args);
 		log.info("MSA: updateKayttaja päivitti " + lkm + " riviä " + kayttaja);
 	}
@@ -84,6 +86,26 @@ public class KayttajaDAO extends JdbcDaoSupport {
 	public void deleteKayttaja(String kayttajatunnus) {
 		int lkm = this.getJdbcTemplate().update("DELETE FROM kayttaja WHERE kayttajatunnus=?", kayttajatunnus);
 		log.info("MSA: poistettu " + lkm + " riviä " + kayttajatunnus);
+	}
+
+/*	private static RowMapper<Long> RM = new RowMapper<Long>() {
+		public Long mapRow(ResultSet rs, int row) throws SQLException {
+			return (rs.getLong("vapaanumero"));
+		}
+	}; */
+
+	public Long haeVapaaJasennumero(Long seura_id) {
+		String sql = "SELECT max(jasennumero) as vapaanumero FROM kayttaja WHERE seura_id = ? ";
+		Object[] params = new Object[] { seura_id };
+		try {
+			Long l = this.getJdbcTemplate().queryForObject(sql, params, new RowMapper<Long>() {
+				public Long mapRow(ResultSet rs, int row) throws SQLException {
+					return (rs.getLong("vapaanumero"));
+				}} /*RM*/);
+			return l;
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
 	}
 
 }

@@ -6,7 +6,12 @@
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 	    <link rel="stylesheet" type="text/css" href="/css/score.css">
 
-		</head>
+<script>
+window.onload = function (e) {
+    console.log("kayttajaLista.ftl window.onload");
+}
+</script>
+	</head>
 	<body>
 		<h1>kayttajaLista.FTL</h1>
 	
@@ -21,6 +26,7 @@
 				<th scope="col">Seura</th>
 				<th scope="col">Jäsennumero</th>
 				<th scope="col">Voimassa</th>
+				<th scope="col">Tyyppi</th>
 				<th scope="col"></th>
 				</tr>
 			</thead>
@@ -34,6 +40,7 @@
 						<td>${user.seuraId}</td>
 						<td>${user.jasennumero?c}</td>
 						<td>${user.enabled?string('kyllä', 'ei')}</td>
+						<td>${user.jasentyyppi}</td>
 						
 						<td>
   							<form name='f' action="/kayttaja/del/${user.username}" method='POST'>
