@@ -113,9 +113,9 @@
 						</td>
 						<td><span id='vanha_jasennumero' name='vanha_jasennumero'></span></td>
 						</tr><tr>
-						<#--  etu- ja sukunimi voidaan täyttää kotiseuran ja jäsennumeron perusteella -->	
-			            <td>etunimi:
-			            </td><td>
+
+			            <td>etunimi:</td>
+			            <td>
 			            	<input type='text' maxlength='50' class='txt' name='etunimi' id='etunimi' <#if (kierros.etunimi)??> value='${kierros.etunimi}' <#elseif (pelaaja.etunimi)??>  value='${pelaaja.etunimi}' </#if> >
 			            </td>
 			            <td>

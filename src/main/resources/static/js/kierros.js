@@ -222,7 +222,7 @@ function alustaPvm() {
     var d = date.getDate();
     var pvm = [y, (m > 9 ? '' : '0') + m, (d > 9 ? '' : '0') + d].join('-');
 
-    document.getElementById('pvm1').innerHTML = pvm; // pvmUpdate haki ennen innerHTML:ää
+    //document.getElementById('pvm1').innerHTML = pvm; // pvmUpdate haki ennen innerHTML:ää
     document.getElementById('pvm1').value = pvm; // value asettaa arvon näkyviin
     pvmUpdate();
 }

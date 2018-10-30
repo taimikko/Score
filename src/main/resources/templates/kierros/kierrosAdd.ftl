@@ -84,6 +84,8 @@
 		window.onload = function (e) {
 			console.log("kierrosAdd window.onload");
 		    alustaPvm();
+ 			alustaKentta(<#if (kierros.kentta_id)??> ${kierros.kentta_id?c}<#else>0</#if>,<#if (kierros.tii_id)??>${kierros.tii_id?c}<#else>0</#if>);
+    		alustaPelaajat(<#if (pelaaja.seura_id)??> ${pelaaja.seura_id?c}<#elseif (kierros.seura_id)??>${kierros.seura_id?c}<#else>0</#if>)
 		}
 </script>   
     
@@ -112,24 +114,34 @@
 		  	<table>
 		  		<tr>
 	  	  			<#-- ADMIN voi tehdä vähän enemmän -->
-					<@security.authorize access="hasRole('ROLE_ADMIN')">
-						<td>pelaajan kotiseura:
-						</td><td>
-							<input type='number' min='0' class='num2' id='seura_id' name='seura_id'  <#if (kierros.seura_id)??> value='${kierros.seura_id?c}' <#elseif (pelaaja.seuraId)??> value='${pelaaja.seuraId?c}' </#if>  >
+	  	  			<@security.authorize access="hasRole('ROLE_ADMIN')">
+ 
+						<td>pelaajan kotiseura:	</td>
+						<td>
+							<select class='num2' id='seura_id' name='seura_id' onchange="seuraChange()" required >
 							<#if seurat??>
-							<#list seurat as seura> <#if pelaaja.seuraId==seura.id> ${seura.nimi}</#if> </#list>
+								<#list seurat as seura><option value='${seura.id}' > ${seura.id}. ${seura.nimi}</option></#list>
 			                </#if>
+			                </select>
 			            </td>
-						</tr><tr>
+						</tr>
+					
+						<tr>
 						<td>jäsennumero:
 						</td><td>
-						<#-- jäsennumero = readonly, tulee kirjautuneen käytäjän tietojen mukaan paitsi adminilla, joka voi syöttää muidenkin tietoja -->
-							<input type='number' class='num2' name='jasennumero' <#if (kierros.jasennumero)??> value='${kierros.jasennumero?c}' <#elseif (pelaaja.jasennumero)??> value='${pelaaja.jasennumero?c}' </#if> >
+							<select class='num2' id='jasennumero' name='jasennumero' onchange="pelaajaValinta()" required >
+							<#if pelaajat??>
+								<#list pelaajat as pelaaja><option value='${pelaaja.jasennumero?c}' > ${pelaaja.jasennumero?c}. ${pelaaja.etunimi} ${pelaaja.suknimi}</option></#list>
+							<#else>
+								<option value='${pelaaja.jasennumero?c}' selected='selected' > ${pelaaja.jasennumero?c}</option>
+							</#if>
+							</select>
 						</td>
+						<td><span id='vanha_jasennumero' name='vanha_jasennumero'></span></td>
 						</tr><tr>
-						<#--  etu- ja sukunimi voidaan täyttää kotiseuran ja jäsennumeron perusteella -->	
-			            <td>etunimi:
-			            </td><td>
+
+			            <td>etunimi:</td>
+			            <td>
 			            	<input type='text' maxlength='50' class='txt' name='etunimi' id='etunimi' <#if (kierros.etunimi)??> value='${kierros.etunimi}' <#elseif (pelaaja.etunimi)??>  value='${pelaaja.etunimi}' </#if> >
 			            </td>
 			            <td>
