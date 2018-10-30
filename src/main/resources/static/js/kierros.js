@@ -7,6 +7,7 @@ var seurat;
 var jasentyypit;
 var vaylat;
 var pelaajanSukup;
+var pelaajat; // seuran pelaajat 
 
 
 function alustaTiitSelect(kentta_selected, tii_selected) { // select -tyyppisen kentän alustus ja valinta
@@ -103,6 +104,15 @@ function kenttaChange() {
 
 function pelaajaValinta() {
     console.log("pelaajaValinta");
+    const pelaaja_id = document.getElementById('jasennumero').value; 
+    for (pelaaja of pelaajat) {
+        if (pelaaja.jasennumero == pelaaja_id) {
+            document.getElementById('etunimi').value=pelaaja.etunimi;
+            document.getElementById('sukunimi').value=pelaaja.sukunimi;
+            console.log("pelaajaValinta löysi ", pelaaja);
+            break;
+        } 
+    }
 }
 
 async function alustaPelaajat(seura_id) {
@@ -114,7 +124,7 @@ async function alustaPelaajat(seura_id) {
         if(res.status != 200){ return; } 
         const data = await res.text(); 
         console.log(data);
-        var pelaajat = JSON.parse(data);
+        pelaajat = JSON.parse(data);  // globaali
         var txt = "";
         for (pelaaja of pelaajat) {
             if (pelaaja.jasennumero == parent.value) {

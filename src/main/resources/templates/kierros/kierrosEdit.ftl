@@ -103,30 +103,13 @@
 						</tr><tr>
 						<td>jäsennumero:
 						</td><td>
-							<select class='num2' id='jasennumero' name='jasennumero' onselect="pelaajaValinta()" >
+							<select class='num2' id='jasennumero' name='jasennumero' onchange="pelaajaValinta()" >
 							<#if pelaajat??>
 								<#list pelaajat as pelaaja><option value='${pelaaja.jasennumero?c}' <#if kierros.jasennumero==pelaaja.jasennumero>" selected='selected'" </#if> > ${pelaaja.jasennumero?c}. ${pelaaja.etunimi} ${pelaaja.suknimi}</option></#list>
 							<#else>
 								<option value='${pelaaja.jasennumero?c}' selected='selected' > ${pelaaja.jasennumero?c}</option>
 							</#if>
 							</select>
-
-												
-<#-- jäsennumero = readonly, tulee kirjautuneen käytäjän tietojen mukaan paitsi adminilla, joka voi syöttää muidenkin tietoja						
-						<datalist id="jasenluettelo" >
-							<#if pelaajat??>
-		                    <#list pelaajat as pelaaja>
-		                        <option value="${pelaaja.jasennumero?c}">${pelaaja.jasennumero?c} ${pelaaja.etunimi} ${pelaaja.sukunimi}</option>
-		                    </#list>
-		                    <#else>
-		                        <option <#if (kierros.jasennumero)??> value='${kierros.jasennumero?c}' <#elseif (pelaaja.jasennumero)??> value='${pelaaja.jasennumero?c}' </#if> >
-		                        ${kierros.jasennumero?c} ${kierros.etunimi} ${kierros.sukunimi}</option>
-		                       
-		                    </#if>
-		                </datalist>
-							<input list="jasenluettelo" autocomplete="off" class='num2' id='jasennumero' name='jasennumero' onselect="pelaajaValinta()"  <#if (kierros.jasennumero)??> value='${kierros.jasennumero?c}' <#elseif (pelaaja.jasennumero)??> value='${pelaaja.jasennumero?c}' </#if> >
-							</input>
- -->
 						</td>
 						<td><span id='vanha_jasennumero' name='vanha_jasennumero'></span></td>
 						</tr><tr>
