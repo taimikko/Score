@@ -63,9 +63,11 @@
         </table>
     </div>
     <br/>
-    <#if kayttaja??>
-    <a href="/kayttaja/edit/${kayttaja.username}">Päivitä käyttäjän tietoja</a>
-    </#if>
+	<@security.authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SEURA_MANAGER')">
+	    <#if kayttaja??>
+		    <a href="/kayttaja/edit/${kayttaja.username}">Päivitä käyttäjän tietoja</a>
+	    </#if>
+	</@security.authorize>
     <br/>
     <div>
         <#if userInfo??>
