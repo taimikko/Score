@@ -6,7 +6,8 @@
 	    <title>Uusi Käyttäjä</title>
 
 	    <script>
-	    function haeVapaaNumero() {
+	    async function haeVapaaNumero() {
+		    console.log("function haeVapaaNumero()");
 	    	const seura_id = document.getElementById('seuraId').value; 
             haeSeuranVapaaNumero(seura_id);
 	    };
@@ -25,11 +26,6 @@
 		     }
 		 }
 
-async function seuraChange() {
-    var seura_id = document.getElementById('seura_id').value;
-    console.log("seuraChange", seura_id);
-    alustaPelaajat(seura_id);
-}
 	    </script>
    </head>
    <body>
@@ -94,14 +90,14 @@ async function seuraChange() {
                    	</#list>
             </tr>
             <tr>
-               <td>Seura:</td>
-               <td><input list="seuralista" name='seuraId' id='seuraId' required value=78 onchange="haeVapaaNumero()" >
-               	   <datalist id="seuralista">
-               	   <#list seurat as seura>
-               	   	<option value="${seura.id}">${seura.id}. ${seura.nimi}</option> <#-- ${seura.lyhenne} ${seura.nimi} -->
-               	   </#list>
-               	   </datalist>
-               </td>
+               <td>Seura: <#if (seura_id)??>${seura_id}</#if></td>
+               <td>
+                   <select name='seuraId' id='seuraId' required onchange="haeVapaaNumero()" >
+               	   	<#list seurat as seura>
+               	   		<option value="${seura.id}" <#if (seura_id)??><#if (seura_id=seura.id)>selected="selected"</#if></#if> > ${seura.id}. ${seura.nimi}</option> <#-- ${seura.lyhenne} ${seura.nimi} -->
+               	   	</#list>
+               	   </select>
+              </td>
                <td> 
                <#if user??>
 				${user.seuraId}

@@ -51,7 +51,7 @@ public class KayttajaController {
 	private SeuraDAO seuraDAO;
 
 	@GetMapping("/kayttaja/new")
-	public String newKayttaja(Model model) {
+	public String newKayttaja(Model model, Principal principal) {
 		log.info("MSA: /kayttaja/new");
 		UusiKayttaja k = new UusiKayttaja("", "");
 		model.addAttribute("kayttaja", k);
@@ -61,7 +61,11 @@ public class KayttajaController {
 		model.addAttribute("seurat", seurat);
 		List<Rooli> roolit = rooliDAO.getRoolit();
 		model.addAttribute("roolit", roolit);
-		Long vapaanumero = kayttajaDAO.haeVapaaJasennumero(78L);
+		String username = principal.getName();
+		Kayttaja admin = kayttajaDAO.getKayttaja(username);
+		Long seura_id = admin.getSeuraId();
+		Long vapaanumero = kayttajaDAO.haeVapaaJasennumero(seura_id);
+		model.addAttribute("seura_id", seura_id);
 		model.addAttribute("vapaanumero", vapaanumero);
 
 		return "kayttaja/kayttajaNew";
