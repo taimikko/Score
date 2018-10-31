@@ -26,6 +26,10 @@
 		     }
 		 }
 
+		window.onload = function (e) {
+    		console.log("kayttajaNew.ftl window.onload");
+    		//haeVapaaNumero();
+ 		}
 	    </script>
    </head>
    <body>
@@ -46,41 +50,26 @@
 	       <tr>
                <td>Etunimi:</td>
                <td><input type='text' name='etunimi' required />
-               <#if user??>
-                 ${user.etunimi} 
-                </#if> 
                </td>
             </tr>
             <tr>
 	       <tr>
                <td>Sukunimi:</td>
                <td><input type='text' name='sukunimi' required >
-               <#if user??>
-                 ${user.sukunimi} 
-                </#if> 
                </td>
             </tr>
                <td>Käyttäjätunnus:</td>
                <td><input type='text' name='username' required >
-               <#if user??>
-                 ${user.username} 
-                </#if> 
                </td>
             </tr>
             <tr>
                <td>Salasana:</td>
                <td><input type='password' name='password' required >
-               <#if user??>
-                 ${user.password} 
-                </#if> 
 			</td>
             </tr>
             <tr>
                <td>Salasana uudestaan:</td>
                <td><input type='password' name='password2' >
-               <#if user??>
-                 ${user.password2} 
-                </#if>
                </td>
             </tr>
             <tr>
@@ -91,51 +80,40 @@
             </tr>
             <tr>
                <td>Seura: <#if (seura_id)??>${seura_id}</#if></td>
-               <td>
-                   <select name='seuraId' id='seuraId' required onchange="haeVapaaNumero()" >
-               	   	<#list seurat as seura>
-               	   		<option value="${seura.id}" <#if (seura_id)??><#if (seura_id=seura.id)>selected="selected"</#if></#if> > ${seura.id}. ${seura.nimi}</option> <#-- ${seura.lyhenne} ${seura.nimi} -->
-               	   	</#list>
+               <td>  <#-- Jos käyttäjä on ROLE_ADMIN niin saa valita seuran muuten on käytettävä omaa seuraa (ROLE_SEURA_MANAGER) -->
+                    <select name='seuraId' id='seuraId' required onchange="haeVapaaNumero()" >
+	               	   	<#list seurat as seura>
+		                    <@security.authorize access="hasRole('ROLE_ADMIN')"> 
+	            	   	   		<option value="${seura.id}" <#if (seura_id)??><#if (seura_id=seura.id)>selected="selected"</#if></#if> > ${seura.id}. ${seura.nimi}</option> 
+        		       	   	</@security.authorize>
+               	   			<@security.authorize access="hasRole('ROLE_ADMIN') == false"> 
+        		       	   		<#if (seura_id)??><#if (seura_id=seura.id)><option value="${seura.id}" selected="selected" > ${seura.id}. ${seura.nimi}</option> </#if></#if>
+		               	   	</@security.authorize>
+           	   			</#list>
                	   </select>
-              </td>
-               <td> 
-               <#if user??>
-				${user.seuraId}
-                </#if>
 				</td>
             </tr>
             <tr>
-               <td>jäsennumero:</td>
-               <#-- Autonumber seuran sisällä ? -->
-               <td><input type='number' min=1 name='jasennumero' id='jasennumero' required <#if vapaanumero??>value='${vapaanumero}'</#if> > 
-               <#if user??>
-				${user.jasennumero}
-                </#if>
+            	<td>jäsennumero:${vapaanumero?c}</td>
+            	<#-- Seuran valinta yllä, alustaa seuraavan vapaan numeron -->
+            	<td><input type='number' min=1 name='jasennumero' id='jasennumero' required <#if vapaanumero??>value='${vapaanumero?c}'</#if> > 
 				</td>
             </tr>
-
- <#-- 
-            <tr><td>Jos käyttäjä on ROLE_ADMIN niin saa valita seuran muuten on käytettävä omaa seuraa </td>
-            <td><span th:if="${#request.userPrincipal != null}" th:text="${#request.userPrincipal.name}"> </span> </td>
-            </tr>
-              <tr> <td><span th:if="${#request.userPrincipal.role != null}" th:text="${#request.userPrincipal.role}"> </span> </td>
-           </tr>
- -->
      		<tr>
     			<td>tasoitus:</td>
-    			<td><input type='number' min='-20' max='54' name='tasoitus' required <#if (user.tasoitus)??>value=${user.tasoitus}</#if> ></input></td>
+    			<td><input type='number' min='-20' max='54' name='tasoitus' required value='54' ></input></td>
     		</tr> <#--  step='0.1'  -->
     		<tr>
     			<td>voimassaoleva tasoitus:</td>
     			<td> 			
-    			  <input type='checkbox' value='true' <#if (user.tasoitus_voimassa)??> <#if user.tasoitus_voimassa> checked </#if> </#if> name='tasoitus_voimassa' />
+    			  <input type='checkbox' value='true' checked  name='tasoitus_voimassa' />
     			</td>
     		</tr>
      		<tr>
     			<td>jäsenyyden tyyppi:</td>
     			<td><select required id='jasen_tyyppi' name='jasen_tyyppi'>
                  	<#list jasentyypit as jt>
-                    	<option value="${jt.id}">${jt.id}. ${jt.tyyppi}</option>
+                    	<option value="${jt.id}" <#if (jt.id==2)> selected="selected" </#if> >${jt.id}. ${jt.tyyppi}</option>
                 	</#list>
 					</select>
 				</td>
