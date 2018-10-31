@@ -54,12 +54,13 @@ public class KayttajaDAO extends JdbcDaoSupport {
 	public List<Kayttaja> getKayttajat(Long seura) {
 		String sql;
 		if (seura == null) {
-			sql = "SELECT * FROM kayttaja WHERE seura_id = ? ORDER BY seura_id, jasennumero LIMIT 100";
+			sql = "SELECT * FROM kayttaja ORDER BY seura_id, jasennumero LIMIT 100";
+			return this.getJdbcTemplate().query(sql, KAYTTAJA_MAPPER);
 		} else {
 			sql = "SELECT * FROM kayttaja WHERE seura_id = ? ORDER BY seura_id, jasennumero";
+			Object[] args = new Object[] { seura };
+			return this.getJdbcTemplate().query(sql, args, KAYTTAJA_MAPPER);
 		}
-		Object[] args = new Object[] { seura };
-		return this.getJdbcTemplate().query(sql, args, KAYTTAJA_MAPPER);
 	}
 
 	private static RowMapper<Kayttaja> KAYTTAJA_MAPPER = new RowMapper<Kayttaja>() {

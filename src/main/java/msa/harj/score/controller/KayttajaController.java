@@ -162,14 +162,14 @@ public class KayttajaController {
 		if (seura_id == null) {
 			rajaus = "";
 		} else {
-			rajaus = "seura_id="+Long.toString(seura_id);
+			rajaus = "seura_id=" + Long.toString(seura_id);
 		}
 		List<Kayttaja> k = kayttajaDAO.getKayttajat(seura_id);
 		model.addAttribute("kayttajat", k);
 		model.addAttribute("rajaus", rajaus);
 		String str = "";
 		for (Kayttaja kayttaja : k) {
-			str += kayttaja.toString() + "\t";
+			str += "\n" + kayttaja.toString();
 		}
 		log.info("userList palauttaa(" + Integer.toString(k.size()) + "):" + str);
 		return "kayttaja/kayttajaLista";

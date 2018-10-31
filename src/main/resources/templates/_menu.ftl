@@ -8,49 +8,38 @@
   	<a href="/">Alku</a> | &nbsp;
 	</@security.authorize>
  
-   <@security.authorize url="/admin">
-		<a href="/admin">Vaan guruille (admin)</a> | &nbsp;
-   </@security.authorize>
+	<@security.authorize url="/admin">
+		<a href="/admin">Admin</a> | &nbsp;
+	</@security.authorize>
  
-   <@security.authorize url="/kierros/add">
+	<@security.authorize url="/kierros/add">
 		<a href="/kierros/add">uusi kierros</a> | &nbsp;
-   </@security.authorize>
+	</@security.authorize>
 
-   <@security.authorize url="/kierros/omat">
+	<@security.authorize url="/kierros/omat">
 		<a href="/kierros/omat">omat kierrokset</a> | &nbsp;
-   </@security.authorize>
+	</@security.authorize>
 
-   <@security.authorize url="/admin/kierrokset">
+	<@security.authorize url="/admin/kierrokset">
 		<a href="/admin/kierrokset">admin kierrokset</a> | &nbsp;
-   </@security.authorize>
+	</@security.authorize>
 
-   <@security.authorize url="/kayttaja/new">
+	<@security.authorize url="/kayttaja/new">
 		<a href="/kayttaja/new">Lisää uusi käyttäjä</a> | &nbsp;
-   </@security.authorize>
+	</@security.authorize>
 
-   <@security.authorize url="/kayttajaluettelo">
-		<a href="/kayttajaluettelo">Lista käyttäjistä</a> | &nbsp;
-   </@security.authorize>
+	<@security.authorize url="/kayttajaluettelo">
+		<a href="/kayttajaluettelo">käyttäjäluettelo</a> | &nbsp;
+	</@security.authorize>
 
 	<@security.authorize access="isAuthenticated()">
-	   	<a href="/logout">Logout</a> &nbsp; | &nbsp;
-      	<span class="badge badge-tertiary"><a href="/kayttajaInfo"><@security.authentication property="principal.username" /></a></span> 
+		<a href="/logout">Logout</a> &nbsp; | &nbsp;
+		<span class="badge badge-tertiary"><a href="/kayttajaInfo"><@security.authentication property="principal.username" /></a></span> 
 		&nbsp;
-	<#-- 
-		<@security.authorize access="hasRole('ROLE_ADMIN')">
-	  	  ADMIN
-		</@security.authorize>
-		<@security.authorize access="hasRole('ROLE_SEURA_MANAGER')">
-	  	  SEURA_MANAGER
-		</@security.authorize>
-		<@security.authorize access="hasRole('ROLE_PELAAJA')">
-		  PELAAJA
-		</@security.authorize>
-	 -->
 	</@security.authorize>
 	<@security.authorize access="! isAuthenticated()">
-    Et vielä ole kirjautunut
-    <a href="/login">Kirjaudu</a>
+		Et vielä ole kirjautunut
+	 	<a href="/login">Kirjaudu</a>
 	</@security.authorize>
   
 </div>

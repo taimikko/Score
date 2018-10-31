@@ -132,8 +132,7 @@ public class Kayttaja {
 
 	@Override
 	public String toString() {
-		return this.kayttajaId + " " + this.etunimi + " " + this.sukunimi + ":" + this.username + "/"
-				+ this.encrytedPassword + "\nSeura:" + this.seuraId + " jäsennumero:" + this.jasennumero + " enabled:"
+		return this.kayttajaId + " " + this.etunimi + " " + this.sukunimi + ":" + this.username +" Seura:" + this.seuraId + " jäsennumero:" + this.jasennumero + " enabled:"
 				+ this.enabled + " sukup:" + this.sukup + " jäsenyyden tyyppi:" + this.jasentyyppi;
 	}
 	
