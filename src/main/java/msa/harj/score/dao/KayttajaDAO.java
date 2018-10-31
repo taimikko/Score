@@ -88,21 +88,15 @@ public class KayttajaDAO extends JdbcDaoSupport {
 		log.info("MSA: poistettu " + lkm + " riviä " + kayttajatunnus);
 	}
 
-/*	private static RowMapper<Long> RM = new RowMapper<Long>() {
-		public Long mapRow(ResultSet rs, int row) throws SQLException {
-			return (rs.getLong("vapaanumero"));
-		}
-	}; */
-
 	public Long haeVapaaJasennumero(Long seura_id) {
-		String sql = "SELECT max(jasennumero) as vapaanumero FROM kayttaja WHERE seura_id = ? ";
+		String sql = "SELECT max(jasennumero)+1 as vapaanumero FROM kayttaja WHERE seura_id = ? ";
 		Object[] params = new Object[] { seura_id };
 		try {
-			Long l = this.getJdbcTemplate().queryForObject(sql, params, new RowMapper<Long>() {
+			Long vapaaNumero = this.getJdbcTemplate().queryForObject(sql, params, new RowMapper<Long>() {
 				public Long mapRow(ResultSet rs, int row) throws SQLException {
 					return (rs.getLong("vapaanumero"));
-				}} /*RM*/);
-			return l;
+				}} );
+			return vapaaNumero;
 		} catch (EmptyResultDataAccessException e) {
 			return null;
 		}

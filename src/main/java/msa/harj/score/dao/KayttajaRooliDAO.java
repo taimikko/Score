@@ -34,21 +34,23 @@ public class KayttajaRooliDAO extends JdbcDaoSupport {
 		log.info("MSA: päivitettiin " + Integer.toString(info) + " riviä kayttaja_rooli tauluun.");
 	}
 
-	public void updateKayttajaRoolit(Long kayttajaId, Long[] rooli) {
+	public void updateKayttajaRoolit(Long kayttajaId, Long[] roolit) {
 		String sql = "DELETE FROM kayttaja_rooli WHERE kayttaja_id=? ";
 		Object[] args = new Object[] { kayttajaId };
 		int info = this.getJdbcTemplate().update(sql, args);
 		log.info("MSA: poistettiin " + Integer.toString(info) + " vanhaa riviä kayttaja_rooli taulusta.");
-		if (rooli != null) {
+		if (roolit != null) {
 			sql = "INSERT INTO kayttaja_rooli (id, kayttaja_id, rooli_id) values (?, ?, ?)";
 			info = 0;
-			for (Long r : rooli) {
-				args = new Object[] { 0, kayttajaId, r };
-				log.info("MSA: " + sql + " " + r);
+			for (Long rooli : roolit) {
+				args = new Object[] { 0, kayttajaId, rooli };
+				log.info("MSA: " + sql + " " + rooli);
 				info += this.getJdbcTemplate().update(sql, args);
 			}
 			log.info("MSA: lisättiin " + Integer.toString(info) + " riviä kayttaja_rooli tauluun. ("
 					+ Long.toString(kayttajaId) + ")");
+		} else {
+			log.info("MSA: roolit puuttuu. Ei lisätä mitään kayttaja_rooli tauluun.");
 		}
 	}
 

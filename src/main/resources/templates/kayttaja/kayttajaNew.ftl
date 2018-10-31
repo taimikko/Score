@@ -74,9 +74,9 @@
             </tr>
             <tr>
 				<td>Rooli:</td>
-                   	<#list roolit as rooli>
-                    	<td><input type="checkbox" name="rooli" <#if rooli.nimi="ROLE_PELAAJA"> checked </#if> value="${rooli.id}">${rooli.id}. ${rooli.nimi}</td></tr><tr><td></td>
-                   	</#list>
+               	<#list roolit as rooli>
+                	<td><input type="checkbox" name="rooli" <#if rooli.nimi="ROLE_PELAAJA"> checked </#if> value="${rooli.id}">${rooli.id}. ${rooli.nimi}</td></tr><tr><td></td>
+               	</#list>
             </tr>
             <tr>
                <td>Seura: <#if (seura_id)??>${seura_id}</#if></td>

@@ -22,7 +22,6 @@ import msa.harj.score.dao.RooliDAO;
 import msa.harj.score.dao.SeuraDAO;
 import msa.harj.score.model.JasenTyyppi;
 import msa.harj.score.model.Kayttaja;
-import msa.harj.score.model.KayttajaRooli;
 import msa.harj.score.model.Pelaaja;
 import msa.harj.score.model.Rooli;
 import msa.harj.score.model.Seura;
@@ -78,8 +77,8 @@ public class KayttajaController {
 		kayttajaDAO.deleteKayttaja(kayttajatunnus);
 		pelaajaDAO.deletePelaajaHistoria(k.getSeuraId(), k.getJasennumero());
 		return "redirect:/kayttajaluettelo";
-		// return "kayttaja/kayttajaLista";
 	}
+
 	/*
 	 * @DeleteMapping("/kayttaja/del/{kayttajatunnus}") public void
 	 * deleteKayttaja(@PathVariable("kayttajatunnus") String kayttajatunnus) {
@@ -110,28 +109,19 @@ public class KayttajaController {
 	@PostMapping("/kayttaja/edit")
 	public String updateKayttaja(Model model, Kayttaja kayttaja, UusiKayttaja newUser, Principal principal,
 			Long[] rooli) {
-		log.info("MSA: (post) /kayttaja/edit:" + kayttaja);
+//		log.info("MSA: (post) /kayttaja/edit:" + kayttaja);
 
 		kayttajaDAO.updateKayttaja(kayttaja);
-		if (rooli != null) {
-			String str = "";
-			for (Long r : rooli)
-				str += " " + r;
-			log.info("MSA: uudet roolit:" + str);
-		} else
-			log.info("MSA: uudet roolit == null");
-
 		kRooliDAO.updateKayttajaRoolit(kayttaja.getKayttajaId(), rooli);
 
-		List<String> roolit = rooliDAO.getRoleNames(kayttaja.getKayttajaId());
-		model.addAttribute("roolit", roolit);
+		List<String> rooliLista = rooliDAO.getRoleNames(kayttaja.getKayttajaId());
+		model.addAttribute("roolit", rooliLista);
 
 		return "redirect:/kayttajaluettelo";
-//		return "kayttaja/kayttajaLista";
 	}
 
 	@PostMapping("/kayttaja/add")
-	public String addKayttaja(Model model, UusiKayttaja newUser, Principal principal) {
+	public String addKayttaja(Model model, UusiKayttaja newUser, Principal principal, Long[] rooli) {
 		log.info("MSA: /kayttaja/add");
 		if (model.containsAttribute("newUser")) {
 			log.info("Modelissa on newUser");
@@ -150,18 +140,9 @@ public class KayttajaController {
 		newUser.encrytePassword(); // poistaa samalla näkyvät salasanat
 
 		log.info("MSA: newUser: " + newUser);
-		String userInfo = "";
 		kayttajaDAO.addNewUserAccount(newUser);
 		Kayttaja appUser = kayttajaDAO.getKayttaja(newUser.getUsername()); // kantaan talletettu id
-		KayttajaRooli userRole = new KayttajaRooli(appUser.getKayttajaId(), 3L);
-		// TODO: nyt lisää vain käyttäjä -rooleja, vaihda samalla userRole muutuja
-		// välitettäväksi
-		try {
-			kRooliDAO.addKayttajaRooli(userRole);
-		} catch (Exception e) {
-			userInfo = "Käyttäjälle " + newUser.getUsername() + " ei voi lisätä roolia 3";
-		}
-		model.addAttribute("userInfo", userInfo);
+		kRooliDAO.updateKayttajaRoolit(appUser.getKayttajaId(), rooli);
 
 		Pelaaja p = new Pelaaja();
 		p.setEtunimi((String) newUser.getEtunimi());
@@ -186,8 +167,9 @@ public class KayttajaController {
 		model.addAttribute("kayttaja", k);
 		log.info("MSA: uusi käyttäjä:" + k);
 
-		List<String> roolit = rooliDAO.getRoleNames(k.getKayttajaId());
-		model.addAttribute("roolit", roolit);
+		List<String> rooliLista = rooliDAO.getRoleNames(k.getKayttajaId());
+		model.addAttribute("roolit", rooliLista);
+
 		List<JasenTyyppi> jasentyypit = jasenTyyppiDAO.getJasenTyypit();
 		model.addAttribute("jasentyypit", jasentyypit);
 
@@ -261,7 +243,7 @@ public class KayttajaController {
 	@GetMapping("/kayttaja/vapaaJasennumero/{seura_id}")
 	public @ResponseBody Long vapaaJasennumero(Model model, Principal principal,
 			@PathVariable("seura_id") Long seura_id) {
-		return (kayttajaDAO.haeVapaaJasennumero(seura_id)+1);
+		return (kayttajaDAO.haeVapaaJasennumero(seura_id));
 	}
 
 }
