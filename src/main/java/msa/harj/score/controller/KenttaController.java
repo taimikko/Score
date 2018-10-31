@@ -14,8 +14,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import msa.harj.score.dao.KenttaDAO;
 import msa.harj.score.dao.SeuraDAO;
+import msa.harj.score.dao.TiiDAO;
+import msa.harj.score.dao.VaylaDAO;
 import msa.harj.score.model.Kentta;
 import msa.harj.score.model.Seura;
+import msa.harj.score.model.Tii;
+import msa.harj.score.model.Vayla;
 
 @Controller
 public class KenttaController {
@@ -26,6 +30,12 @@ public class KenttaController {
 
 	@Autowired
 	private SeuraDAO seuraDAO;
+
+	@Autowired
+	private TiiDAO tiiDAO;
+
+	@Autowired
+	private VaylaDAO vaylaDAO;
 
 	@DeleteMapping("/kentta/del/{kenttaId}")
 	public String naytaKentat(Model model, @PathVariable("kenttaId") Long kenttaId) {
@@ -43,6 +53,10 @@ public class KenttaController {
 		model.addAttribute("kentta", k);
 		List<Seura> seurat = seuraDAO.getSeurat();
 		model.addAttribute("seurat", seurat);
+		List<Tii> tiit = tiiDAO.getKentanTiit(kenttaId);
+		model.addAttribute("tiit", tiit);
+		List<Vayla> vaylat = vaylaDAO.getKentanVaylat(kenttaId);
+		model.addAttribute("vaylat", vaylat);
 		return "kentta/kenttaEdit";
 	}
 
