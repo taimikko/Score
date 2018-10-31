@@ -5,18 +5,7 @@
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 	    <link rel="stylesheet" type="text/css" href="/css/score.css">
 		<title>User list</title>
-		<script>
-			function deleteUser(user_name) {
-				console.log("DEBUG:", user_name);
-				window.location = "/deleteuser/" + user_name;
-			}
-		</script>
-<#--		
-		<input type="hidden"
-				name="${_csrf.parameterName}"
-				value="${_csrf.token}"/>
--->
-		</head>
+	</head>
 	<body>
 		<h1>pelaajaHistoria.FTL</h1>
 	

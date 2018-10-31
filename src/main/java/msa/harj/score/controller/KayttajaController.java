@@ -123,13 +123,6 @@ public class KayttajaController {
 	@PostMapping("/kayttaja/add")
 	public String addKayttaja(Model model, UusiKayttaja newUser, Principal principal, Long[] rooli) {
 		log.info("MSA: /kayttaja/add");
-		if (model.containsAttribute("newUser")) {
-			log.info("Modelissa on newUser");
-			log.info(model.toString());
-			log.info("Model.newUser:" + newUser);
-		} else {
-			log.info("Modelissa ei ole \"newUser\":ia!");
-		}
 
 		if (!newUser.isPasswordOk()) {
 			String message = "<br> Salasanat eivät ole samoja <br> give password again";
@@ -144,22 +137,7 @@ public class KayttajaController {
 		Kayttaja appUser = kayttajaDAO.getKayttaja(newUser.getUsername()); // kantaan talletettu id
 		kRooliDAO.updateKayttajaRoolit(appUser.getKayttajaId(), rooli);
 
-		Pelaaja p = new Pelaaja();
-		p.setEtunimi((String) newUser.getEtunimi());
-		p.setSukunimi((String) newUser.getSukunimi());
-		p.setUsername(newUser.getUsername());
-		p.setSukup(newUser.getSukup());
-		p.setJasentyyppi(newUser.getJasen_tyyppi());
-		p.setTasoitus(newUser.getTasoitus());
-		p.setTasoitus_voimassa(newUser.isTasoitus_voimassa());
-		p.setSeuraId(newUser.getSeuraIdL());
-		p.setJasennumero(newUser.getJasennumero());
-//		protected Long kayttajaId;
-//		protected String encrytedPassword;
-//		p.setEnabled(newUser.getEnabled());
-//		private Long id;
-//		private Timestamp pvm;
-
+		Pelaaja p = new Pelaaja(newUser);
 		log.info("MSA: lisätään myös pelaaja-tauluun:" + p);
 		pelaajaDAO.addPelaaja(p);
 

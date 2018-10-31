@@ -70,7 +70,7 @@ public class KayttajaDAO extends JdbcDaoSupport {
 
 	public void updateKayttaja(Kayttaja kayttaja) {
 		// jos käyttäjälle vaihdetaan seuraa tai jäsennumeroa niin aiemmat kierrokset
-		// pitäisi poistaa, samoin tasoitushistoria ? TODO:
+		// pitäisi poistaa, samoin tasoitushistoria ? TODO: otetaan jäsennumero ja seura pois päivitettävistä muuttujista
 		String sql = "UPDATE kayttaja SET kayttajatunnus=?, enabled=?, seura_id=?, jasennumero=?, etunimi=?, sukunimi=?, sukup=?, jasen_tyyppi=? WHERE kayttaja_id=?";
 		if (kayttaja.getEnabled() == null) {
 			log.info("MSA: enabled == null\t -> false");

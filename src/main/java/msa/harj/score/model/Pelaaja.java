@@ -102,4 +102,14 @@ public class Pelaaja extends Kayttaja {
 		super(username, encrytedPassword);
 	}
 
+	public Pelaaja(UusiKayttaja k) {
+		super(k.getUsername(), k.getSeuraIdL(), k.getJasennumero());
+		this.etunimi = (String)k.getEtunimi();
+		this.sukunimi = (String)k.getSukunimi();
+		this.sukup = k.getSukup();
+		this.jasentyyppi = k.getJasen_tyyppi();
+		this.tasoitus = k.getTasoitus();
+		this.tasoitus_voimassa = k.isTasoitus_voimassa();
+	}
+
 }
