@@ -6,11 +6,18 @@
 	    <title>${title}</title>
 	    
 	    <script>
+	    
 	    function kenttaChange() {
 	    	const kentta = document.getElementById("kentta_id").value;
 	        document.getElementById("pelatut_kierrokset").href = "/admin/kierrokset?kentta_id="+kentta;
 	    }
-	    </script>
+
+	    function seuraChange() {
+	    	const seura = document.getElementById("seura_id").value;
+	        document.getElementById("seuran_jasenet").href = "/kayttajaluettelo?seura_id="+seura;
+	    }
+
+   	    </script>
    	</head>
    	<body>
       	<#include "_menu.ftl">
@@ -23,13 +30,23 @@
 	 		</@security.authorize>
        	</h3>
 		<br/>
+       	<div>
+            <a href="/seura/seuraluettelo">seurat</a>
+		</div>
+		<div>
+			<a href="/kayttajaluettelo?seura_id=${seura_id}" id="seuran_jasenet" >seuran jäsenet</a>
+			<select id='seura_id' name='seura_id' required  onchange="seuraChange()" >
+	      		<#if seurat??>
+	      			<#list seurat as seura>
+	      				<option value='${seura.id}' <#if seura_id == seura.id>selected="selected" </#if> > ${seura.id} ${seura.nimi} (${seura.lyhenne}) </option>
+	      			</#list>
+	      		</#if>
+	      	</select>
+ 		</div>
       	<div>
             <a href="/admin/kentat">kentät</a>
       	</div>
-      	<div>
-            <a href="/seura/seuraluettelo">seurat</a>
-		</div>
-      	<div>
+     	<div>
       		<a href="/admin/kierrokset?kentta_id=${kentta_id}" id="pelatut_kierrokset" >kentällä pelatut kierrokset</a>  		
 	      	<select id='kentta_id' name='kentta_id' required  onchange="kenttaChange()" >
 	      		<#if kentat??>

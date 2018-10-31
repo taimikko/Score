@@ -16,6 +16,9 @@ window.onload = function (e) {
 		<h1>kayttajaLista.FTL</h1>
 	
 	<#include "../_menu.ftl">
+		<div>
+			<#if rajaus??>${rajaus}</#if>
+		</div>
 		<table  class="table">
 			<thead>
 				<tr>

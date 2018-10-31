@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import msa.harj.score.dao.KayttajaDAO;
 import msa.harj.score.dao.KenttaDAO;
 import msa.harj.score.dao.KierrosDAO;
+import msa.harj.score.dao.SeuraDAO;
 import msa.harj.score.model.Kayttaja;
 import msa.harj.score.model.Kentta;
 import msa.harj.score.model.Kierros;
+import msa.harj.score.model.Seura;
 import msa.harj.score.utils.WebUtils;
 
 @Controller
@@ -34,6 +36,9 @@ public class AdminController {
 	@Autowired
 	private KayttajaDAO kayttajaDAO;
 
+	@Autowired
+	private SeuraDAO seuraDAO;
+
 	@GetMapping("/admin")
 	public String adminPage(Model model, Principal principal) {
 		User loginedUser = (User) ((Authentication) principal).getPrincipal();
@@ -47,7 +52,11 @@ public class AdminController {
 		model.addAttribute("kentta_id", kentta_id); // oletusarvo
 		kentat = kenttaDAO.getKentat();
 		model.addAttribute("kentat", kentat);
-
+		List<Seura> seurat = seuraDAO.getSeurat();
+		model.addAttribute("seurat", seurat);
+		Long seura_id = admin.getSeuraId();
+		model.addAttribute("seura_id", seura_id); 
+		
 		return "adminPage";
 	}
 

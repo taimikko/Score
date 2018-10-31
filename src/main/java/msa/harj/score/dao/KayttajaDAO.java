@@ -52,7 +52,12 @@ public class KayttajaDAO extends JdbcDaoSupport {
 	}
 
 	public List<Kayttaja> getKayttajat(Long seura) {
-		String sql = "SELECT * FROM kayttaja WHERE seura_id = ? ORDER BY seura_id, jasennumero";
+		String sql;
+		if (seura == null) {
+			sql = "SELECT * FROM kayttaja WHERE seura_id = ? ORDER BY seura_id, jasennumero LIMIT 100";
+		} else {
+			sql = "SELECT * FROM kayttaja WHERE seura_id = ? ORDER BY seura_id, jasennumero";
+		}
 		Object[] args = new Object[] { seura };
 		return this.getJdbcTemplate().query(sql, args, KAYTTAJA_MAPPER);
 	}

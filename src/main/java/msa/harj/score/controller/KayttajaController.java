@@ -155,11 +155,18 @@ public class KayttajaController {
 	}
 
 	@GetMapping("/kayttajaluettelo")
-	public String kayttajaLista(Model model) {
+	public String kayttajaLista(Model model, @RequestParam(value = "seura_id", required = false) Long seura_id) {
 		log.info("MSA: /kayttajaluettelo");
-		Long seura = 78L;
-		List<Kayttaja> k = kayttajaDAO.getKayttajat(seura);
+		// seura_id saa olla null --> tulee vain 100 ensimmäisät käyttäjää
+		String rajaus;
+		if (seura_id == null) {
+			rajaus = "";
+		} else {
+			rajaus = "seura_id="+Long.toString(seura_id);
+		}
+		List<Kayttaja> k = kayttajaDAO.getKayttajat(seura_id);
 		model.addAttribute("kayttajat", k);
+		model.addAttribute("rajaus", rajaus);
 		String str = "";
 		for (Kayttaja kayttaja : k) {
 			str += kayttaja.toString() + "\t";
@@ -168,20 +175,20 @@ public class KayttajaController {
 		return "kayttaja/kayttajaLista";
 	}
 
-	@GetMapping("/kayttaja/seura/{seura_id}")
-	public String kayttajaLista(Model model, @PathVariable("seura_id") Long seura_id) {
-		log.info("MSA: /kayttaja/seura/" + Long.toString(seura_id));
-		List<Kayttaja> k = kayttajaDAO.getKayttajat(seura_id);
-		model.addAttribute("kayttajat", k);
-		String str = "";
-		for (Kayttaja kayttaja : k) {
-			str += kayttaja.toString() + "\t";
-		}
-		log.info("userList palauttaa(" + Integer.toString(k.size()) + "):" + str);
-		List<JasenTyyppi> jasentyypit = jasenTyyppiDAO.getJasenTyypit();
-		model.addAttribute("jasentyypit", jasentyypit);
-		return "kayttaja/kayttajaLista";
-	}
+//	@GetMapping("/kayttaja/seura/{seura_id}")
+//	public String kayttajaLista2(Model model, @PathVariable("seura_id") Long seura_id) {
+//		log.info("MSA: /kayttaja/seura/" + Long.toString(seura_id));
+//		List<Kayttaja> k = kayttajaDAO.getKayttajat(seura_id);
+//		model.addAttribute("kayttajat", k);
+//		String str = "";
+//		for (Kayttaja kayttaja : k) {
+//			str += kayttaja.toString() + "\t";
+//		}
+//		log.info("userList palauttaa(" + Integer.toString(k.size()) + "):" + str);
+//		List<JasenTyyppi> jasentyypit = jasenTyyppiDAO.getJasenTyypit();
+//		model.addAttribute("jasentyypit", jasentyypit);
+//		return "kayttaja/kayttajaLista";
+//	}
 
 	@GetMapping("/kayttajaInfo")
 	public String kayttajaTiedot(Model model, Principal principal,
