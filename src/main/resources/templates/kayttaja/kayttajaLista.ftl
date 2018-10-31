@@ -6,11 +6,11 @@
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 	    <link rel="stylesheet" type="text/css" href="/css/score.css">
 
-<script>
-window.onload = function (e) {
-    console.log("kayttajaLista.ftl window.onload");
-}
-</script>
+	<script>
+	window.onload = function (e) {
+    	console.log("kayttajaLista.ftl window.onload");
+	}
+	</script>
 	</head>
 	<body>
 		<h1>kayttajaLista.FTL</h1>

@@ -30,32 +30,48 @@
 	 		</@security.authorize>
        	</h3>
 		<br/>
-       	<div>
-            <a href="/seura/seuraluettelo">seurat</a>
-		</div>
-		<div>
-			<a href="/kayttajaluettelo?seura_id=${seura_id}" id="seuran_jasenet" >seuran jäsenet</a>
-			<select id='seura_id' name='seura_id' required  onchange="seuraChange()" >
-	      		<#if seurat??>
-	      			<#list seurat as seura>
-	      				<option value='${seura.id}' <#if seura_id == seura.id>selected="selected" </#if> > ${seura.id} ${seura.nimi} (${seura.lyhenne}) </option>
-	      			</#list>
-	      		</#if>
-	      	</select>
- 		</div>
-      	<div>
-            <a href="/admin/kentat">kentät</a>
-      	</div>
-     	<div>
-      		<a href="/admin/kierrokset?kentta_id=${kentta_id}" id="pelatut_kierrokset" >kentällä pelatut kierrokset</a>  		
-	      	<select id='kentta_id' name='kentta_id' required  onchange="kenttaChange()" >
-	      		<#if kentat??>
-	      			<#list kentat as kentta>
-	      				<option value='${kentta.id}' <#if kentta_id == kentta.id>selected="selected" </#if> > ${kentta.id} ${kentta.kentan_nimi} (${kentta.seura_id}) </option>
-	      			</#list>
-	      		</#if>
-	      	</select>
-		</div>
+		<table>
+			<tbody>
+				<tr>
+			       	<td>
+			            <a href="/seura/seuraluettelo">seurat</a>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<a href="/kayttajaluettelo?seura_id=${seura_id}" id="seuran_jasenet" >seuran jäsenet</a>
+						</td>
+						<td>
+						<select id='seura_id' name='seura_id' required  onchange="seuraChange()" >
+				      		<#if seurat??>
+				      			<#list seurat as seura>
+				      				<option value='${seura.id}' <#if seura_id == seura.id>selected="selected" </#if> > ${seura.id} ${seura.nimi} (${seura.lyhenne}) </option>
+				      			</#list>
+				      		</#if>
+				      	</select>
+			      	</td>
+				</tr>
+				<tr>
+					<td>
+			            <a href="/admin/kentat">kentät</a>
+			      	</td>
+				</tr>
+				<tr>
+					<td>
+			      		<a href="/admin/kierrokset?kentta_id=${kentta_id}" id="pelatut_kierrokset" >kentällä pelatut kierrokset</a>
+			      	</td>
+					<td>  		
+				      	<select id='kentta_id' name='kentta_id' required  onchange="kenttaChange()" >
+				      		<#if kentat??>
+				      			<#list kentat as kentta>
+				      				<option value='${kentta.id}' <#if kentta_id == kentta.id>selected="selected" </#if> > ${kentta.id} ${kentta.kentan_nimi} (${kentta.seura_id}) </option>
+				      			</#list>
+				      		</#if>
+				      	</select>
+					</td>
+				</tr>
+			</tbody>
+		</table>
 		<br/>
       	<div> 
 	 	    <#if userInfo??>
