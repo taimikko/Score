@@ -123,4 +123,18 @@ public class KierrosDAO extends JdbcDaoSupport {
 		return this.getJdbcTemplate().query(sql, args, KIERROS_MAPPER);
 	}
 
+	public List<Kierros> getKentanKierrokset(Long kentta_id) {
+		String sql;
+		Object[] args;
+		if (kentta_id == null || kentta_id == 0L) {
+			sql = "SELECT * FROM kierros ORDER BY pvm, seura_id, jasennumero";
+			args = new Object[] { };
+		}
+		else {
+			sql = "SELECT * FROM kierros WHERE kentta_id = ? ORDER BY pvm, seura_id, jasennumero";
+			args = new Object[] { kentta_id };
+		}
+		return this.getJdbcTemplate().query(sql, args, KIERROS_MAPPER);
+	}
+
 }

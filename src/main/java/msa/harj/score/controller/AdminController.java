@@ -11,10 +11,12 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import msa.harj.score.dao.KayttajaDAO;
 import msa.harj.score.dao.KenttaDAO;
 import msa.harj.score.dao.KierrosDAO;
+import msa.harj.score.model.Kayttaja;
 import msa.harj.score.model.Kentta;
 import msa.harj.score.model.Kierros;
 import msa.harj.score.utils.WebUtils;
@@ -29,14 +31,22 @@ public class AdminController {
 	@Autowired
 	private KierrosDAO kierrosDAO;
 
+	@Autowired
+	private KayttajaDAO kayttajaDAO;
+
 	@GetMapping("/admin")
 	public String adminPage(Model model, Principal principal) {
-
 		User loginedUser = (User) ((Authentication) principal).getPrincipal();
-
 		String userInfo = WebUtils.toString(loginedUser);
 		model.addAttribute("userInfo", userInfo);
 		model.addAttribute("title", "Vain admin -oikeudet omaaville käyttäjille");
+		String username = principal.getName();
+		Kayttaja admin = kayttajaDAO.getKayttaja(username);
+		List<Kentta> kentat = kenttaDAO.getSeuranKentat(admin.getSeuraId());
+		Long kentta_id = kentat.get(0).getId();
+		model.addAttribute("kentta_id", kentta_id); // oletusarvo
+		kentat = kenttaDAO.getKentat();
+		model.addAttribute("kentat", kentat);
 
 		return "adminPage";
 	}
@@ -49,19 +59,14 @@ public class AdminController {
 		return "kentta/kenttaLista";
 
 	}
-	
-	@GetMapping("/admin/kierrokset/{seuraId}")
-	public String adminSeuraKierrokset(Model model, @PathVariable("seuraId") Long seuraId) {
-		List<Kierros> kierrokset = kierrosDAO.getSeuraKierrokset(seuraId); 
-		model.addAttribute("kierrokset", kierrokset);
-
-		return "kierros/kierrosLuettelo";
-	}
 
 	@GetMapping("/admin/kierrokset")
-	public String adminKaikkiKierrokset(Model model) {
-		List<Kierros> kierrokset = kierrosDAO.getSeuraKierrokset(0L); 
+	public String adminKaikkiKierrokset(Model model,
+			@RequestParam(value = "kentta_id", required = false) Long kentta_id) {
+		log.info("MSA: /admin/kierrokset " + kentta_id);
+		List<Kierros> kierrokset = kierrosDAO.getKentanKierrokset(kentta_id);
 		model.addAttribute("kierrokset", kierrokset);
+		model.addAttribute("rajaus", "kenttä = " + Long.toString(kentta_id));
 
 		return "kierros/kierrosLuettelo";
 	}

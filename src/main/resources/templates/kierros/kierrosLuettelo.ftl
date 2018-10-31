@@ -20,6 +20,7 @@
 	<#include "../_menu.ftl">
 	<div>
 	</div>
+		<#if rajaus??>${rajaus}</#if>
 		<table  class="table">
 			<thead>
 				<tr>

@@ -27,13 +27,21 @@ public class KenttaDAO extends JdbcDaoSupport {
 	}
 
 	public List<Kentta> getKentat() {
-		String sql = "SELECT *  FROM kentta ORDER BY seura_id, id";
+		String sql = "SELECT * FROM kentta ORDER BY seura_id, id";
 
 		List<Kentta> kentat = this.getJdbcTemplate().query(sql, KENTTA_MAPPER);
 
 		return kentat;
 	}
 
+	public List<Kentta> getSeuranKentat(Long seura_id) {
+		String sql = "SELECT * FROM kentta WHERE seura_id = ? ORDER BY id";
+		Object[] args = new Object[] { seura_id };
+		List<Kentta> kentat = this.getJdbcTemplate().query(sql, args, KENTTA_MAPPER);
+
+		return kentat;
+	}
+	
 	public void deleteKentta(Long kenttaId) {
 		int lkm = this.getJdbcTemplate().update("DELETE FROM kentta WHERE id=?", kenttaId);
 		log.info("MSA: Taulusta \"kentta\" poistettu " + lkm + " riviä (id=" + kenttaId+")");
