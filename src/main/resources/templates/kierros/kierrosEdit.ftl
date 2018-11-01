@@ -28,13 +28,8 @@
 			kentat=[{id:"999",nimi:"Eduix testikenttä",seura_id:"999"}, {id:"1000",nimi:"Eduix toinen kenttä",seura_id:"999"}];
 		</#if>
 		console.log("kentät:",kentat);
-   		<#if tiit??>
-        	tiit=[<#list tiit as tii>{id:"${tii.id?c}",kentta_id:"${tii.kentta_id?c}",tii_id:"${tii.tii_id?c}",nimi:"${tii.tii_nimi}",sukup:"${tii.sukup}",slope:"${tii.slope}",cr:"${tii.cr}"},</#list>];
-		<#else>
-        	tiit=[{id:"121",kentta_id:"999",tii_id:"2",nimi:"Edu54",sukup:"1",slope:"125",cr:"72.0"}, 
-        	     {id:"126",kentta_id:"999",tii_id:"4",nimi:"Edu45",sukup:"2",slope:"125",cr:"72.0"}];
-   		</#if>
-		console.log("tiit:",tiit);
+
+		<#include "/util/tiit.ftl">
 
 		<#if kierros??>
 			kierros = '${kierros}';
@@ -94,7 +89,7 @@
 					<@security.authorize access="hasRole('ROLE_ADMIN')">
 						<td>pelaajan kotiseura:
 						</td><td>
-							<select class='num2' id='seura_id' name='seura_id' onchange="seuraChange()" >
+							<select class='num2' id='seura_id' name='seura_id' onchange="seuraChange()" required >
 							<#if seurat??>
 								<#list seurat as seura><option value='${seura.id}' <#if kierros.seura_id==seura.id>" selected='selected'" </#if> > ${seura.id}. ${seura.nimi}</option></#list>
 			                </#if>
@@ -103,7 +98,7 @@
 						</tr><tr>
 						<td>jäsennumero:
 						</td><td>
-							<select class='num2' id='jasennumero' name='jasennumero' onchange="pelaajaValinta()" >
+							<select class='num2' id='jasennumero' name='jasennumero' onchange="pelaajaValinta()" required>
 							<#if pelaajat??>
 								<#list pelaajat as pelaaja><option value='${pelaaja.jasennumero?c}' <#if kierros.jasennumero==pelaaja.jasennumero>" selected='selected'" </#if> > ${pelaaja.jasennumero?c}. ${pelaaja.etunimi} ${pelaaja.suknimi}</option></#list>
 							<#else>

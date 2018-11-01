@@ -16,23 +16,14 @@
 			vayla = {numero:"1",nimi:"eka väylä",par:"5",pit1:"430",pit2:"420",pit3:"400",pit4:"380",hcp:"12"};
 		</#if>
 		var tiit;
-		<#if tiit??>
-        	tiit=[<#list tiit as tii>{id:"${tii.id?c}",tii_id:"${tii.tii_id?c}",nimi:"${tii.tii_nimi}",sukup:"${tii.sukup}",slope:"${tii.slope}",cr:"${tii.cr}"},</#list>];
-		<#else>
-        	tiit=[{id:"1",tii_id:"1",nimi:"Eka",sukup:"1",slope:"128",cr:"74.0"},
-	      		  {id:"2",tii_id:"2",nimi:"Toka",sukup:"1",slope:"125",cr:"72.0"},
-		 		  {id:"3",tii_id:"3",nimi:"Kolmas",sukup:"1",slope:"123",cr:"70.0"}, 
-        	      {id:"4",tii_id:"4",nimi:"Nelkku",sukup:"1",slope:"120",cr:"68.0"}];
-   		</#if>
+		<#include "/util/tiit.ftl"> 		
    		
    		function alustaPituudet() {
    			var id;
 	    	for (const tii of tiit) {
 	    		id = "pit"+tii.tii_id;
-	    	    if (tii.sukup == 1) {
-		    	    document.getElementById(id).value = vayla[id];
-    	    	    console.log(id, vayla[id]);
-		    	}
+	    	    document.getElementById(id).value = vayla[id];
+   	    	    console.log(id, vayla[id]);
 	    	}
    		}
    		
@@ -76,13 +67,11 @@
 				</tr>   
 					<#if tiit??>
 						<#list tiit as tii> 
-							<#if tii.sukup==1> <#-- tiit vain yhteen kertaan -->
 								<tr>   
 									<td class='hed' >${tii.tii_nimi}</td>
 		    						<td><input name='pit${tii.tii_id}' id='pit${tii.tii_id}' type='number' min='1' max='999' required value='${vayla.pit1}' class='num2' ></td>
 		    						<#--  td>pit_${tii.tii_id} ${tii.id}</td> -->
 								</tr>   
-							</#if> 
 						</#list>
 					<#else>
 						<tr>   

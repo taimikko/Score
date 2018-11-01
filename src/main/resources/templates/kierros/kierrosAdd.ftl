@@ -37,21 +37,7 @@
 			kentat=[{id:"999",nimi:"Eduix testikenttä",seura_id:"999"}, {id:"1000",nimi:"Eduix toinen kenttä",seura_id:"999"}];
 		</#if>
 		console.log("KierrosAdd latasi kentät:",kentat);
-   		<#if tiit??>
-    	<#--
-    		if (tiit === undefined) {
-    		  console.log("tiit puuttuu");
-    		  var tiit=[{id:"0"}]
-    		} else {
-    		  console.log("tiit on olemassa");
-    		}
-    	 -->
-        	tiit=[<#list tiit as tii>{id:"${tii.id?c}",kentta_id:"${tii.kentta_id?c}",tii_id:"${tii.tii_id?c}",nimi:"${tii.tii_nimi}",sukup:"${tii.sukup}",slope:"${tii.slope}",cr:"${tii.cr}"},</#list>];
-		<#else>
-        	tiit=[{id:"121",kentta_id:"999",tii_id:"2",nimi:"Edu54",sukup:"1",slope:"125",cr:"72.0"}, 
-        	     {id:"126",kentta_id:"999",tii_id:"4",nimi:"Edu45",sukup:"2",slope:"125",cr:"72.0"}];
-   		</#if>
-		console.log("KierrosAdd latasi tiit:",tiit);
+		<#include "/util/tiit.ftl"> 		
 
 <#-- 		
 		if (kierros === undefined) {

@@ -8,7 +8,24 @@ public class Tii {
 	private String tii_lyhenne;
 	private Long slope;
 	private Double cr;
-	private Integer sukup;
+	private Long slope_n;
+	private Double cr_n;
+
+	public Long getSlope_n() {
+		return slope_n;
+	}
+
+	public void setSlope_n(Long slope_n) {
+		this.slope_n = slope_n;
+	}
+
+	public Double getCr_n() {
+		return cr_n;
+	}
+
+	public void setCr_n(Double cr_n) {
+		this.cr_n = cr_n;
+	}
 
 	public Long getId() {
 		return id;
@@ -66,22 +83,8 @@ public class Tii {
 		this.cr = cr;
 	}
 
-	public Integer getSukup() {
-		return sukup;
-	}
-
-	public void setSukup(Integer sukup) {
-		this.sukup = sukup;
-	}
-
-	@Override
-	public String toString() {
-		return "Tii [id=" + id + ", kentta_id=" + kentta_id + ", tii_id=" + tii_id + ", tii_nimi=" + tii_nimi
-				+ ", tii_lyhenne=" + tii_lyhenne + ", slope=" + slope + ", cr=" + cr + ", sukup=" + sukup + "]";
-	}
-
 	public Tii(Long id, Long kentta_id, Long tii_id, String tii_nimi, String tii_lyhenne, Long slope, Double cr,
-			Integer sukup) {
+			Long slope_n, Double cr_n) {
 		super();
 		this.id = id;
 		this.kentta_id = kentta_id;
@@ -90,7 +93,16 @@ public class Tii {
 		this.tii_lyhenne = tii_lyhenne;
 		this.slope = slope;
 		this.cr = cr;
-		this.sukup = sukup;
+		this.slope_n = slope_n;
+		this.cr_n = cr_n;
 	}
+
+	@Override
+	public String toString() {
+		return "Tii [id=" + id + ", kentta_id=" + kentta_id + ", tii_id=" + tii_id + ", tii_nimi=" + tii_nimi
+				+ ", tii_lyhenne=" + tii_lyhenne + ", slope=" + slope + ", cr=" + cr + ", slope_n=" + slope_n
+				+ ", cr_n=" + cr_n + "]";
+	}
+
 
 }

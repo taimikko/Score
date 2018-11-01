@@ -72,10 +72,14 @@ public class AdminController {
 	@GetMapping("/admin/kierrokset")
 	public String adminKaikkiKierrokset(Model model,
 			@RequestParam(value = "kentta_id", required = false) Long kentta_id) {
-		log.info("MSA: /admin/kierrokset " + kentta_id);
+		String rajaus = "";
+		if (kentta_id != null) {
+			rajaus = "kenttä = " + Long.toString(kentta_id);
+		};
+		//log.info("MSA: /admin/kierrokset " );
 		List<Kierros> kierrokset = kierrosDAO.getKentanKierrokset(kentta_id);
 		model.addAttribute("kierrokset", kierrokset);
-		model.addAttribute("rajaus", "kenttä = " + Long.toString(kentta_id));
+		model.addAttribute("rajaus", rajaus);
 
 		return "kierros/kierrosLuettelo";
 	}

@@ -33,7 +33,7 @@ function alustaTiitSelect(kentta_selected, tii_selected) { // select -tyyppisen 
     //optiot += '<option value="" >Valitse tii</option> '
     for (var i = 0; i < tiit.length; i++) {
         tii = tiit[i];
-        if ((tii.kentta_id == kentta_selected) && (tii.sukup == pelaajanSukup)) {
+        if (tii.kentta_id == kentta_selected) {
             if ((tii_selected == undefined) || (tii_selected == 0)) { // asetaan ensimmäinen tii valituksi
                 if (ok) {
                     optiot += '<option value="' + tii.id + '" >' + tii.nimi + '</option> '

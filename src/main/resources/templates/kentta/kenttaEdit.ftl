@@ -16,15 +16,7 @@
 			vaylat=[{numero:"1",nimi:"eka väylä",par:"5",pit1:"430",pit2:"420",pit3:"400",pit4:"380",hcp:"12"}];
 		</#if>
 		var tiit;
-		<#if tiit??>
-        	tiit=[<#list tiit as tii>{tii_id:"${tii.tii_id?c}",nimi:"${tii.tii_nimi}",sukup:"${tii.sukup}",slope:"${tii.slope}",cr:"${tii.cr}"},</#list>];
-		<#else>
-        	tiit=[{tii_id:"1",nimi:"Eka",sukup:"1",slope:"128",cr:"74.0"},
-	      		  {tii_id:"2",nimi:"Toka",sukup:"1",slope:"125",cr:"72.0"},
-		 		  {tii_id:"3",nimi:"Kolmas",sukup:"1",slope:"123",cr:"70.0"}, 
-        	      {tii_id:"4",nimi:"Nelkku",sukup:"1",slope:"120",cr:"68.0"}];
-   		</#if>
-   		
+		<#include "/util/tiit.ftl"> 		
 	
 	    function laskeYhteensa() {
 	    	var par = 0;
@@ -105,9 +97,7 @@
 						<th class='num' scope="col">par</th>  
 						<#if tiit??>
 							<#list tiit as tii> 
-								<#if tii.sukup==1> <#-- tiit vain yhteen kertaan -->
-									<th class='num' scope="col">${tii.tii_nimi}</th>
-								</#if> 
+								<th class='num' scope="col">${tii.tii_nimi}</th>
 							</#list>
 						<#else>
 							<th class='num' scope="col">pit1</th>     

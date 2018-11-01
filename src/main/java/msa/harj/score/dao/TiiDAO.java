@@ -45,7 +45,7 @@ public class TiiDAO extends JdbcDaoSupport {
 
 		public Tii mapRow(ResultSet rs, int row) throws SQLException {
 			return new Tii(rs.getLong("id"), rs.getLong("kentta_id"), rs.getLong("tii_id"), rs.getString("tii_nimi"),
-					rs.getString("tii_lyhenne"), rs.getLong("slope"), rs.getDouble("cr"), rs.getInt("sukup"));
+					rs.getString("tii_lyhenne"), rs.getLong("slope"), rs.getDouble("cr"),  rs.getLong("slope_n"), rs.getDouble("cr_n"));
 		}
 	};
 
