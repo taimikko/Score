@@ -38,6 +38,7 @@ public class VaylaDAO extends JdbcDaoSupport {
 	}
 
 	public Vayla getVayla(Long vaylaId) {
+		log.info("MSA: getVayla("+Long.toString(vaylaId)+")");
 		String sql = "SELECT * FROM vayla WHERE id=?";
 		Object[] args = new Object[] { vaylaId };
 		return this.getJdbcTemplate().queryForObject(sql, args, VAYLA_MAPPER);

@@ -18,6 +18,10 @@ td.num {
     text-align: right;
 }
 
+td.hed {
+    width: 150px;
+}
+
 th.num {
     width: 60px;
     text-align: right;

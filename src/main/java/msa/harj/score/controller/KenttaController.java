@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import msa.harj.score.dao.KenttaDAO;
 import msa.harj.score.dao.SeuraDAO;
@@ -87,6 +88,21 @@ public class KenttaController {
 		List<Kentta> kentat = kenttaDAO.getKentat();
 		model.addAttribute("kentat", kentat);
 		return "kentta/kenttaLista";
+	}
+
+	@GetMapping("/kentta/vayla")
+	public String editVayla(Model model, @RequestParam("kentta_id") Long kentta_id, @RequestParam("vayla_id") Long vayla_id) {
+		log.info("MSA(get): /kentta/vayla" + kentta_id+" "+vayla_id);
+		Kentta kentta = kenttaDAO.getKentta(kentta_id);
+		model.addAttribute("kentta", kentta);
+		List<Tii> tiit = tiiDAO.getKentanTiit(kentta_id);
+		model.addAttribute("tiit", tiit);
+		Vayla vayla = vaylaDAO.getVayla(vayla_id);
+		model.addAttribute("vayla", vayla);
+		Seura seura = seuraDAO.getSeura(kentta.getSeura_id());
+		model.addAttribute("seura", seura);
+
+		return "vayla/vaylaEdit";
 	}
 
 }

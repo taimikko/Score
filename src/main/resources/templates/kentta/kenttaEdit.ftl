@@ -122,7 +122,7 @@
             	<tbody>
 	            <#list vaylat as vayla>
 		    		<tr>
-		    			<td class='num' >${vayla.numero}</td>
+		    			<td class='num' ><a href="/kentta/vayla?kentta_id=${kentta.id?c}&vayla_id=${vayla.id}" > ${vayla.numero}</a></td>
 		    			<td>${vayla.nimi}</td>
 		    			<td class='num' >${vayla.par}</td>
 		    			<td class='num' >${vayla.pit1}</td>

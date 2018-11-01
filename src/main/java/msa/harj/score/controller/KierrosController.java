@@ -128,11 +128,8 @@ public class KierrosController {
 		model.addAttribute("kierrokset", kierrokset);
 		List<Seura> seurat = seuraDAO.getSeurat();
 		model.addAttribute("seurat", seurat);
-		
-//		if (! from.isEmpty()) 
-//			return from;
-//		else
-			return "kierros/kierrosHistoria";
+
+		return "kierros/kierrosHistoria";
 	}
 
 	@GetMapping("/kierros/omat")
