@@ -13,6 +13,16 @@ input.num {
     text-align: right;
 }
 
+td.num {
+    width: 60px;
+    text-align: right;
+}
+
+th.num {
+    width: 60px;
+    text-align: right;
+}
+
 input.info {
     width: 40px;
     text-align: right;

@@ -24,6 +24,7 @@
 		 		  {tii_id:"3",nimi:"Kolmas",sukup:"1",slope:"123",cr:"70.0"}, 
         	      {tii_id:"4",nimi:"Nelkku",sukup:"1",slope:"120",cr:"68.0"}];
    		</#if>
+   		
 	
 	    function laskeYhteensa() {
 	    	var par = 0;
@@ -31,12 +32,12 @@
 	    	var pit2 = 0;
 	    	var pit3 = 0;
 	    	var pit4 = 0;
-	    	for (vayla in vaylat) {
-	    		par += vayla.par;
-	    		pit1 += vayla.pit1;
-	    		pit2 += vayla.pit2;
-	    		pit3 += vayla.pit3;
-	    		pit4 += vayla.pit4;
+	    	for (const vayla of vaylat) {
+	    		par += Number.parseInt(vayla.par);
+	    		pit1 += Number.parseInt(vayla.pit1);
+	    		pit2 += Number.parseInt(vayla.pit2);
+	    		pit3 += Number.parseInt(vayla.pit3);
+	    		pit4 += Number.parseInt(vayla.pit4);
 	    	}
 	        document.getElementById("par").innerHTML = par;
 	        document.getElementById("pit1").innerHTML = pit1;
@@ -94,51 +95,51 @@
         </form>
     </div>
 	<div>
-		<h3>väylät</h3>
+		<#--  h3>väylät</h3> -->
         <table>
             <#if vaylat??>
             	<thead>
   					<tr>
-						<th scope="col">#</th> <#-- numero -->   
+						<th class='num' scope="col">#</th> <#-- numero -->   
 						<th scope="col">nimi</th>     
-						<th scope="col">par</th>  
+						<th class='num' scope="col">par</th>  
 						<#if tiit??>
 							<#list tiit as tii> 
 								<#if tii.sukup==1> <#-- tiit vain yhteen kertaan -->
-									<th scope="col">${tii.tii_nimi}</th>
+									<th class='num' scope="col">${tii.tii_nimi}</th>
 								</#if> 
 							</#list>
 						<#else>
-							<th scope="col">pit1</th>     
-							<th scope="col">pit2</th>     
-							<th scope="col">pit3</th>     
-							<th scope="col">pit4</th>
+							<th class='num' scope="col">pit1</th>     
+							<th class='num' scope="col">pit2</th>     
+							<th class='num' scope="col">pit3</th>     
+							<th class='num' scope="col">pit4</th>
 						</#if>     
-						<th scope="col">hcp</th>     
+						<th class='num' scope="col">hcp</th>     
 						<th></th>
 					</tr>
             	</thead>
             	<tbody>
 	            <#list vaylat as vayla>
 		    		<tr>
-		    			<td>${vayla.numero}</td>
+		    			<td class='num' >${vayla.numero}</td>
 		    			<td>${vayla.nimi}</td>
-		    			<td>${vayla.par}</td>
-		    			<td>${vayla.pit1}</td>
-		    			<td>${vayla.pit2}</td>
-		    			<td>${vayla.pit3}</td>
-		    			<td>${vayla.pit4}</td>
-		    			<td>${vayla.hcp}</td>
+		    			<td class='num' >${vayla.par}</td>
+		    			<td class='num' >${vayla.pit1}</td>
+		    			<td class='num' >${vayla.pit2}</td>
+		    			<td class='num' >${vayla.pit3}</td>
+		    			<td class='num' >${vayla.pit4}</td>
+		    			<td class='num' >${vayla.hcp}</td>
 		    		</tr>
 		    	</#list>
 		    		<tr>
-		    			<td>yhteensä</td>
 		    			<td></td>
-		    			<td id="par">0</td>
-		    			<td id="pit1">1</td>
-		    			<td id="pit2">2</td>
-		    			<td id="pit3">3</td>
-		    			<td id="pit4">4</td>
+		    			<td>yhteensä</td>
+		    			<td class='num'><span id="par" >0</span></td>
+		    			<td class='num'><span id="pit1">1</span></td>
+		    			<td class='num'><span id="pit2">2</span></td>
+		    			<td class='num'><span id="pit3">3</span></td>
+		    			<td class='num'><span id="pit4">4</span></td>
 		    			<td></td>
 		    		</tr>
 	    		</tbody>
