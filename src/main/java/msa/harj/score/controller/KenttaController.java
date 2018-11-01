@@ -105,4 +105,11 @@ public class KenttaController {
 		return "vayla/vaylaEdit";
 	}
 
+	@PostMapping("/kentta/vayla")
+	public String updateVayla(Model model, Vayla vayla) {
+		log.info("MSA(post): /kentta/vayla/" + vayla.getKentta_id() + " " + vayla.getNumero()+ " id="+vayla.getId());
+		vaylaDAO.updateVayla(vayla);
+		return "redirect:/kentta/edit/"+Long.toString(vayla.getKentta_id());
+	}
+
 }

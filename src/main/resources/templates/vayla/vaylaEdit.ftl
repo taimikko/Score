@@ -49,40 +49,37 @@
 
     <h2>Väylän tiedot</h2>
     <div>
+        <form name='f' action="/kentta/vayla" method='POST'>
         <table>
             <#if kentta??>
 	    		<tr>
 	    			<td>kenttä:</td>
 	    			<td><input name='kentta_id' readonly value=${kentta.id?c} /></td>
-	    			<td><input name='kentan_nimi' readonly value='${kentta.kentan_nimi}' /> </td>
+	    			<td><input id='kentan_nimi' readonly value='${kentta.kentan_nimi}' /> </td>
 	    		</tr>
 	    		<tr>
 		    		<td>seura:</td>
-					<td><input name='seura_id' readonly value='${kentta.seura_id}' /></td>
-	    			<td><input name='seura_id' readonly <#if seura??>value='${seura.nimi} (${seura.lyhenne})'</#if> /></td>
+					<td><input id='seura_id'   readonly value='${kentta.seura_id}' /></td>
+	    			<td><input id='seura_nimi' readonly <#if seura??>value='${seura.nimi} (${seura.lyhenne})'</#if> /></td>
 	    		</tr>
             </#if>
-        </table>
-    </div>
-    <br/>
-	<div>
-        <form name='f' action="/kentta/vayla" method='POST'>
-        <table>
+		    <br/>
             <#if vayla??>
 				<tr>
 					<td class='hed' >väylä:</td>
-	    			<td><input class='num2' name='numero' id='numero' type='number' min='1' max='18' required value='${vayla.numero}'> </td>
-					<td><input name='nimi' title='Väylän nimi' id='nimi' value='${vayla.nimi}'> </td>
+	    			<td><input name='numero' id='numero' type='number' min='1' max='18' required value='${vayla.numero}' class='num2' > </td>
+					<td><input name='nimi' id='nimi' value='${vayla.nimi}' title='Väylän nimi'> </td>
+	    			<td><input name='id' id='id' readonly value='${vayla.id}' /> </td>
 				</tr><tr>   
 					<td class='hed' >par</td>  
-	    			<td><input class='num2' name='par' id='par' type='number' min='3' max='5' required value='${vayla.par}'> </td>
+	    			<td><input name='par' id='par' type='number' min='3' max='5' required value='${vayla.par}' class='num2' > </td>
 				</tr>   
 					<#if tiit??>
 						<#list tiit as tii> 
 							<#if tii.sukup==1> <#-- tiit vain yhteen kertaan -->
 								<tr>   
 									<td class='hed' >${tii.tii_nimi}</td>
-		    						<td><input class='num2' name='pit${tii.tii_id}' id='pit${tii.tii_id}' type='number' min='1' max='999' required value='${vayla.pit1}'></td>
+		    						<td><input name='pit${tii.tii_id}' id='pit${tii.tii_id}' type='number' min='1' max='999' required value='${vayla.pit1}' class='num2' ></td>
 		    						<#--  td>pit_${tii.tii_id} ${tii.id}</td> -->
 								</tr>   
 							</#if> 
@@ -94,11 +91,8 @@
 					</#if>     
 				<tr>   
 					<td class='hed' >hcp</td>     
-	    			<td><input class='num2' name='hcp' id='hcp' type='number' min='1' max='18' required value='${vayla.hcp}'></td>
+	    			<td><input name='hcp' id='hcp' type='number' min='1' max='18' required value='${vayla.hcp}' class='num2' ></td>
 				</tr>
-	    		<tr>
-	    			pituudet alustettava oikein 1:${vayla.pit2} 2:${vayla.pit2} 3:${vayla.pit3} 4:${vayla.pit4}
-	    		</tr>
 	            <tr>
 	               <td><input name="submit" type="submit" value="submit" /></td>
 	            </tr>
