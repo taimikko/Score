@@ -109,6 +109,7 @@ function pelaajaValinta() {
         if (pelaaja.jasennumero == pelaaja_id) {
             document.getElementById('etunimi').value = pelaaja.etunimi;
             document.getElementById('sukunimi').value = pelaaja.sukunimi;
+            document.getElementById('tasoitus').value = pelaaja.tasoitus;
             console.log("pelaajaValinta löysi ", pelaaja);
             break;
         }

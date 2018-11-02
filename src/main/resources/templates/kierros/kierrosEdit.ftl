@@ -133,7 +133,7 @@
 		        </tr>
 		        <tr>
 		            <td>pelaajan tasoitus:</td>
-		            <td><input type='text'  class='num' name='tasoitus' <#if (kierros.tasoitus)??> value='${kierros.tasoitus}' <#elseif (pelaaja.tasoitus)??> value='${pelaaja.tasoitus}' </#if> > </td>
+		            <td><input type='text'  class='num' id='tasoitus' name='tasoitus' <#if (kierros.tasoitus)??> value='${kierros.tasoitus}' <#elseif (pelaaja.tasoitus)??> value='${pelaaja.tasoitus}' </#if> > </td>
 		            <td>pelitasoitus: lasketaan myöhemmin</td>
 		        </tr>
 		        <tr>
