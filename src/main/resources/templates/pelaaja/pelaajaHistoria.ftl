@@ -19,7 +19,7 @@
 			<tr><td>Seura:</td><td>${kayttaja.seuraId?replace(",","")}</td></tr>
 			<tr><td>Jäsennumero:</td><td>${kayttaja.jasennumero?replace(",","")}</td></tr>
 			<tr><td>Voimassa:</td><td>${kayttaja.enabled?string('kyllä', 'ei')}</td></tr>
-			<tr><td>Tyyppi:</td><td>${kayttaja.jasen_tyyppi?string('kyllä', 'ei')}</td></tr>
+			<tr><td>Tyyppi:</td><td>${kayttaja.jasentyyppi}</td></tr>
 			<tr><td><br></td></tr>
 		</table>
 	</#if>
@@ -43,7 +43,6 @@
 						<td>${p.pvm?string('dd.MM.yyyy HH:mm:ss')}</td>
 						<td>${p.seuraId?replace(",","")}</td>
 						<td>${p.jasennumero?replace(",","")}</td>
-						<td>${p.jasen_tyyppi}</td>
 						<td>${p.tasoitus}</td>
 						<td>${p.tasoitus_voimassa?string('kyllä', 'ei')}</td>
 						<td>

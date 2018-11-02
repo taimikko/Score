@@ -54,7 +54,7 @@
                 <tr>
                 	<#if jasentyypit??> </#if>
                     <td>jäsenyyden tyyppi:</td>
-                    <td>${kayttaja.jasentyyppi?c} <#list jasentyypit as jt><#if jt.id==kayttaja.jasentyyppi>${jt.tyyppi} ${jt.kuvaus}</#if></#list>
+                    <td>${kayttaja.jasentyyppi?c} <#list jasentyypit as jt><#if jt.id==kayttaja.jasentyyppi> ${jt.tyyppi} (${jt.kuvaus})</#if></#list>
                 </tr>
             </#if>
             <#if roolit??>

@@ -231,4 +231,10 @@ public class KayttajaController {
 		return (kayttajaDAO.haeVapaaJasennumero(seura_id));
 	}
 
+	@GetMapping("/kayttaja/onkoVarattu/{kayttajatunnus}")
+	public @ResponseBody Boolean onkoVarattu(Model model, Principal principal,
+			@PathVariable("kayttajatunnus") String kayttajatunnus) {
+		return (kayttajaDAO.onkoVarattu(kayttajatunnus));
+	}
+
 }

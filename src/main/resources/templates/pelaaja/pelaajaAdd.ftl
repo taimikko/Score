@@ -44,7 +44,7 @@
     			<td>jäsennumero:</td><td>${pelaaja.jasennumero}</td>
     		</tr>
     		<tr>
-    			<td>jäsenyyden tyyppi:</td><td>${pelaaja.jasen_tyyppi}</td> <#-- min=1 max=9 -->
+    			<td>jäsenyyden tyyppi:</td><td>${pelaaja.jasentyyppi}</td> <#-- min=1 max=9 -->
     		</tr>
     		<tr>
     			<td>sukupuoli:</td><td>${pelaaja.sukup}</td>

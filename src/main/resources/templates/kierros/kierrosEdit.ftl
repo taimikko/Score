@@ -9,54 +9,23 @@
 
 	<title>Edit Kierros</title>
 	<script>
+		<#include "/util/seurat.ftl"> 		
+		<#include "/util/kentat.ftl"> 		
 	    <#include "/util/vaylat.ftl">
-
-		<#if seurat??>
-			seurat=[<#list seurat as seura>{id:"${seura.id?c}",lyhenne:"${seura.lyhenne}",nimi:"${seura.nimi}"}, </#list>];
-		<#else>
-			seurat=[{id:"999",lyhenne:"Edu",nimi:"Eduixin testiseura"}];
-		</#if>
-		<#if jasentyypit??>
-			jasentyypit = [<#list jasentyypit as jt>{id:"${jt.id}",tyyppi:"${jt.tyyppi}",kuvaus:"${jt.kuvaus}"}, </#list>];
-		<#else>
-			jasentyypit = [{id:"2", tyyppi:"jäsen", kuvaus:"Jäsenet"}];
-		</#if>
-
-	   	<#if kentat??>
-			kentat=[<#list kentat as kentta>{id:"${kentta.id?c}", nimi:"${kentta.kentan_nimi}", seura_id:"${kentta.seura_id?c}"}, </#list>];
-		<#else>
-			kentat=[{id:"999",nimi:"Eduix testikenttä",seura_id:"999"}, {id:"1000",nimi:"Eduix toinen kenttä",seura_id:"999"}];
-		</#if>
-		console.log("kentät:",kentat);
-
-		<#include "/util/tiit.ftl">
-
-		<#if kierros??>
-			kierros = '${kierros}';
-		<#else>
-			kierros = "kierros puuttuu";
-		</#if>
-		console.log("kierros:", kierros);
+		<#include "/util/tiit.ftl"> 
+		<#--  kierros ja pelaaja välitetään tänne, muttei käytetä muuttujaa vaan suoraan freemarkerista 		
+		<#include "/util/kierros.ftl">
+		<#include "/util/pelaaja.ftl">  		
+		-->
 
 	  	pelaajanSukup = <#if (pelaaja.sukup)??> ${pelaaja.sukup} <#else>1 </#if> ;
 	  	if (pelaajanSukup != 2) pelaajanSukup = 1;
 
-		<#if pelaaja??> 
-			pelaaja = '${pelaaja}';
-		<#else>
-			pelaaja = 'pelaaja puuttuu'; 
-		</#if>
-		
-		<#if from??>
-			var from = '${from};
-			console.log("from:", from);
-		</#if>
-
 		window.onload = function (e) {
 			console.log("kierrosEdit window.onload");
- 			alustaKentta(<#if (kierros.kentta_id)??> ${kierros.kentta_id?c}<#else>0</#if>,<#if (kierros.tii_id)??>${kierros.tii_id?c}<#else>0</#if>);
+ 			alustaKentta(<#if (kierros.kentta_id)??> ${kierros.kentta_id?c}<#else>0</#if>,<#if (kierros.tii_id)??>${kierros.tii_id?c}<#else>0</#if>,'kentta');
     		//alustaPvm();
-    		alustaPelaajat(<#if (pelaaja.seura_id)??> ${pelaaja.seura_id?c}<#elseif (kierros.seura_id)??>${kierros.seura_id?c}<#else>0</#if>)
+    		alustaPelaajat(<#if (pelaaja.seuraId)??> ${pelaaja.seuraId?c}<#elseif (kierros.seura_id)??>${kierros.seura_id?c}<#else>0</#if>)
 		}		
 </script>   
     
@@ -77,10 +46,6 @@
 
 	<#if kierros??>
     <form name='f' action="/kierros/edit" method='POST'>
-            <datalist id='tiiluettelo'>
-     			<option value="2">Keltainen</option>
-	           	<option value="4">Punainen</option>
-            </datalist>
 
 		<#--  kenttä ja tiit pitäisi alustaa myös silloin kun palataan lomakkeelle virheen jälkeen -->
 		  	<table>

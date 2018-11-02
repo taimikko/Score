@@ -108,4 +108,12 @@ public class KayttajaDAO extends JdbcDaoSupport {
 		}
 	}
 
+	public Boolean onkoVarattu(String kayttajatunnus) {
+		String sql = "SELECT count(kayttajatunnus) as lkm FROM kayttaja WHERE kayttajatunnus = ? ";
+		Object[] params = new Object[] { kayttajatunnus };
+		Integer lkm = this.getJdbcTemplate().queryForObject(sql, params, Integer.class);
+		if (lkm >0) return true; // varattu
+		return false; 
+	}
+
 }

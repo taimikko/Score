@@ -49,7 +49,7 @@
     			<td>jäsennumero:</td><td><input type='number' name='jasennumero' readonly value=${pelaaja.jasennumero?c} /></td>
     		</tr>
     		<tr>
-    			<td>jäsenyyden tyyppi:</td><td><input type='number' min=1 max=9 name='jasen_tyyppi' required value=${pelaaja.jasen_tyyppi} /></td>
+    			<td>jäsenyyden tyyppi:</td><td><input type='number' min=1 max=9 name='jasentyyppi' required value=${pelaaja.jasentyyppi} /></td>
     		</tr>
      		<tr>
     			<td>id:</td><td><input type='number' name='id' readonly value=${pelaaja.id?c} /></td>

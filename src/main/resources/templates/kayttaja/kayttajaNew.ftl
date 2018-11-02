@@ -3,29 +3,12 @@
    	<head>
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 	    <link rel="stylesheet" type="text/css" href="/css/score.css">
+		<script type="application/javascript" src="/js/kayttaja.js"></script>
+
 	    <title>Uusi Käyttäjä</title>
 
 	    <script>
-	    async function haeVapaaNumero() {
-		    console.log("function haeVapaaNumero()");
-	    	const seura_id = document.getElementById('seuraId').value; 
-            haeSeuranVapaaNumero(seura_id);
-	    };
-	    
-		async function haeSeuranVapaaNumero(seura_id) {
-		    try { 
-		        const res = await fetch('/kayttaja/vapaaJasennumero/' + seura_id); 
-		         
-		        if(res.status != 200){ return; } 
-		        const data = await res.text(); 
-		        console.log(data);
-		        document.getElementById('jasennumero').value = JSON.parse(data);  
-		        //.innerHTML = '`' + txt +'`' ;
-		     } finally {
-		        console.log("vapaa jäsennumero");
-		     }
-		 }
-
+		 
 		window.onload = function (e) {
     		console.log("kayttajaNew.ftl window.onload");
     		//haeVapaaNumero();
@@ -59,8 +42,9 @@
                </td>
             </tr>
                <td>Käyttäjätunnus:</td>
-               <td><input type='text' name='username' required >
+               <td><input type='text' id='username' name='username' required onfocusout="tarkistaKayttajatunnus('username', false)" >
                </td>
+               <td><span id='huom' name='huom'></span></td>
             </tr>
             <tr>
                <td>Salasana:</td>
@@ -111,7 +95,7 @@
     		</tr>
      		<tr>
     			<td>jäsenyyden tyyppi:</td>
-    			<td><select required id='jasen_tyyppi' name='jasen_tyyppi'>
+    			<td><select required id='jasentyyppi' name='jasentyyppi'>
                  	<#list jasentyypit as jt>
                     	<option value="${jt.id}" <#if (jt.id==2)> selected="selected" </#if> >${jt.id}. ${jt.tyyppi}</option>
                 	</#list>

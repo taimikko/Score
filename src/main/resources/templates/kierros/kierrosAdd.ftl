@@ -10,68 +10,24 @@
 
     <script type="application/javascript" src="/js/kierros.js"></script>    
 	<script>
+		<#include "/util/seurat.ftl"> 		
+		<#include "/util/kentat.ftl"> 		
 	    <#include "/util/vaylat.ftl">
-
-		<#if seurat??>
-			seurat=[<#list seurat as seura>{id:"${seura.id?c}",lyhenne:"${seura.lyhenne}",nimi:"${seura.nimi}"}, </#list>];
-		<#else>
-			seurat=[{id:"999",lyhenne:"Edu",nimi:"Eduixin testiseura"}];
-		</#if>
-		<#if jasentyypit??>
-			jasentyypit = [<#list jasentyypit as jt>{id:"${jt.id}",tyyppi:"${jt.tyyppi}",kuvaus:"${jt.kuvaus}"}, </#list>];
-		<#else>
-			jasentyypit = [{id:"2", tyyppi:"jäsen", kuvaus:"Jäsenet"}];
-		</#if>
-
-	   	<#if kentat??>
-    	<#-- 
-    		if (kentat === undefined) {
-    		  console.log("kentät puuttuu");
-    		  var kentat=[{id:"1", nimi:"koe", seura_id:"0"}]
-    		} else {
-    		  console.log("kentät on olemassa");
-    		}
-    	 -->
-			kentat=[<#list kentat as kentta>{id:"${kentta.id?c}", nimi:"${kentta.kentan_nimi}", seura_id:"${kentta.seura_id?c}"}, </#list>];
-		<#else>
-			kentat=[{id:"999",nimi:"Eduix testikenttä",seura_id:"999"}, {id:"1000",nimi:"Eduix toinen kenttä",seura_id:"999"}];
-		</#if>
-		console.log("KierrosAdd latasi kentät:",kentat);
-		<#include "/util/tiit.ftl"> 		
-
-<#-- 		
-		if (kierros === undefined) {
-			console.log("kierros undefined");
-			var kierros = 0;
-		} else {
-			console.log("kierros on defined");
-		}
-	 -->
-		<#if kierros??>
-			kierros = '${kierros}';
-		<#else>
-			kierros = "kierros puuttuu";
-		</#if>
-		console.log("KierrosAdd latasi kierroksen:", kierros);
+		<#include "/util/tiit.ftl"> 
+		<#--  kierros ja pelaaja välitetään tänne, muttei käytetä muuttujaa vaan suoraan freemarkerista 		
+		<#include "/util/kierros.ftl">
+		<#include "/util/pelaaja.ftl">  		
+		-->
 
 	  	pelaajanSukup = <#if (pelaaja.sukup)??> ${pelaaja.sukup} <#else>1 </#if> ;
 	  	if (pelaajanSukup != 2) pelaajanSukup = 1;
-<#-- -->
- 	  	pelaaja = '${pelaaja}';
-		console.log("KierrosAdd latasi pelaajanSukup:",pelaajanSukup, pelaaja);
+		console.log("pelaajanSukup:",pelaajanSukup);
 		
-		<#if principal??> <#-- testaukseen: -->
-		 var principal = '${principal}';
-		<#else>
-		 var principal = "principal puuttuu";
-		</#if>
-		console.log("principal",principal);
-
 		window.onload = function (e) {
 			console.log("kierrosAdd window.onload");
 		    alustaPvm();
- 			alustaKentta(<#if (kierros.kentta_id)??> ${kierros.kentta_id?c}<#else>0</#if>,<#if (kierros.tii_id)??>${kierros.tii_id?c}<#else>0</#if>);
-    		alustaPelaajat(<#if (pelaaja.seura_id)??> ${pelaaja.seura_id?c}<#elseif (kierros.seura_id)??>${kierros.seura_id?c}<#else>0</#if>)
+ 			alustaKentta(<#if (kierros.kentta_id)??> ${kierros.kentta_id?c}<#else>0</#if>,<#if (kierros.tii_id)??>${kierros.tii_id?c}<#else>0</#if>, 'kenttaluettelo');
+    		alustaPelaajat(<#if (pelaaja.seuraId)??> ${pelaaja.seuraId?c}<#elseif (kierros.seura_id)??>${kierros.seura_id?c}<#else>0</#if>)
 		}
 </script>   
     
@@ -91,41 +47,27 @@
 	</#if>
 	<#if kierros??> 
         <form name='f' action="/kierros/add" method='POST' autocomplete='off'>
-            <datalist id='tiiluettelo'>
-     			<option value="2">Keltainen</option>
-	           	<option value="4">Punainen</option>
-            </datalist>
-
-		<#--  kenttä ja tiit pitäisi alustaa myös silloin kun palataan lomakkeelle virheen jälkeen -->
 		  	<table>
-		  		<tr>
-	  	  			<#-- ADMIN voi tehdä vähän enemmän -->
-	  	  			<@security.authorize access="hasRole('ROLE_ADMIN')">
- 
+  	  			<#-- ADMIN voi tehdä vähän enemmän -->
+  	  			<@security.authorize access="hasRole('ROLE_ADMIN')">
+			  		<tr>
 						<td>pelaajan kotiseura:	</td>
 						<td>
 							<select class='num2' id='seura_id' name='seura_id' onchange="seuraChange()" required >
 							<#if seurat??>
-								<#list seurat as seura><option value='${seura.id}' > ${seura.id}. ${seura.nimi}</option></#list>
+								<#list seurat as seura><option value='${seura.id}' <#if seura.id == pelaaja.seuraId> selected="selected" </#if> > ${seura.id}. ${seura.nimi}</option></#list>
 			                </#if>
 			                </select>
 			            </td>
-						</tr>
-					
-						<tr>
+					</tr><tr>
 						<td>jäsennumero:
 						</td><td>
 							<select class='num2' id='jasennumero' name='jasennumero' onchange="pelaajaValinta()" required >
-							<#if pelaajat??>
-								<#list pelaajat as pelaaja><option value='${pelaaja.jasennumero?c}' > ${pelaaja.jasennumero?c}. ${pelaaja.etunimi} ${pelaaja.suknimi}</option></#list>
-							<#else>
 								<option value='${pelaaja.jasennumero?c}' selected='selected' > ${pelaaja.jasennumero?c}</option>
-							</#if>
 							</select>
 						</td>
 						<td><span id='vanha_jasennumero' name='vanha_jasennumero'></span></td>
-						</tr><tr>
-
+					</tr><tr>
 			            <td>etunimi:</td>
 			            <td>
 			            	<input type='text' maxlength='50' class='txt' name='etunimi' id='etunimi' <#if (kierros.etunimi)??> value='${kierros.etunimi}' <#elseif (pelaaja.etunimi)??>  value='${pelaaja.etunimi}' </#if> >
@@ -133,8 +75,10 @@
 			            <td>
 							sukunimi: <input type='text' maxlength='50' class='txt' name='sukunimi' id='sukunimi' <#if (kierros.sukunimi)??> value='${kierros.sukunimi}' <#elseif (pelaaja.sukunimi)??>  value='${pelaaja.sukunimi}'  </#if> >
 						</td>
-					</@security.authorize>
-					<@security.authorize access="! hasRole('ROLE_ADMIN')">
+					</tr>
+				</@security.authorize>
+				<@security.authorize access="! hasRole('ROLE_ADMIN')">
+					<tr>
 						<td>pelaaja:
 						</td>
 						<td>
@@ -158,8 +102,8 @@
 								<#list seurat as seura> <#if pelaaja.seuraId==seura.id> ${seura.nimi}</#if> </#list>
 							</#if>
 						</td>
-					</@security.authorize>
-				</tr>
+					</tr>
+				</@security.authorize>
 				<tr>
 					<td>pvm:</td>
 					<td><input id='pvm1' type="date" name='pvm' onchange="pvmUpdate()" <#if (kierros.pvm)??> value='${kierros.pvm?string('yyyy-MM-dd')}'<#else>value='01/01/1999' </#if> ></td>
@@ -179,9 +123,7 @@
 						-->
 						
 						<input autofocus list="kenttaluettelo" autocomplete="off" title="Valitse kenttä" class='num' id='kentta' name='kentta_id' onselect="kenttaValintaInput()" 
-						<#if (kierros.kentta_id)??> value='${kierros.kentta_id?c}' 
-						 
-						</#if> > </input>
+						<#if (kierros.kentta_id)??> value='${kierros.kentta_id?c}' </#if> > </input>
 						<datalist id="kenttaluettelo" >
 		                    <#list kentat as kentta>
 		                        <option value="${kentta.id?c}">${kentta.id?c} ${kentta.kentan_nimi} (${kentta.seura_id?c})</option>

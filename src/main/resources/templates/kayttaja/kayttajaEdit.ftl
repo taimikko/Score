@@ -5,6 +5,8 @@
 <head>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="/css/score.css">
+	<script type="application/javascript" src="/js/kayttaja.js"></script>
+
 	<title>Käyttäjätietojen päivitys</title>
 </head>
 
@@ -23,7 +25,8 @@
 	    			<td>sukunimi:</td><td><input type='text' name='sukunimi' required value=${kayttaja.sukunimi} /></td>
 	    		</tr>
 	    		<tr>
-	    			<td>käyttäjätunnus:</td><td><input type='text' name='username' required value=${kayttaja.username} /> </td>
+	    			<td>käyttäjätunnus:</td><td><input type='text' name='username' id='username' required value=${kayttaja.username} onfocusout="tarkistaKayttajatunnus('username', true)" /> </td>
+ 	               	<td><span id='huom' name='huom'></span></td>
 	    		</tr>
 	            <tr>
     	            <#--  useita rooleja: ROLE_USER, ROLE_ADMIN, ROLE_SEURA_MANAGER 

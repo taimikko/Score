@@ -51,3 +51,8 @@ table.rako {
 #kentta {
     width: 200px;
 }
+
+#huom {
+    color:red;
+    margin:10px;
+}
