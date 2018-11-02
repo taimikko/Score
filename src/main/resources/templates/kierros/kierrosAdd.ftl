@@ -90,8 +90,9 @@
 						<td>
 							jäsennumero:
 						<#-- jäsennumero = readonly, tulee kirjautuneen käytäjän tietojen mukaan paitsi adminilla, joka voi syöttää muidenkin tietoja -->
-							<input type='hidden' class='num' name='jasennumero' <#if (kierros.jasennumero)??> value='${kierros.jasennumero?c}' <#elseif (pelaaja.jasennumero)??> value='${pelaaja.jasennumero?c}' </#if> >
+							<input type='hidden' class='num' id='jasennumero' name='jasennumero' <#if (kierros.jasennumero)??> value='${kierros.jasennumero?c}' <#elseif (pelaaja.jasennumero)??> value='${pelaaja.jasennumero?c}' </#if> >
 							<span id='jnro' ><#if (kierros.jasennumero)??> ${kierros.jasennumero?c} <#elseif (pelaaja.jasennumero)??> ${pelaaja.jasennumero?c} </#if></span>
+							<span id='vanha_jasennumero' name='vanha_jasennumero' type='hidden'></span>
 							&nbsp;
 							seura:
 						<#-- kotiseura = readonly, pitäisi tulla pelaajan nimen perusteella -->
@@ -121,9 +122,9 @@
 		                    </#list>
 						</select>
 						-->
-						
+
 						<input autofocus list="kenttaluettelo" autocomplete="off" title="Valitse kenttä" class='num' id='kentta' name='kentta_id' onselect="kenttaValintaInput()" 
-						<#if (kierros.kentta_id)??> value='${kierros.kentta_id?c}' </#if> > </input>
+						<#if (kierros.kentta_id)??> value='${kierros.kentta_id?c}'<#else> value='${pelaaja.seuraId}' </#if> > </input>
 						<datalist id="kenttaluettelo" >
 		                    <#list kentat as kentta>
 		                        <option value="${kentta.id?c}">${kentta.id?c} ${kentta.kentan_nimi} (${kentta.seura_id?c})</option>
@@ -143,14 +144,14 @@
 		        </tr>
 		        <tr>
 		            <td>pelaajan tasoitus:</td>
-		            <td><input type='text'  class='num' id='tasoitus' name='tasoitus' <#if (kierros.tasoitus)??> value='${kierros.tasoitus}' <#elseif (pelaaja.tasoitus)??> value='${pelaaja.tasoitus}' </#if> > </td>
-		            <td>pelitasoitus: lasketaan myöhemmin</td>
+		            <td><input type='text'  class='num' id='tasoitus' name='tasoitus' onchange="tasoitusChange()" <#if (kierros.tasoitus)??> value='${kierros.tasoitus}' <#elseif (pelaaja.tasoitus)??> value='${pelaaja.tasoitus}' </#if> > </td>
+		            <td>pelitasoitus: <input readonly class='num' id='pelitasoitus' name='pelitasoitus' ></td>
 		        </tr>
 		        <tr>
 				<@security.authorize access="hasRole('ROLE_ADMIN')">
 		            <td>cba:</td>
 		            <td>		                
-		            	<input type='number' id='cba' name='cba' class='num' <#if (kierros.cba)??> value='${kierros.cba}' <#else> value='0' </#if>  >
+		            	<input type='number' id='cba' name='cba' class='num' min='-4' max='2' <#if (kierros.cba)??> value='${kierros.cba}' <#else> value='0' </#if>  >
 					</td>
 				</@security.authorize>
 				<@security.authorize access="! hasRole('ROLE_ADMIN')">

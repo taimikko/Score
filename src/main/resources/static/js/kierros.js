@@ -12,8 +12,10 @@ var pelaajat; // seuran pelaajat
 
 function alustaTiitSelect(kentta_selected, tii_selected) { // select -tyyppisen kentän alustus ja valinta
     var tii;
-    var ok = false;
+    var ensimmainen = true;
     var optiot = "";
+    var slope;
+    var cr;
 
     if (tiit === undefined) {
         console.log("alustaTiitSelect: tiit===undefined");
@@ -30,33 +32,43 @@ function alustaTiitSelect(kentta_selected, tii_selected) { // select -tyyppisen 
 
     console.log("pelaajan sukupuoli=", pelaajanSukup, "tii_selected", tii_selected, kentta_selected);
 
-    //optiot += '<option value="" >Valitse tii</option> '
     for (var i = 0; i < tiit.length; i++) {
         tii = tiit[i];
         if (tii.kentta_id == kentta_selected) {
             if ((tii_selected == undefined) || (tii_selected == 0)) { // asetaan ensimmäinen tii valituksi
-                if (ok) {
-                    optiot += '<option value="' + tii.id + '" >' + tii.nimi + '</option> '
-                } else {
+                if (ensimmainen) {
                     optiot += '<option value="' + tii.id + '" selected="selected" >' + tii.nimi + '</option> '
-                    console.log("AlustaTiit ok:", tii.id, tii.nimi, tii.slope, tii.cr);
+                    if (pelaajanSukup == 2) {
+                        slope = tii.slope_n;
+                        cr = tii.cr_n;
+                    } else {
+                        slope = tii.slope;
+                        cr = tii.cr;
+                    }
+                    ensimmainen = false;
+                } else {
+                    optiot += '<option value="' + tii.id + '" >' + tii.nimi + '</option> '
                 }
             } else { // asetetaan parametrina saatu tii valituksi
                 if (tii_selected == tii.id) {
                     optiot += '<option value="' + tii.id + '" selected="selected" >' + tii.nimi + '</option> '
-                    console.log("AlustaTiit selected:", tii.id, tii.nimi, tii.slope, tii.cr);
+                    if (pelaajanSukup == 2) {
+                        slope = tii.slope_n;
+                        cr = tii.cr_n;
+                    } else {
+                        slope = tii.slope;
+                        cr = tii.cr;
+                    }
                 } else {
                     optiot += '<option value="' + tii.id + '" >' + tii.nimi + '</option> '
                 }
             }
-            ok = true;
-            console.log("for[", i, "]:", tii.kentta_id, tii.id, tii.nimi, tii.slope, tii.cr);
         }
     }
 
     var t = document.getElementById('tii');
 
-    if (ok == true) {
+    if (optiot.length > 0) {
         t.innerHTML = '`' + optiot + '`';
     } else {
         console.log("Alusta tiit oletusarvoilla.");
@@ -65,11 +77,30 @@ function alustaTiitSelect(kentta_selected, tii_selected) { // select -tyyppisen 
         <option value="3">Sininen</option>
         <option value="4">Punainen</option>
         `;
+        cr=72;
+        slope=126;
     }
+    laskePelitasoitus(slope, cr, 72); //haeKentanPar(kentta_selected));
     document.getElementById('tii_nimi').innerHTML = '';
-
     console.log("MSA: focus tii");
     t.focus();
+}
+
+
+
+function haeKentanPar(kentta_id) {
+    for (const kentta of kentat) {
+        if (kentta.id == kentta_id) {
+            return 72; // kenttätiedoissa ei olekaan par:ia
+        }
+    }
+    return 72;
+}
+
+
+function laskePelitasoitus(slope, cr, par) {
+    const tarkka = document.getElementById('tasoitus').value;
+    document.getElementById('pelitasoitus').value = Math.trunc((slope * tarkka) / 113 + (cr - par)); // alaspäin pyöritettynä
 }
 
 function kenttaValintaInput() {
@@ -82,15 +113,12 @@ function kenttaValintaInput() {
     }
 
     var kentan_nimi;
-    var kentta;
-    for (var i = 0; i < kentat.length; i++) {
-        kentta = kentat[i];
+    for (const kentta of kentat) {
         if (kentta.id == kentta_selected) {
             kentan_nimi = kentta.nimi;
             break;
         }
     }
-    console.log("kenttaValintainput() id=", kentta_selected, kentan_nimi);
     document.getElementById('kentta_nimi').innerHTML = kentan_nimi;
 
     alustaTiitSelect(kentta_selected, 0); // valittu tii puuttuuu
@@ -101,7 +129,6 @@ function kenttaChange() {
     alustaTiitSelect(document.getElementById('kentta').value, 0);
 }
 
-
 function pelaajaValinta() {
     console.log("pelaajaValinta");
     const pelaaja_id = document.getElementById('jasennumero').value;
@@ -110,7 +137,8 @@ function pelaajaValinta() {
             document.getElementById('etunimi').value = pelaaja.etunimi;
             document.getElementById('sukunimi').value = pelaaja.sukunimi;
             document.getElementById('tasoitus').value = pelaaja.tasoitus;
-            console.log("pelaajaValinta löysi ", pelaaja);
+            pelaajanSukup = pelaaja.sukup;
+            console.log("pelaajaValinta löysi ", pelaaja, pelaajanSukup);
             break;
         }
     }
@@ -188,9 +216,36 @@ function alustaKentta(kentta_selected, tii_selected, element) {
 
 function tiiChange() {
     console.log("tiiChange()", document.getElementById('tii').value);
+    tasoitusChange();
     document.getElementById('h1').focus();
     document.getElementById('h1').select();
 }
+
+function tasoitusChange() {
+    console.log("tasoitusChange()");
+
+    const kentta_id = document.getElementById('kentta').value;
+    const tii_id = document.getElementById('tii').value;
+    var cr=72; // jos kentälle ei ole määritelty tiitä, käytetään näitä oletusarvoja
+    var slope=126;
+    for (const tii of tiit) {
+        if (tii.kentta_id == kentta_id) {
+            if (tii_id == tii.id) {
+                if (pelaajanSukup == 2) { // pelaajavalinta päivittää
+                    slope = tii.slope_n;
+                    cr = tii.cr_n;
+                } else {
+                    slope = tii.slope;
+                    cr = tii.cr;
+                }
+                break;
+            }
+        }
+    }
+
+    laskePelitasoitus(slope, cr, 72); //haeKentanPar(kentta_selected));
+}
+
 
 function getRandomPvm() {
     var end = new Date();
