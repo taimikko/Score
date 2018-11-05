@@ -114,9 +114,6 @@ public class KayttajaController {
 		kayttajaDAO.updateKayttaja(kayttaja);
 		kRooliDAO.updateKayttajaRoolit(kayttaja.getKayttajaId(), rooli);
 
-		List<String> rooliLista = rooliDAO.getRoleNames(kayttaja.getKayttajaId());
-		model.addAttribute("roolit", rooliLista);
-
 		return "redirect:/kayttajaluettelo";
 	}
 

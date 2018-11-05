@@ -60,7 +60,7 @@
 				<#list kierrokset as k>
 					<tr>
 						<td scope="row">${k.id}</td>
-						<td><a href="/kierros/edit/${k.id?c}">${k.pvm?string('dd.MM.yyyy')}</a></td>
+						<td><a href="/kierros/edit/${k.id?c}?paluu=/kierros/omat">${k.pvm?string('dd.MM.yyyy')}</a></td>
 						<td>${k.kentta_id?c} <#-- +kentän nimi --></td>
 						<td>${k.tii_id?c} <#-- +tiin nimi --></td>
 						<td>${k.yhteensa}</td>
@@ -69,7 +69,7 @@
 						<td>${k.pelattu?replace(1,"etuysi")?replace(2,"takaysi")?replace(3,"koko kierros")} <#-- +koodia vastaava tieto 9/18 --></td>
 						<td>${k.lisatieto}</td>
 						<td>
-							<form name='f' action="/kierros/del/${k.id}" method='POST'>
+							<form name='f' action="/kierros/del/${k.id}?paluu=/kierros/omat" method='POST'>
   								<#if _csrf??><input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/></#if>
  								<input name="submit" type="submit" value="delete" />
 						   </form>

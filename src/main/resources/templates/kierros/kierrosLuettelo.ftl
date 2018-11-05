@@ -47,7 +47,7 @@
 						<td><#if (k.etunimi)??>${k.sukunimi}</#if></td>
 						<td><#if (k.seura_id)??>${k.seura_id?c}</#if></td>
 						<td><#if (k.jasennumero)??>${k.jasennumero?c}</#if></td>
-						<td><a href="/kierros/edit/${k.id?c}">${k.id?c}</a></td> <#-- from tänne ?? -->
+						<td><a href="/kierros/edit/${k.id?c}?paluu=/admin/kierrokset">${k.id?c}</a></td> 
 						<td><#if (k.pvm)??>${k.pvm?string('dd.MM.yyyy')}</#if></td>
 						<td><#if (k.kentta_id)??>${k.kentta_id?c}</#if> <#-- +kentän nimi --></td>
 						<td><#if (k.tii_id)??>${k.tii_id?c}</#if> <#-- +tiin nimi --></td>
@@ -57,7 +57,7 @@
 						<td><#if (k.pelattu)??>${k.pelattu?replace(1,"etuysi")?replace(2,"takaysi")?replace(3,"koko kierros")}</#if> </td>
 						<td><#if (k.lisatieto)??>${k.lisatieto}</#if></td>
 						<td>							
-							<form name='f' action="/kierros/del/${k.id}" method='POST'>
+							<form name='f' action="/kierros/del/${k.id}?paluu=/admin/kierrokset" method='POST'>
   								<#if _csrf??><input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/></#if>
  								<input name="submit" type="submit" value="delete" />
 						   	</form>

@@ -26,7 +26,8 @@
 		window.onload = function (e) {
 			console.log("kierrosAdd window.onload");
 		    alustaPvm();
- 			alustaKentta(<#if (kierros.kentta_id)??> ${kierros.kentta_id?c}<#else>0</#if>,<#if (kierros.tii_id)??>${kierros.tii_id?c}<#else>0</#if>, 'kenttaluettelo');
+ 			//alustaKentta(<#if (kierros.kentta_id)??> ${kierros.kentta_id?c}<#else>0</#if>,<#if (kierros.tii_id)??>${kierros.tii_id?c}<#else>0</#if>, 'kenttaluettelo');
+			kenttaValintaInput();
     		alustaPelaajat(<#if (pelaaja.seuraId)??> ${pelaaja.seuraId?c}<#elseif (kierros.seura_id)??>${kierros.seura_id?c}<#else>0</#if>)
 		}
 </script>   
@@ -46,7 +47,7 @@
 		 </div>
 	</#if>
 	<#if kierros??> 
-        <form name='f' action="/kierros/add" method='POST' autocomplete='off'>
+        <form name='f' action="/kierros/add?paluu=${paluu}" method='POST' autocomplete='off'>
 		  	<table>
   	  			<#-- ADMIN voi tehdä vähän enemmän -->
   	  			<@security.authorize access="hasRole('ROLE_ADMIN')">
@@ -116,14 +117,14 @@
 					<td>Valitse kenttä:</td>
 					<td>
 						<#--
-						<select title="Valitse kenttä" id='kentta' name='kentta_id' onselect="alustaTiitSelect()" > 
+						<select title="Valitse kenttä" id='kentta' name='kentta_id' onselect="alustaTiit()" > 
 		                    <#list kentat as kentta>
 		                        <option <#if (kierros.kentta_id)??> <#if (kierros.kentta_id?c) == (kentta.id?c)> selected="selected" </#if> </#if> value="${kentta.id?c}">${kentta.id?c} ${kentta.kentan_nimi} (${kentta.seura_id?c})</option>
 		                    </#list>
 						</select>
 						-->
 
-						<input autofocus list="kenttaluettelo" autocomplete="off" title="Valitse kenttä" class='num' id='kentta' name='kentta_id' onselect="kenttaValintaInput()" 
+						<input autofocus list="kenttaluettelo" autocomplete="off" title="Valitse kenttä" class='num' id='kentta' name='kentta_id' onchange="kenttaValintaInput()" <#-- onselect --> 
 						<#if (kierros.kentta_id)??> value='${kierros.kentta_id?c}'<#else> value='${pelaaja.seuraId}' </#if> > </input>
 						<datalist id="kenttaluettelo" >
 		                    <#list kentat as kentta>

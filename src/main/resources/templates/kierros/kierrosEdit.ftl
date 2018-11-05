@@ -45,7 +45,7 @@
 	</#if>
 
 	<#if kierros??>
-    <form name='f' action="/kierros/edit" method='POST'>
+    <form name='f' action="/kierros/edit?paluu=${paluu}" method='POST'>
 
 		<#--  kenttä ja tiit pitäisi alustaa myös silloin kun palataan lomakkeelle virheen jälkeen -->
 		  	<table>
