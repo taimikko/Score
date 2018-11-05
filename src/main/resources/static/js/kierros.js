@@ -32,8 +32,7 @@ function alustaTiit(kentta_selected, tii_selected) { // select -tyyppisen kentä
 
     console.log("pelaajan sukupuoli=", pelaajanSukup, "tii_selected", tii_selected, kentta_selected);
 
-    for (var i = 0; i < tiit.length; i++) {
-        tii = tiit[i];
+    for (const tii of tiit) {
         if (tii.kentta_id == kentta_selected) {
             if ((tii_selected == undefined) || (tii_selected == 0)) { // asetaan ensimmäinen tii valituksi
                 if (ensimmainen) {
@@ -66,7 +65,7 @@ function alustaTiit(kentta_selected, tii_selected) { // select -tyyppisen kentä
         }
     }
 
-    var t = document.getElementById('tii');
+    var t = document.getElementById('tii_id');
 
     if (optiot.length > 0) {
         t.innerHTML = '`' + optiot + '`';
@@ -77,15 +76,14 @@ function alustaTiit(kentta_selected, tii_selected) { // select -tyyppisen kentä
         <option value="3">Sininen</option>
         <option value="4">Punainen</option>
         `;
-        cr=72;
-        slope=126;
+        cr = 72;
+        slope = 126;
     }
     laskePelitasoitus(slope, cr, 72); //haeKentanPar(kentta_selected));
     document.getElementById('tii_nimi').innerHTML = '';
     console.log("MSA: focus tii");
     t.focus();
 }
-
 
 
 function haeKentanPar(kentta_id) {
@@ -101,17 +99,40 @@ function haeKentanPar(kentta_id) {
 function laskePelitasoitus(slope, cr, par) {
     const tarkka = document.getElementById('tasoitus').value;
     document.getElementById('pelitasoitus').value = Math.trunc((slope * tarkka) / 113 + (cr - par)); // alaspäin pyöritettynä
+    enableSubmit();
+}
+
+function alustaKentta(kentta_selected, tii_selected, element) {
+    //element = 'kentta_id' (editissä) ja 'kenttaluettelo' (insertissä)
+    var optiot = "";
+    console.log("AlustaKentta");
+
+    if (kentta_selected == undefined) {
+        kentta_selected = 0;
+    }
+
+    var valinta = "";
+    for (const kentta of kentat) {
+        valinta = kentta.id + ". " + kentta.nimi; //kentta.nimi + " (" + kentta.id + ")" ; //kentta.id + ". " + kentta.nimi; 
+        if (kentta.id == kentta_selected) {
+            optiot += '<option value="' + kentta.id + '" selected="selected" >' + valinta + '</option> '
+        } else {
+            optiot += '<option value="' + kentta.id + '" >' + valinta + '</option> '
+        }
+    }
+
+    document.getElementById(element).innerHTML = '`' + optiot + '`';
+
+    if (kentta_selected === 0) { // asetaan ensimmäinen valituksi
+        document.getElementById(element).options[0].selected = true;
+    }
+
+    alustaTiit(kentta_selected, tii_selected);
 }
 
 function kenttaValintaInput() {
     // uutta kierrosta tehtäessä
-    var kentta_selected = document.getElementById('kentta').value;
-    if (kentat === undefined) {
-        console.log("DEBUG: kenttaValinta() id=", kentta_selected, "kentat===undefined");
-    } else {
-        console.log("DEBUG: kenttaValinta() id=", kentta_selected, "kenttiä on ", kentat.length, kentat);
-    }
-
+    var kentta_selected = document.getElementById('kentta_id').value;
     var kentan_nimi;
     for (const kentta of kentat) {
         if (kentta.id == kentta_selected) {
@@ -125,8 +146,8 @@ function kenttaValintaInput() {
 }
 
 function kenttaChange() {
-    console.log("kenttaChange", document.getElementById('kentta').value);
-    alustaTiit(document.getElementById('kentta').value, 0);
+    console.log("kenttaChange", document.getElementById('kentta_id').value);
+    alustaTiit(document.getElementById('kentta_id').value, 0);
 }
 
 function pelaajaValinta() {
@@ -172,7 +193,6 @@ async function alustaPelaajat(seura_id) {
     } finally {
         console.log("seuraChange finally", pelaajat);
     }
-
 }
 
 async function seuraChange() {
@@ -181,41 +201,8 @@ async function seuraChange() {
     alustaPelaajat(seura_id);
 }
 
-function alustaKentta(kentta_selected, tii_selected, element) {
-    //element = 'kentta' (editissä) ja 'kenttaluettelo' (insertissä)
-    var optiot = "";
-
-    if (kentta_selected == undefined) {
-        console.log("alustaKentta kentta_selected === undefined:");
-        kentta_selected = 0;
-    } else {
-        console.log("alustaKentta", kentta_selected, tii_selected);
-    }
-    var valinta="";
-    for (const kentta of kentat) {
-        valinta = kentta.id + ". " + kentta.nimi;//kentta.nimi + " (" + kentta.id + ")" ; //kentta.id + ". " + kentta.nimi; 
-        if (kentta.id == kentta_selected) {
-            optiot += '<option value="' + kentta.id + '" selected="selected" >' + valinta + '</option> '
-            console.log("AlustaKentta selected:", kentta.id, kentta.nimi);
-        } else {
-            optiot += '<option value="' + kentta.id + '" >' + valinta + '</option> '
-        }
-    }
-
-    document.getElementById(element).innerHTML = '`' + optiot + '`';
-
-    if (kentta_selected === 0) { // asetaan ensimmäinen valituksi
-        console.log("AlustaKentta kentta_selected === 0:", kentat[0].id, kentat[0].nimi);
-        document.getElementById(element).options[0].selected = true;
-    }
-
-    console.log("AlustaKentta -> alustaTiit:", kentta_selected, tii_selected);
-
-    alustaTiit(kentta_selected, tii_selected);
-}
-
 function tiiChange() {
-    console.log("tiiChange()", document.getElementById('tii').value);
+    console.log("tiiChange()", document.getElementById('tii_id').value);
     tasoitusChange();
     document.getElementById('h1').focus();
     document.getElementById('h1').select();
@@ -224,10 +211,10 @@ function tiiChange() {
 function tasoitusChange() {
     console.log("tasoitusChange()");
 
-    const kentta_id = document.getElementById('kentta').value;
-    const tii_id = document.getElementById('tii').value;
-    var cr=72; // jos kentälle ei ole määritelty tiitä, käytetään näitä oletusarvoja
-    var slope=126;
+    const kentta_id = document.getElementById('kentta_id').value;
+    const tii_id = document.getElementById('tii_id').value;
+    var cr = 72; // jos kentälle ei ole määritelty tiitä, käytetään näitä oletusarvoja
+    var slope = 126;
     for (const tii of tiit) {
         if (tii.kentta_id == kentta_id) {
             if (tii_id == tii.id) {
@@ -285,7 +272,6 @@ function alustaPvm() {
     document.getElementById('pvm1').value = pvm; // value asettaa arvon näkyviin
     pvmUpdate();
 }
-
 
 function lisaa(element) {
     if (Number.isInteger(Number.parseInt(element.value))) {
@@ -435,6 +421,21 @@ function poista_kierros(id, pvm, etunimi, sukunimi, lisatieto, yhteensa) {
         txt = "peruit koko homman";
     }
     document.getElementById("demo").innerHTML = txt;
+}
+
+function okvalue(elementId) {
+    console.log("okvalue(", elementId, ")")
+    return (document.getElementById(elementId).value != "");
+}
+
+function enableSubmit() {
+    if (okvalue('kentta_id') && okvalue('tii_id') && okvalue('seura_id') && okvalue('jasennumero') && okvalue('pvm1') && okvalue('tasoitus')) {
+        console.log("DEBUG: enableSubmit() true");
+        document.getElementById('submit').disabled = false;
+    } else {
+        console.log("DEBUG: enableSubmit() false");
+        document.getElementById('submit').disabled = true;
+    }
 }
 
 window.onload = function (e) {

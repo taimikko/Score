@@ -26,7 +26,6 @@
 		window.onload = function (e) {
 			console.log("kierrosAdd window.onload");
 		    alustaPvm();
- 			//alustaKentta(<#if (kierros.kentta_id)??> ${kierros.kentta_id?c}<#else>0</#if>,<#if (kierros.tii_id)??>${kierros.tii_id?c}<#else>0</#if>, 'kenttaluettelo');
 			kenttaValintaInput();
     		alustaPelaajat(<#if (pelaaja.seuraId)??> ${pelaaja.seuraId?c}<#elseif (kierros.seura_id)??>${kierros.seura_id?c}<#else>0</#if>)
 		}
@@ -54,7 +53,7 @@
 			  		<tr>
 						<td>pelaajan kotiseura:	</td>
 						<td>
-							<select class='num2' id='seura_id' name='seura_id' onchange="seuraChange()" required >
+							<select class='txt' id='seura_id' name='seura_id' onchange="seuraChange()" required >
 							<#if seurat??>
 								<#list seurat as seura><option value='${seura.id}' <#if seura.id == pelaaja.seuraId> selected="selected" </#if> > ${seura.id}. ${seura.nimi}</option></#list>
 			                </#if>
@@ -63,7 +62,7 @@
 					</tr><tr>
 						<td>jäsennumero:
 						</td><td>
-							<select class='num2' id='jasennumero' name='jasennumero' onchange="pelaajaValinta()" required >
+							<select class='txt' id='jasennumero' name='jasennumero' onchange="pelaajaValinta()" required >
 								<option value='${pelaaja.jasennumero?c}' selected='selected' > ${pelaaja.jasennumero?c}</option>
 							</select>
 						</td>
@@ -71,10 +70,10 @@
 					</tr><tr>
 			            <td>etunimi:</td>
 			            <td>
-			            	<input type='text' maxlength='50' class='txt' name='etunimi' id='etunimi' <#if (kierros.etunimi)??> value='${kierros.etunimi}' <#elseif (pelaaja.etunimi)??>  value='${pelaaja.etunimi}' </#if> >
+			            	<input type='text' class='txt' maxlength='50' class='txt' name='etunimi' id='etunimi' <#if (kierros.etunimi)??> value='${kierros.etunimi}' <#elseif (pelaaja.etunimi)??>  value='${pelaaja.etunimi}' </#if> >
 			            </td>
 			            <td>
-							sukunimi: <input type='text' maxlength='50' class='txt' name='sukunimi' id='sukunimi' <#if (kierros.sukunimi)??> value='${kierros.sukunimi}' <#elseif (pelaaja.sukunimi)??>  value='${pelaaja.sukunimi}'  </#if> >
+							sukunimi: <input type='text' class='txt' maxlength='50' class='txt' name='sukunimi' id='sukunimi' <#if (kierros.sukunimi)??> value='${kierros.sukunimi}' <#elseif (pelaaja.sukunimi)??>  value='${pelaaja.sukunimi}'  </#if> >
 						</td>
 					</tr>
 				</@security.authorize>
@@ -124,7 +123,7 @@
 						</select>
 						-->
 
-						<input autofocus list="kenttaluettelo" autocomplete="off" title="Valitse kenttä" class='num' id='kentta' name='kentta_id' onchange="kenttaValintaInput()" <#-- onselect --> 
+						<input autofocus class='txt' list="kenttaluettelo" autocomplete="off" title="Valitse kenttä" id='kentta_id' name='kentta_id' onchange="kenttaValintaInput()" <#-- onselect --> 
 						<#if (kierros.kentta_id)??> value='${kierros.kentta_id?c}'<#else> value='${pelaaja.seuraId}' </#if> > </input>
 						<datalist id="kenttaluettelo" >
 		                    <#list kentat as kentta>
@@ -138,14 +137,14 @@
 				<tr>
 		            <td>Tii, jolta pelattu:</td>
 		            <td>
-  		                <select id='tii' name='tii_id' onchange="tiiChange()" <#if (kierros.tii_id)??> value='${kierros.tii_id?c}' </#if>  >
+  		                <select id='tii_id' name='tii_id' onchange="tiiChange()" <#if (kierros.tii_id)??> value='${kierros.tii_id?c}' </#if>  >
    						</select>
 		            </td>
 		            <td id='tii_nimi'><#if (kierros.tii_id)??>${kierros.tii_id?c}</#if> <#if (kierros.tii_nimi)??>${kierros.tii_nimi}</#if></td>
 		        </tr>
 		        <tr>
 		            <td>pelaajan tasoitus:</td>
-		            <td><input type='text'  class='num' id='tasoitus' name='tasoitus' onchange="tasoitusChange()" <#if (kierros.tasoitus)??> value='${kierros.tasoitus}' <#elseif (pelaaja.tasoitus)??> value='${pelaaja.tasoitus}' </#if> > </td>
+		            <td><input type='text' class='num' id='tasoitus' name='tasoitus' onchange="tasoitusChange()" <#if (kierros.tasoitus)??> value='${kierros.tasoitus}' <#elseif (pelaaja.tasoitus)??> value='${pelaaja.tasoitus}' </#if> > </td>
 		            <td>pelitasoitus: <input readonly class='num' id='pelitasoitus' name='pelitasoitus' ></td>
 		        </tr>
 		        <tr>
@@ -195,14 +194,10 @@
 		            <#--  ${kierros.pelattu} -->
 		        </tr>
 		  		<tr>
-		             <td><input name="submit" type="submit" value="submit" onclick='laske_yhteensa()' ></td>           
+		             <td><input id="submit" disabled name="submit" type="submit" value="submit" onclick='laske_yhteensa()' ></td>           
 		        </tr>
 		    </table>
 		</form>		    
 	</#if>
-	<br/>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 </body>
 </html>

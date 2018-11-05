@@ -23,8 +23,7 @@
 
 		window.onload = function (e) {
 			console.log("kierrosEdit window.onload");
- 			alustaKentta(<#if (kierros.kentta_id)??> ${kierros.kentta_id?c}<#else>0</#if>,<#if (kierros.tii_id)??>${kierros.tii_id?c}<#else>0</#if>,'kentta');
-    		//alustaPvm();
+ 			alustaKentta(<#if (kierros.kentta_id)??> ${kierros.kentta_id?c}<#else>0</#if>,<#if (kierros.tii_id)??>${kierros.tii_id?c}<#else>0</#if>,'kentta_id');
     		alustaPelaajat(<#if (pelaaja.seuraId)??> ${pelaaja.seuraId?c}<#elseif (kierros.seura_id)??>${kierros.seura_id?c}<#else>0</#if>)
 		}		
 </script>   
@@ -54,7 +53,7 @@
 					<@security.authorize access="hasRole('ROLE_ADMIN')">
 						<td>pelaajan kotiseura:
 						</td><td>
-							<select class='num2' id='seura_id' name='seura_id' onchange="seuraChange()" required >
+							<select class='txt' id='seura_id' name='seura_id' onchange="seuraChange()" required >
 							<#if seurat??>
 								<#list seurat as seura><option value='${seura.id}' <#if kierros.seura_id==seura.id>" selected='selected'" </#if> > ${seura.id}. ${seura.nimi}</option></#list>
 			                </#if>
@@ -63,7 +62,7 @@
 						</tr><tr>
 						<td>jäsennumero:
 						</td><td>
-							<select class='num2' id='jasennumero' name='jasennumero' onchange="pelaajaValinta()" required>
+							<select class='txt' id='jasennumero' name='jasennumero' onchange="pelaajaValinta()" required>
 							<#if pelaajat??>
 								<#list pelaajat as pelaaja><option value='${pelaaja.jasennumero?c}' <#if kierros.jasennumero==pelaaja.jasennumero>" selected='selected'" </#if> > ${pelaaja.jasennumero?c}. ${pelaaja.etunimi} ${pelaaja.suknimi}</option></#list>
 							<#else>
@@ -118,7 +117,7 @@
 				</tr>
 				<tr>
 					<td>Valitse kenttä:</td>
-					<td><select title="Valitse kenttä" id='kentta' name='kentta_id' onchange="kenttaChange()" <#if (kierros.kentta_id)??> value='${kierros.kentta_id?c}'
+					<td><select class='txt' title="Valitse kenttä" id='kentta_id' name='kentta_id' onchange="kenttaChange()" <#if (kierros.kentta_id)??> value='${kierros.kentta_id?c}'
 						</#if> ></select>
 					<#-- TODO: select myös alustaa oletuksena valitun kentän tiit    -->    
 		            </td>
@@ -127,7 +126,7 @@
 				<tr>
 		            <td>Tii, jolta pelattu:</td>
 		            <td>
-  		                <select id='tii' name='tii_id' onchange="tiiChange()" <#if (kierros.tii_id)??> value='${kierros.tii_id?c}' </#if>  >
+  		                <select id='tii_id' name='tii_id' onchange="tiiChange()" <#if (kierros.tii_id)??> value='${kierros.tii_id?c}' </#if>  >
    						</select>
 		            </td>
 		            <td id='tii_nimi'><#if (kierros.tii_id)??>${kierros.tii_id?c}</#if> <#if (kierros.tii_nimi)??>${kierros.tii_nimi}</#if></td>
@@ -187,17 +186,10 @@
 		            <#--  ${kierros.pelattu} -->
 		        </tr>
 		  		<tr>
-		             <td><input name="submit" type="submit" value="submit" onclick='laske_yhteensa()' ></td>           
+		             <td><input id="submit" disabled name="submit" type="submit" value="submit" onclick='laske_yhteensa()' ></td>           
 		        </tr>
 		    </table>
     </form>
-</#if>
-
-<br/>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-
+	</#if>
 </body>
-
 </html>

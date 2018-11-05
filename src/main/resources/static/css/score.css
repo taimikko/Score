@@ -48,8 +48,12 @@ table.rako {
     margin-right: 50px;
 }
 
-#kentta {
-    width: 200px;
+select.txt {
+    width: 250px;
+}
+
+input.txt {
+    width: 250px;
 }
 
 #huom {
