@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import msa.harj.score.dao.JasenTyyppiDAO;
 import msa.harj.score.dao.KayttajaDAO;
 import msa.harj.score.dao.KayttajaRooliDAO;
+import msa.harj.score.dao.KierrosDAO;
 import msa.harj.score.dao.PelaajaDAO;
 import msa.harj.score.dao.RooliDAO;
 import msa.harj.score.dao.SeuraDAO;
@@ -49,6 +50,9 @@ public class KayttajaController {
 	@Autowired
 	private SeuraDAO seuraDAO;
 
+	@Autowired
+	private KierrosDAO kierrosDAO;
+
 	@GetMapping("/kayttaja/new")
 	public String newKayttaja(Model model, Principal principal) {
 		log.info("MSA: /kayttaja/new");
@@ -75,6 +79,7 @@ public class KayttajaController {
 		log.info("MSA: delete(" + kayttajatunnus + ")");
 		Kayttaja k = kayttajaDAO.getKayttaja(kayttajatunnus);
 		kayttajaDAO.deleteKayttaja(kayttajatunnus);
+		kierrosDAO.deletePelaajanKierrokset(k.getSeuraId(), k.getJasennumero());
 		pelaajaDAO.deletePelaajaHistoria(k.getSeuraId(), k.getJasennumero());
 		return "redirect:/kayttajaluettelo";
 	}

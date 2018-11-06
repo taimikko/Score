@@ -39,7 +39,7 @@ public class KierrosDAO extends JdbcDaoSupport {
 	}
 
 	public void addKierros(Kierros k) {
-		log.info("MSA: addKierros()"+ k);
+		log.info("MSA: addKierros()" + k);
 		String sql = "INSERT INTO kierros ( id, pvm, seura_id, jasennumero, kentta_id, tasoitus, tii_id, pelitasoitus, cba,\n"
 				+ " h1, h2, h3, h4, h5, h6, h7, h8, h9, h_out," + " h10, h11, h12, h13, h14, h15, h16, h17, h18, h_in,"
 				+ " yhteensa, merkitsija, lisatieto,"
@@ -99,7 +99,8 @@ public class KierrosDAO extends JdbcDaoSupport {
 				k.getYhteensa(), k.getMerkitsija(), k.getLisatieto(), k.getP1(), k.getP2(), k.getP3(), k.getP4(),
 				k.getP5(), k.getP6(), k.getP7(), k.getP8(), k.getP9(), k.getP_out(), k.getP10(), k.getP11(), k.getP12(),
 				k.getP13(), k.getP14(), k.getP15(), k.getP16(), k.getP17(), k.getP18(), k.getP_in(), k.getP_yht(),
-				k.isTasoituskierros(), k.getUusi_tasoitus(), k.getPelattu(), k.getEtunimi(), k.getSukunimi(), k.getId() };
+				k.isTasoituskierros(), k.getUusi_tasoitus(), k.getPelattu(), k.getEtunimi(), k.getSukunimi(),
+				k.getId() };
 		int lkm = this.getJdbcTemplate().update(sql, args);
 		log.info("MSA: updateKierros päivitti " + lkm + " riviä (id=" + k.getId() + ")");
 	}
@@ -114,9 +115,8 @@ public class KierrosDAO extends JdbcDaoSupport {
 		Object[] args;
 		if (seuraId == null || seuraId == 0L) {
 			sql = "SELECT * FROM kierros ORDER BY pvm, seura_id, jasennumero";
-			args = new Object[] { };
-		}
-		else {
+			args = new Object[] {};
+		} else {
 			sql = "SELECT * FROM kierros WHERE seura_id = ? ORDER BY pvm, seura_id, jasennumero";
 			args = new Object[] { seuraId };
 		}
@@ -128,13 +128,19 @@ public class KierrosDAO extends JdbcDaoSupport {
 		Object[] args;
 		if (kentta_id == null || kentta_id == 0L) {
 			sql = "SELECT * FROM kierros ORDER BY pvm, seura_id, jasennumero";
-			args = new Object[] { };
-		}
-		else {
+			args = new Object[] {};
+		} else {
 			sql = "SELECT * FROM kierros WHERE kentta_id = ? ORDER BY pvm, seura_id, jasennumero";
 			args = new Object[] { kentta_id };
 		}
 		return this.getJdbcTemplate().query(sql, args, KIERROS_MAPPER);
+	}
+
+	public void deletePelaajanKierrokset(Long seuraId, Long jasennumero) {
+		String sql = "DELETE FROM kierros WHERE seura_id=? AND jasennumero=?";
+		Object[] args = new Object[] { seuraId, jasennumero };
+		int lkm = this.getJdbcTemplate().update(sql, args);
+		log.info("MSA: Taulusta \"kierros\" poistettu " + lkm + " riviä.");
 	}
 
 }
