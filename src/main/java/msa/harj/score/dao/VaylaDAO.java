@@ -67,4 +67,9 @@ public class VaylaDAO extends JdbcDaoSupport {
 		}
 	};
 
+	public Integer haeKentanPar(Long kenttaId) {
+		String sql = "SELECT SUM(par) AS par FROM vayla WHERE kentta_id = "+Long.toString(kenttaId);
+		return this.getJdbcTemplate().queryForObject(sql, Integer.class); 
+	}
+
 }

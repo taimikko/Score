@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import msa.harj.score.dao.KenttaDAO;
 import msa.harj.score.dao.SeuraDAO;
@@ -110,6 +111,11 @@ public class KenttaController {
 		log.info("MSA(post): /kentta/vayla/" + vayla.getKentta_id() + " " + vayla.getNumero()+ " id="+vayla.getId());
 		vaylaDAO.updateVayla(vayla);
 		return "redirect:/kentta/edit/"+Long.toString(vayla.getKentta_id());
+	}
+
+	@GetMapping("/kentta/haepar/{kenttaId}")
+	public @ResponseBody Integer haeKentanPar(Model model, @PathVariable("kenttaId") Long kenttaId) {
+		return vaylaDAO.haeKentanPar(kenttaId);
 	}
 
 }
