@@ -92,13 +92,13 @@
 						</td>
 						<td>
 							jäsennumero:
-						<#-- jäsennumero = readonly, tulee kirjautuneen käytäjän tietojen mukaan paitsi adminilla, joka voi syöttää muidenkin tietoja -->
+							<#-- jäsennumero = readonly, tulee kirjautuneen käytäjän tietojen mukaan paitsi adminilla, joka voi syöttää muidenkin tietoja -->
 							<input type='hidden' class='num' id='jasennumero' name='jasennumero' <#if (kierros.jasennumero)??> value='${kierros.jasennumero?c}' <#elseif (pelaaja.jasennumero)??> value='${pelaaja.jasennumero?c}' </#if> >
 							<span id='jnro' ><#if (kierros.jasennumero)??> ${kierros.jasennumero?c} <#elseif (pelaaja.jasennumero)??> ${pelaaja.jasennumero?c} </#if></span>
 							<span id='vanha_jasennumero' name='vanha_jasennumero' type='hidden'></span>
 							&nbsp;
 							seura:
-						<#-- kotiseura = readonly, pitäisi tulla pelaajan nimen perusteella -->
+							<#-- kotiseura = readonly, pitäisi tulla pelaajan nimen perusteella -->
 							<input type='hidden' min='0' class='num' id='seura_id' name='seura_id'  <#if (kierros.seura_id)??> value='${kierros.seura_id?c}' <#elseif (pelaaja.seuraId)??> value='${pelaaja.seuraId?c}' </#if>  >
 							<span id='seura' > <#if (kierros.seura_id)??> ${kierros.seura_id?c} <#elseif (pelaaja.seuraId)??> ${pelaaja.seuraId?c} </#if></span>
 							<#if seurat??>
@@ -132,9 +132,9 @@
 		            <td id='tii_nimi'><#if (kierros.tii_id)??>${kierros.tii_id?c}</#if> <#if (kierros.tii_nimi)??>${kierros.tii_nimi}</#if></td>
 		        </tr>
 		        <tr>
-		            <td>pelaajan tasoitus:</td>
-		            <td><input type='text'  class='num' id='tasoitus' name='tasoitus' onchange="tasoitusChange()" <#if (kierros.tasoitus)??> value='${kierros.tasoitus}' <#elseif (pelaaja.tasoitus)??> value='${pelaaja.tasoitus}' </#if> > </td>
-		            <td>pelitasoitus: <input readonly class='num' id='pelitasoitus' name='pelitasoitus' ></td>
+					<td>pelaajan tasoitus:</td>
+					<td><input type='number' step='0.1' class='num2' id='tasoitus' name='tasoitus' onchange="tasoitusChange()" <#if (kierros.tasoitus)??> value='${kierros.tasoitus}' <#elseif (pelaaja.tasoitus)??> value='${pelaaja.tasoitus}' </#if> > </td>
+					<td>pelitasoitus: <input readonly class='num' id='pelitasoitus' name='pelitasoitus' ></td>
 		        </tr>
 		        <tr>
 				<@security.authorize access="hasRole('ROLE_ADMIN')">

@@ -143,9 +143,9 @@
 		            <td id='tii_nimi'><#if (kierros.tii_id)??>${kierros.tii_id?c}</#if> <#if (kierros.tii_nimi)??>${kierros.tii_nimi}</#if></td>
 		        </tr>
 		        <tr>
-		            <td>pelaajan tasoitus:</td>
-		            <td><input type='text' class='num' id='tasoitus' name='tasoitus' onchange="tasoitusChange()" <#if (kierros.tasoitus)??> value='${kierros.tasoitus}' <#elseif (pelaaja.tasoitus)??> value='${pelaaja.tasoitus}' </#if> > </td>
-		            <td>pelitasoitus: <input readonly class='num' id='pelitasoitus' name='pelitasoitus' ></td>
+				    <td>pelaajan tasoitus:</td>
+				    <td><input type='number' step='0.1' class='num2' id='tasoitus' name='tasoitus' onchange="tasoitusChange()" <#if (kierros.tasoitus)??> value='${kierros.tasoitus}' <#elseif (pelaaja.tasoitus)??> value='${pelaaja.tasoitus}' </#if> > </td>
+				    <td>pelitasoitus: <input readonly class='num' id='pelitasoitus' name='pelitasoitus' ></td>
 		        </tr>
 		        <tr>
 				<@security.authorize access="hasRole('ROLE_ADMIN')">
