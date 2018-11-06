@@ -84,21 +84,22 @@ function alustaTiit(kentta_selected, tii_selected) { // select -tyyppisen kentä
     t.focus();
 }
 
-function haeKentanPar(kentta_id) {
-    return 72;
-    //async function haeKentanPar(kentta_id) {
-    // try {
-    //     const res = await fetch('/kentta/haepar/' + kentta_id);
-    //     if (res.status != 200) {
-    //         return;
-    //     }
-    //     const data = await res.text();
-    //     const par = JSON.parse(data);
-    //     return par;
-    // } catch (e) {
-    //     console.log("exception: haeKentanPar", e);
-    //     return 72;
-    // }
+// function haeKentanPar(kentta_id) {
+//     return 72;
+    async function haeKentanPar(kentta_id) {
+    try {
+        const res = await fetch('/kentta/haepar/' + kentta_id);
+        if (res.status != 200) {
+            return;
+        }
+        const data = await res.text();
+        console.log("haeKentanPar", data);
+        const par = JSON.parse(data);
+        return par;
+    } catch (e) {
+        console.log("exception: haeKentanPar", e);
+        return 72;
+    }
 }
 
 function laskePelitasoitus(slope, cr, par) {
