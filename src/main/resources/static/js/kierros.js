@@ -10,7 +10,7 @@ var tiit;
 var pelaajanSukup;
 var pelaajat; // seuran pelaajat 
 
-function alustaTiit(kentta_selected, tii_selected) { // select -tyyppisen kentän alustus ja valinta
+async function alustaTiit(kentta_selected, tii_selected) { // select -tyyppisen kentän alustus ja valinta
     var ensimmainen = true;
     var optiot = "";
     var slope;
@@ -78,14 +78,15 @@ function alustaTiit(kentta_selected, tii_selected) { // select -tyyppisen kentä
         cr = 72;
         slope = 126;
     }
-    laskePelitasoitus(slope, cr, haeKentanPar(kentta_selected));
+    const par = await haeKentanPar(kentta_selected);
+    laskePelitasoitus(slope, cr, par);
     document.getElementById('tii_nimi').innerHTML = '';
     console.log("MSA: focus tii");
     t.focus();
 }
 
-// function haeKentanPar(kentta_id) {
-//     return 72;
+//  function haeKentanPar(kentta_id) {
+//      return 72;
     async function haeKentanPar(kentta_id) {
     try {
         const res = await fetch('/kentta/haepar/' + kentta_id);
@@ -215,7 +216,7 @@ function tiiChange() {
     document.getElementById('h1').select();
 }
 
-function tasoitusChange() {
+async function tasoitusChange() {
     console.log("tasoitusChange()");
 
     const kentta_id = document.getElementById('kentta_id').value;
@@ -236,8 +237,8 @@ function tasoitusChange() {
             }
         }
     }
-
-    laskePelitasoitus(slope, cr, haeKentanPar(kentta_id));
+    const par = await haeKentanPar(kentta_id);
+    laskePelitasoitus(slope, cr, par);
 }
 
 
