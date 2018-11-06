@@ -2,18 +2,12 @@
 <#-- <#import "/spring.ftl" as spring/>  -->
 <html>
 	<head>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="/css/score.css">
-	<script type="application/javascript" src="/js/kierros.js"></script>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	    <link rel="stylesheet" type="text/css" href="/css/score.css">
+		<script type="application/javascript" src="/js/kierros.js"></script>
+
 		<title>Kierrosluettelo(admin)</title>
-		<script>
-		</script>
-<#--		
-		<input type="hidden"
-				name="${_csrf.parameterName}"
-				value="${_csrf.token}"/>
--->
-		</head>
+	</head>
 	<body>
 		<h1>kierrosLuettelo.FTL</h1>
 	
@@ -60,7 +54,6 @@
 							<form name='f' action="/kierros/del/${k.id?c}?paluu=/admin/kierrokset" method='POST' onsubmit="return poista_kierros(${k.id?c}, '${k.pvm?string('dd.MM.yyyy')}', '${k.etunimi}', '${k.sukunimi}', '${k.lisatieto}', ${k.yhteensa});">
   								<#if _csrf??><input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/></#if>
  								<input name="submit" id="submit${k.id?c}" type="submit" value="delete" />
- 								<#-- event.preventDefault(); poista_kierros(${k.id?c}, '${k.pvm?string('dd.MM.yyyy')}', '${k.etunimi}', '${k.sukunimi}', '${k.lisatieto}', ${k.yhteensa}) -->
 						   	</form>
  						</td>
 					</tr>
