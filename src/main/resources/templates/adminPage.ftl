@@ -23,7 +23,7 @@
       	<#include "_menu.ftl">
       	<@security.authorize url="/admin"> <#--  Näkyy vain niille, joilla on oikeus /admin -sivuun -->
       
-      	<h2>Admin Page</h2>
+      	<h2>Admin -sivu</h2>
       	<h3>
         	<@security.authorize access="isAuthenticated()">
         	Käyttäjätunnus : <@security.authentication property="principal.username" /> 
@@ -32,6 +32,7 @@
 		<br/>
 		<table>
 			<tbody>
+				<div class="admin">
 				<tr>
 			       	<td>
 			            <a href="/seura/seuraluettelo">seurat</a>
@@ -40,8 +41,8 @@
 				<tr>
 					<td>
 						<a href="/kayttajaluettelo?seura_id=${seura_id}" id="seuran_jasenet" >seuran jäsenet</a>
-						</td>
-						<td>
+					</td>
+					<td>
 						<select id='seura_id' name='seura_id' required  onchange="seuraChange()" >
 				      		<#if seurat??>
 				      			<#list seurat as seura>
@@ -51,6 +52,16 @@
 				      	</select>
 			      	</td>
 				</tr>
+				<tr>
+					<td>
+						<@security.authorize url="/kayttaja/new">
+						<a href="/kayttaja/new">Lisää uusi käyttäjä</a>
+						</@security.authorize>
+					</td>
+				</tr>
+				</div>
+				<tr><p></p></tr>
+				<div class="admin">
 				<tr>
 					<td>
 			            <a href="/admin/kentat">kentät</a>
@@ -70,6 +81,7 @@
 				      	</select>
 					</td>
 				</tr>
+				</div>
 			</tbody>
 		</table>
 		<br/>

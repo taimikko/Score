@@ -24,10 +24,6 @@
 		<a href="/admin/kierrokset">admin kierrokset</a> | &nbsp;
 	</@security.authorize>
 
-	<@security.authorize url="/kayttaja/new">
-		<a href="/kayttaja/new">Lisää uusi käyttäjä</a> | &nbsp;
-	</@security.authorize>
-
 	<@security.authorize url="/kayttajaluettelo">
 		<a href="/kayttajaluettelo">käyttäjäluettelo</a> | &nbsp;
 	</@security.authorize>

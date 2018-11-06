@@ -56,6 +56,10 @@ input.txt {
     width: 250px;
 }
 
+div.admin {
+    margin: 50px;
+}
+
 #huom {
     color:red;
     margin:10px;
