@@ -11,7 +11,6 @@ var pelaajanSukup;
 var pelaajat; // seuran pelaajat 
 
 function alustaTiit(kentta_selected, tii_selected) { // select -tyyppisen kentän alustus ja valinta
-    var tii;
     var ensimmainen = true;
     var optiot = "";
     var slope;
@@ -79,26 +78,34 @@ function alustaTiit(kentta_selected, tii_selected) { // select -tyyppisen kentä
         cr = 72;
         slope = 126;
     }
-    laskePelitasoitus(slope, cr, 72); //haeKentanPar(kentta_selected));
+    laskePelitasoitus(slope, cr, haeKentanPar(kentta_selected));
     document.getElementById('tii_nimi').innerHTML = '';
     console.log("MSA: focus tii");
     t.focus();
 }
 
-
 function haeKentanPar(kentta_id) {
-    for (const kentta of kentat) {
-        if (kentta.id == kentta_id) {
-            return 72; // kenttätiedoissa ei olekaan par:ia
-        }
-    }
     return 72;
+    //async function haeKentanPar(kentta_id) {
+    // try {
+    //     const res = await fetch('/kentta/haepar/' + kentta_id);
+    //     if (res.status != 200) {
+    //         return;
+    //     }
+    //     const data = await res.text();
+    //     const par = JSON.parse(data);
+    //     return par;
+    // } catch (e) {
+    //     console.log("exception: haeKentanPar", e);
+    //     return 72;
+    // }
 }
-
 
 function laskePelitasoitus(slope, cr, par) {
     const tarkka = document.getElementById('tasoitus').value;
-    document.getElementById('pelitasoitus').value = Math.trunc((slope * tarkka) / 113 + (cr - par)); // alaspäin pyöritettynä
+    const pelitasoitus = Math.trunc((slope * tarkka) / 113 + (cr - par)); // alaspäin pyöritettynä
+    console.log("laskePelitasoitus(", slope, cr, par, ")", pelitasoitus);
+    document.getElementById('pelitasoitus').value = pelitasoitus;
     enableSubmit();
 }
 
@@ -176,7 +183,7 @@ async function alustaPelaajat(seura_id) {
             return;
         }
         const data = await res.text();
-        console.log(data);
+        // console.log(data);
         pelaajat = JSON.parse(data); // globaali
         var txt = "";
         for (pelaaja of pelaajat) {
@@ -189,9 +196,8 @@ async function alustaPelaajat(seura_id) {
         if (txt.length == 0)
             txt = pelaaja_id; // seurassa ei pelaajia  
         parent.innerHTML = '`' + txt + '`';
-        console.log("seuraChange txt", txt);
     } finally {
-        console.log("seuraChange finally", pelaajat);
+        console.log("alustaPelaajat finally", pelaajat);
     }
 }
 
@@ -230,7 +236,7 @@ function tasoitusChange() {
         }
     }
 
-    laskePelitasoitus(slope, cr, 72); //haeKentanPar(kentta_selected));
+    laskePelitasoitus(slope, cr, haeKentanPar(kentta_id));
 }
 
 
@@ -408,40 +414,42 @@ function seuraava(e, kentt1) {
 }
 
 function poista_kierros(id, pvm, etunimi, sukunimi, lisatieto, yhteensa) {
-    var txt;
-    txt = "poistetaan kierros (" + id + ")\n" +
-        "pvm :" + pvm + "\n" +
-        "pelaaja:" + etunimi + " " + sukunimi + "\n" +
-        "huom:" + lisatieto + "\n" +
-        "tulos:" + yhteensa;
-    console.log("poista_kierros:", txt)
-    if (confirm(txt)) {
-        txt = "Valitsit OK, mutta poistoa ei ole toteutettu";
-    } else {
-        txt = "peruit koko homman";
-    }
-    document.getElementById("demo").innerHTML = txt;
+    const txt = "poistetaan kierros (" + id + ")\n" +
+        "pvm :\t" + pvm + "\n" +
+        "pelaaja:\t" + etunimi + " " + sukunimi + "\n" +
+        "huom:\t" + lisatieto + "\n" +
+        "tulos:\t" + yhteensa;
+    // console.log("poista_kierros:(",id, pvm, etunimi, sukunimi, lisatieto, yhteensa,")", txt)
+    // dialog
+    return confirm(txt);
 }
 
 function okvalue(elementId) {
+    const value = document.getElementById(elementId).value;
+    console.log("okvalue(", elementId, ")", value, !isNaN(value));
+
+    if (value == "") return false;
+    if (value == undefined) return false;
+    if (isNaN(value)) return false;
+    if (!parseInt(Number(value)) == value) return false;
+    if (isNaN(parseInt(value, 10))) return false;
+    return true;
+}
+
+function okDate(elementId) {
     console.log("okvalue(", elementId, ")")
     return (document.getElementById(elementId).value != "");
 }
 
 function enableSubmit() {
-    if (okvalue('kentta_id') && okvalue('tii_id') && okvalue('seura_id') && okvalue('jasennumero') && okvalue('pvm1') && okvalue('tasoitus')) {
-        console.log("DEBUG: enableSubmit() true");
-        document.getElementById('submit').disabled = false;
-    } else {
-        console.log("DEBUG: enableSubmit() false");
-        document.getElementById('submit').disabled = true;
-    }
+    document.getElementById('submit').disabled = ! (okvalue('kentta_id') && okvalue('tii_id') && okvalue('seura_id') && okvalue('jasennumero') && okDate('pvm1') && okvalue('tasoitus') && okvalue('pelitasoitus'));
+    return document.getElementById('submit').disabled;
 }
 
 window.onload = function (e) {
     console.log("kierros.js window.onload", e);
     //setRandomPvm();
-
+    //laskePelitasoitus(slope, cr, haeKentanPar(kentta_id));
     var width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
     var height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
 
