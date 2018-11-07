@@ -27,6 +27,23 @@ th.num {
     text-align: right;
 }
 
+th.numsrt {
+    cursor: pointer;
+    text-align: right;
+}
+
+th.srt {
+    cursor: pointer;
+}
+
+tbody tr:nth-child(n+1) {
+    /*color: red; */
+}
+/*
+tr:nth-child(n+2) {
+    background-color: white; 
+}
+*/
 input.info {
     width: 40px;
     text-align: right;
