@@ -15,31 +15,31 @@
         <h2>Käyttäjän Infosivu</h2>
 
         <@security.authorize access="isAuthenticated()">
-            Olet kirjautunut käyttäjänä:
+            <h3>Olet kirjautunut käyttäjänä:
             <@security.authentication property="principal.username" />
+            </h3>
         </@security.authorize>
 
         <@security.authorize access="! isAuthenticated()">
             <a href="/login">Kirjaudu ensin</a>
         </@security.authorize>
-        <div>
+        <div class="admin">
+        <fieldset>
+	  		<legend>käyttäjäroolit:</legend>
             <@security.authorize access="hasRole('ROLE_PELAAJA')">
-                löytyi rooli ROLE_PELAAJA
-                <br/>
+                <p>ROLE_PELAAJA</p>
             </@security.authorize>
             <@security.authorize access="hasRole('ROLE_SEURA_MANAGER')">
-                löytyi rooli ROLE_SEURA_MANAGER
-                <br/>
+                <p>ROLE_SEURA_MANAGER</p>
             </@security.authorize>
             <@security.authorize access="hasRole('ROLE_ADMIN')">
-                löytyi rooli ROLE_ADMIN
-                <br/>
+                <p>ROLE_ADMIN</p>
             </@security.authorize>
+        </fieldset>
         </div>
-
-        <#-- <div> <#if userInfo??>${userInfo}</#if> </div>  -->        
-
-        <a href="/kayttajaInfo?kayttajatunnus=<@security.authentication property="principal.username" />"> omat käyttäjätiedot</a>
+        <div class="admin">
+	        <a href="/kayttajaInfo?kayttajatunnus=<@security.authentication property="principal.username" />"> omat käyttäjätiedot</a>
+        </div>
 </body>
 
 </html>

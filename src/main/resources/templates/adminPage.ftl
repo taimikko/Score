@@ -21,75 +21,49 @@
    	</head>
    	<body>
       	<#include "_menu.ftl">
-      	<@security.authorize url="/admin"> <#--  Näkyy vain niille, joilla on oikeus /admin -sivuun -->
-      
       	<h2>Admin -sivu</h2>
-      	<h3>
-        	<@security.authorize access="isAuthenticated()">
-        	Käyttäjätunnus : <@security.authentication property="principal.username" /> 
-	 		</@security.authorize>
-       	</h3>
 		<br/>
-		<table>
-			<tbody>
-				<div class="admin">
-				<tr>
-			       	<td>
-			            <a href="/seura/seuraluettelo">seurat</a>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<a href="/kayttajaluettelo?seura_id=${seura_id}" id="seuran_jasenet" >seuran jäsenet</a>
-					</td>
-					<td>
-						<select id='seura_id' name='seura_id' required  onchange="seuraChange()" >
-				      		<#if seurat??>
-				      			<#list seurat as seura>
-				      				<option value='${seura.id}' <#if seura_id == seura.id>selected="selected" </#if> > ${seura.id} ${seura.nimi} (${seura.lyhenne}) </option>
-				      			</#list>
-				      		</#if>
-				      	</select>
-			      	</td>
-				</tr>
-				<tr>
-					<td>
-						<@security.authorize url="/kayttaja/new">
+      	<@security.authorize url="/admin"> <#--  Näkyy vain niille, joilla on oikeus /admin -sivuun -->
+			<div class="admin">
+				<fieldset>
+	  				<legend>seura:</legend>
+	  				<p>
+					<a href="/seura/seuraluettelo">seurat</a>
+					<p>
+					<a href="/kayttajaluettelo?seura_id=${seura_id}" id="seuran_jasenet" >seuran jäsenet</a>
+					<select id='seura_id' name='seura_id' required  onchange="seuraChange()" >
+			      		<#if seurat??>
+			      			<#list seurat as seura>
+			      				<option value='${seura.id}' <#if seura_id == seura.id>selected="selected" </#if> > ${seura.id} ${seura.nimi} (${seura.lyhenne}) </option>
+			      			</#list>
+			      		</#if>
+			      	</select>
+					<p>
+					<p>
+					<@security.authorize url="/kayttaja/new">
 						<a href="/kayttaja/new">Lisää uusi käyttäjä</a>
-						</@security.authorize>
-					</td>
-				</tr>
-				</div>
-				<tr><p></p></tr>
-				<div class="admin">
-				<tr>
-					<td>
-			            <a href="/admin/kentat">kentät</a>
-			      	</td>
-				</tr>
-				<tr>
-					<td>
-			      		<a href="/admin/kierrokset?kentta_id=${kentta_id}" id="pelatut_kierrokset" >kentällä pelatut kierrokset</a>
-			      	</td>
-					<td>  		
-				      	<select id='kentta_id' name='kentta_id' required  onchange="kenttaChange()" >
-				      		<#if kentat??>
-				      			<#list kentat as kentta>
-				      				<option value='${kentta.id}' <#if kentta_id == kentta.id>selected="selected" </#if> > ${kentta.id} ${kentta.kentan_nimi} (${kentta.seura_id}) </option>
-				      			</#list>
-				      		</#if>
-				      	</select>
-					</td>
-				</tr>
-				</div>
-			</tbody>
-		</table>
-		<br/>
-      	<div> 
-	 	    <#if userInfo??>
-	    	 	${userInfo}
-	      	</#if>
-		</div>
+					</@security.authorize>
+				</fieldset>				
+			</div>
+			<div class="admin">
+				<fieldset>
+	  				<legend>kentät:</legend>
+					<p><a href="/admin/kentat">kentät</a></p>
+				    <p>
+				    <a href="/admin/kierrokset?kentta_id=${kentta_id}" id="pelatut_kierrokset" >kentällä pelatut kierrokset</a>
+		      	   	<select id='kentta_id' name='kentta_id' required  onchange="kenttaChange()" >
+			      		<#if kentat??>
+			      			<#list kentat as kentta>
+			      				<option value='${kentta.id}' <#if kentta_id == kentta.id>selected="selected" </#if> > ${kentta.id} ${kentta.kentan_nimi} (${kentta.seura_id}) </option>
+			      			</#list>
+			      		</#if>
+			      	</select>
+			      	</p>
+				</fieldset>
+			</div>
+	        <div class="admin">
+		        <a href="/kayttajaInfo?kayttajatunnus=<@security.authentication property="principal.username" />"> omat käyttäjätiedot</a>
+    	    </div>
 		</@security.authorize>
    </body>
 </html>
