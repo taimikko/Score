@@ -29,7 +29,7 @@ th.num {
 
 th.numsrt {
     cursor: pointer;
-    text-align: right;
+    text-align: right; 
 }
 
 th.srt {
@@ -37,13 +37,11 @@ th.srt {
 }
 
 tbody tr:nth-child(n+1) {
-    /*color: red; */
-}
-/*
-tr:nth-child(n+2) {
-    background-color: white; 
-}
+    /*color: red; 
+   background-color: white; 
 */
+}
+
 input.info {
     width: 40px;
     text-align: right;

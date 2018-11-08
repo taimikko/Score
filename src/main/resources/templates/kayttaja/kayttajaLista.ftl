@@ -10,13 +10,7 @@
 		<script>
 			window.onload = function (e) {
 		    	console.log("kayttajaLista.ftl window.onload");
-		    	
-    			document.querySelectorAll('th').forEach(th => th.addEventListener('click', (() => {
-				    const table = th.closest('table');
-				    Array.from(table.tBodies[0].querySelectorAll('tr:nth-child(n+1)')) 
-				        .sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc))
-				        .forEach(tr => table.tBodies[0].appendChild(tr));
-				})));
+    			makeAllSortable();
 			}
 		</script>
 	</head>
@@ -42,14 +36,14 @@
 			</thead>
 			<tbody>
 				<#list kayttajat as user>
-					<tr>
+					<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)" onclick="window.location='/kayttaja/info?kayttajatunnus=${user.username}'">
 						<td class="num">${user.kayttajaId}</td>
-						<td ><a href="/kayttaja/info?kayttajatunnus=${user.username}">${user.username}</a></td>
-						<td>${user.etunimi}</td>
-						<td>${user.sukunimi}</td>
+						<td >${user.username}</td>
+						<td >${user.etunimi}</td>
+						<td >${user.sukunimi}</td>
 						<td class="num">${user.seuraId}</td>
 						<td class="num">${user.jasennumero?c}</td>
-						<td>${user.enabled?string('kyllä', 'ei')}</td>
+						<td >${user.enabled?string('kyllä', 'ei')}</td>
 						<td class="num">${user.jasentyyppi}</td>
 						<#-- Käyttäjää ei voi enää poistaa
 						<td>

@@ -5,6 +5,14 @@
 <head>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="/css/score.css">
+	<script type="application/javascript" src="/js/utils.js"></script>
+
+	<script>
+		window.onload = function (e) {
+	    	console.log("seuraEdit.ftl window.onload");
+			makeAllSortable();		    	
+		}
+	</script>
 
 	<title>Seuran tietojen päivitys</title>
 </head>
@@ -34,17 +42,17 @@
 	       		<table  class="table">
 					<thead>
 						<tr>
-							<th scope="col">#</th>
-							<th scope="col">kenttä</th>
-							<th scope="col">lyhenne</th>
+							<th scope="col" class="numsrt" >#</th>
+							<th scope="col" class="srt" >kenttä</th>
+							<th scope="col" class="srt" >lyhenne</th>
 						</tr>
 					</thead>
 				<tbody>
 					<#list kentat as kentta>
 						<#if kentta.seura_id==seura.id>
-						<tr>
-							<td scope="row">${kentta.id}</td>
-							<td ><a href="/kentta/edit/${kentta.id?c}">${kentta.kentan_nimi}</a></td>
+						<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)" onclick="window.location='/kentta/edit/${kentta.id?c}'">
+							<td class="num">${kentta.id}</td>
+							<td>${kentta.kentan_nimi}</td>
 							<td>${kentta.kentan_lyhenne}</td>
 						</tr>
 						</#if>

@@ -14,6 +14,7 @@
 		    	console.log("kierrosLuettelo.ftl window.onload");
 				makeAllSortable();		    	
 			}
+
 		</script>
 	</head>
 	<body>
@@ -44,12 +45,12 @@
 			</thead>
 			<tbody>
 				<#list kierrokset as k>
-					<tr> 
+					<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)" onclick="window.location='/kierros/edit/${k.id?c}?paluu=/admin/kierrokset'"> 
 						<td><#if (k.etunimi)??>${k.etunimi}</#if></td>
 						<td><#if (k.sukunimi)??>${k.sukunimi}</#if></td>
 						<td class="num"><#if (k.seura_id)??>${k.seura_id?c}</#if></td>
 						<td class="num"><#if (k.jasennumero)??>${k.jasennumero?c}</#if></td>
-						<td class="num"><a href="/kierros/edit/${k.id?c}?paluu=/admin/kierrokset">${k.id?c}</a></td> 
+						<td class="num">${k.id?c}</td> 
 						<td><#if (k.pvm)??>${k.pvm?string('dd.MM.yyyy')}</#if></td>
 						<td class="num"><#if (k.kentta_id)??>${k.kentta_id?c}</#if> <#-- +kentän nimi --></td>
 						<td class="num"><#if (k.tii_id)??>${k.tii_id?c}</#if> <#-- +tiin nimi --></td>

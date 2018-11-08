@@ -5,16 +5,13 @@
 <head>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="/css/score.css">
+	<script type="application/javascript" src="/js/utils.js"></script>
 
 	<title>Kenttätietojen päivitys</title>
 	
 	<script>
 		var vaylat;
-		<#if vaylat??>
-			vaylat = [<#list vaylat as vayla>{numero:"${vayla.numero}",nimi:"${vayla.nimi}",par:"${vayla.par}",pit1:"${vayla.pit1}",pit2:"${vayla.pit2}",pit3:"${vayla.pit3}",pit4:"${vayla.pit4}",hcp:"${vayla.hcp}"}, </#list>];
-		<#else>
-			vaylat=[{numero:"1",nimi:"eka väylä",par:"5",pit1:"430",pit2:"420",pit3:"400",pit4:"380",hcp:"12"}];
-		</#if>
+		<#include "/util/vaylat.ftl"> 		
 		var tiit;
 		<#include "/util/tiit.ftl"> 		
 	
@@ -41,6 +38,7 @@
 		window.onload = function (e) {
     		console.log("kenttaEdit.ftl window.onload");
     		laskeYhteensa();
+			makeAllSortable();		    	
 		}
 
 	</script>
@@ -92,27 +90,27 @@
             <#if vaylat??>
             	<thead>
   					<tr>
-						<th class='num' scope="col">#</th> <#-- numero -->   
-						<th scope="col">nimi</th>     
-						<th class='num' scope="col">par</th>  
+						<th scope="col" class="numsrt">#</th>    
+						<th scope="col" class="srt">nimi</th>     
+						<th scope="col" class="numsrt">par</th>  
 						<#if tiit??>
 							<#list tiit as tii> 
-								<th class='num' scope="col">${tii.tii_nimi}</th>
+								<th scope="col" class="numsrt">${tii.tii_nimi}</th>
 							</#list>
 						<#else>
-							<th class='num' scope="col">pit1</th>     
-							<th class='num' scope="col">pit2</th>     
-							<th class='num' scope="col">pit3</th>     
-							<th class='num' scope="col">pit4</th>
+							<th scope="col" class="numsrt" >pit1</th>     
+							<th scope="col" class="numsrt" >pit2</th>     
+							<th scope="col" class="numsrt" >pit3</th>     
+							<th scope="col" class="numsrt" >pit4</th>
 						</#if>     
-						<th class='num' scope="col">hcp</th>     
+						<th scope="col" class="numsrt" >hcp</th>     
 						<th></th>
 					</tr>
             	</thead>
             	<tbody>
 	            <#list vaylat as vayla>
-		    		<tr>
-		    			<td class='num' ><a href="/kentta/vayla?kentta_id=${kentta.id?c}&vayla_id=${vayla.id}" > ${vayla.numero}</a></td>
+		    		<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)" onclick="window.location='/kentta/vayla?kentta_id=${kentta.id?c}&vayla_id=${vayla.id}'">
+		    			<td class='num' >${vayla.numero}</td>
 		    			<td>${vayla.nimi}</td>
 		    			<td class='num' >${vayla.par}</td>
 		    			<td class='num' >${vayla.pit1}</td>
@@ -122,6 +120,8 @@
 		    			<td class='num' >${vayla.hcp}</td>
 		    		</tr>
 		    	</#list>
+		    	</tbody>
+		    	<tfoot>
 		    		<tr>
 		    			<td></td>
 		    			<td>yhteensä</td>
@@ -132,7 +132,7 @@
 		    			<td class='num'><span id="pit4">4</span></td>
 		    			<td></td>
 		    		</tr>
-	    		</tbody>
+	    		</tfoot>
             </#if>
         </table>
    	</div>

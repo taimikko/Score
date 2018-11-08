@@ -4,7 +4,17 @@
 	<head>
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 	    <link rel="stylesheet" type="text/css" href="/css/score.css">
+		<script type="application/javascript" src="/js/utils.js"></script>
+	    
 		<title>User list</title>
+
+		<script>
+			window.onload = function (e) {
+	    		console.log("pelaajaHistoria.ftl window.onload");
+				makeAllSortable();		    	
+			}
+
+		</script>
 	</head>
 	<body>
 		<h1>pelaajaHistoria.FTL</h1>
@@ -27,23 +37,23 @@
 		<table  class="table">
 			<thead>
 				<tr>
-				<th scope="col">Id</th>
-				<th scope="col">Pvm</th>
-				<th scope="col">Seura</th>
-				<th scope="col">Jäsennumero</th>
-				<th scope="col">HCP</th>
-				<th scope="col">HCP voimassa</th>
+				<th scope="col" class="numsrt">Id</th>
+				<th scope="col" class="srt">Pvm</th>
+				<th scope="col" class="numsrt">Seura</th>
+				<th scope="col" class="numsrt">Jäsennumero</th>
+				<th scope="col" class="numsrt">HCP</th>
+				<th scope="col" class="srt">HCP voimassa</th>
 				<th> </th>
 				</tr>
 			</thead>
 			<tbody>
 				<#list pelaajat as p>
-					<tr>
-						<td scope="row"><a href="/pelaaja/get/${p.id?c}">${p.id}</a></td>
+					<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)" onclick="window.location='/pelaaja/get/${p.id?c}'">
+						<td class='num' >${p.id?c}</td>
 						<td>${p.pvm?string('dd.MM.yyyy HH:mm:ss')}</td>
-						<td>${p.seuraId?replace(",","")}</td>
-						<td>${p.jasennumero?replace(",","")}</td>
-						<td>${p.tasoitus}</td>
+						<td class='num' >${p.seuraId?c}</td>
+						<td class='num' >${p.jasennumero?c}</td>
+						<td class='num' >${p.tasoitus}</td>
 						<td>${p.tasoitus_voimassa?string('kyllä', 'ei')}</td>
 						<td>
   							<form name='f' action="/pelaaja/del/${p.id?c}" method='POST'>
