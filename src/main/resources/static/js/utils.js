@@ -31,12 +31,41 @@ function compare(v1, v2) {
     return v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2);
 }
 
+function dateCompare(a, b) {
+    const DATE_RE = /^(\d\d?)[\/\.-](\d\d?)[\/\.-]((\d\d)?\d\d)$/;
+
+    var mtch, d, m, y, dt1, dt2;
+    mtch = a.match(DATE_RE);
+    d = mtch[1];
+    m = mtch[2];
+    y = mtch[3];
+    if (m.length == 1) m = '0' + m;
+    if (d.length == 1) d = '0' + d;
+    dt1 = y + m + d;
+    mtch = b.match(DATE_RE);
+    d = mtch[1];
+    m = mtch[2];
+    y = mtch[3];
+    if (m.length == 1) m = '0' + m;
+    if (d.length == 1) d = '0' + d;
+    dt2 = y + m + d;
+    if (dt1 == dt2) return 0;
+    if (dt1 < dt2) return -1;
+    return 1;
+};
+
 function comparer(idx, asc) {
     return (a, b) => compare(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
 }
 
 function newcomparer(col, reverse) {
+    console.log("newcomparer", col);
     return (a, b) => reverse * compare(getCellValue(a, col), getCellValue(b, col));
+}
+
+function datecomparer(col, reverse) {
+    console.log("datecomparer", col);
+    return (a, b) => reverse * dateCompare(a.children[col].textContent.trim(), b.children[col].textContent.trim());
 }
 
 function sortTable(table, col, reverse) {
@@ -46,7 +75,14 @@ function sortTable(table, col, reverse) {
         .forEach(tr => table.tBodies[0].appendChild(tr));
 }
 
+function sortTableDate(table, col, reverse) {
+    Array.prototype.slice.call(table.tBodies[0].rows, 0)
+        .sort(datecomparer(col, reverse *= -1))
+        .forEach(tr => table.tBodies[0].appendChild(tr));
+}
+
 function makeSortable(table) {
+    const SORT_BY_DATE = "datesrt";
     var th = table.tHead;
     var i;
     th && (th = th.rows[0]) && (th = th.cells);
@@ -54,7 +90,12 @@ function makeSortable(table) {
     else return; // ei ole `<thead>` --> ei tehdä mitään
     while (--i >= 0)(function (i) {
         var dir = 1;
-        th[i].addEventListener('click', () => sortTable(table, i, (dir *= -1)));
+        console.log("makeSortable", i, th[i].className);
+        if (th[i].className.match(SORT_BY_DATE)) {
+            th[i].addEventListener('click', () => sortTableDate(table, i, (dir *= -1)));
+        } else {
+            th[i].addEventListener('click', () => sortTable(table, i, (dir *= -1)));
+        }
         th[i].title = "lajittele";
         th[i].addEventListener('mouseover', () => mouseOver(th[i]));
         th[i].addEventListener('mouseout', () => mouseOut(th[i]));

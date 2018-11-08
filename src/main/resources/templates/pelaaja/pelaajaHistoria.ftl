@@ -26,8 +26,8 @@
 			<tr><td>Käyttäjätunnus:</td><td><a href="/kayttaja/info?kayttajatunnus=${kayttaja.username}">${kayttaja.username}</a></td></tr>
 			<tr><td>Etunimi:</td><td>${kayttaja.etunimi}</td></tr>
 			<tr><td>Sukunimi:</td><td>${kayttaja.sukunimi}</td></tr>
-			<tr><td>Seura:</td><td>${kayttaja.seuraId?replace(",","")}</td></tr>
-			<tr><td>Jäsennumero:</td><td>${kayttaja.jasennumero?replace(",","")}</td></tr>
+			<tr><td>Seura:</td><td>${kayttaja.seuraId?c}</td></tr>
+			<tr><td>Jäsennumero:</td><td>${kayttaja.jasennumero?c}</td></tr>
 			<tr><td>Voimassa:</td><td>${kayttaja.enabled?string('kyllä', 'ei')}</td></tr>
 			<tr><td>Tyyppi:</td><td>${kayttaja.jasentyyppi}</td></tr>
 			<tr><td><br></td></tr>
@@ -38,7 +38,7 @@
 			<thead>
 				<tr>
 				<th scope="col" class="numsrt">Id</th>
-				<th scope="col" class="srt">Pvm</th>
+				<th scope="col" class="datesrt">Pvm</th>
 				<th scope="col" class="numsrt">Seura</th>
 				<th scope="col" class="numsrt">Jäsennumero</th>
 				<th scope="col" class="numsrt">HCP</th>

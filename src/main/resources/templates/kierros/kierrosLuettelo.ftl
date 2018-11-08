@@ -32,7 +32,7 @@
 				<th scope="col" class="srt">Seura</th>
 				<th scope="col" class="numsrt">Jäsennumero</th>
 				<th scope="col" class="numsrt">Id</th>
-				<th scope="col" class="srt">Pvm</th>
+				<th scope="col" class="datesrt">Pvm</th>
 				<th scope="col" class="srt">Kenttä</a></th>
 				<th scope="col" class="numsrt">Tii</a></th>
 				<th scope="col" class="numsrt">Lyönnit</th>

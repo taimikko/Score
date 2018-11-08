@@ -36,6 +36,11 @@ th.srt {
     cursor: pointer;
 }
 
+th.datesrt {
+    cursor: pointer;
+    text-align: right; 
+}
+
 tbody tr:nth-child(n+1) {
     /*color: red; 
    background-color: white; 
