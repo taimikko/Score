@@ -26,7 +26,7 @@
 				<tr><td>Käyttäjätunnus:</td>
 					<td>
 					<@security.authorize access="hasRole('ROLE_ADMIN')">
-		  	  			<a href="/kayttaja/${pelaaja.username}">${pelaaja.username}</a>
+		  	  			<a href="/kayttaja/info?kayttajatunnus=${pelaaja.username}">${pelaaja.username}</a>
 					</@security.authorize>
 					<@security.authorize access="! hasRole('ROLE_ADMIN')">
 		  	  			<span>${pelaaja.username}</span>

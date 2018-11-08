@@ -65,6 +65,12 @@
                     </#list>
                 </tr>
             </#if>
+            <#--  <tr>
+                <td><a href="" >tasoitushistoria toteuttamatta</a></td>
+            </tr> -->
+			<tr>
+                <td><a href="/kierros/pelaaja?seura=${kayttaja.seuraId?c}&jasennumero=${kayttaja.jasennumero?c}" >pelatut kierrokset</a></td>
+            </tr>
         </table>
     </div>
     <br/>
