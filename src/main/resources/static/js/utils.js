@@ -59,12 +59,10 @@ function comparer(idx, asc) {
 }
 
 function newcomparer(col, reverse) {
-    console.log("newcomparer", col);
     return (a, b) => reverse * compare(getCellValue(a, col), getCellValue(b, col));
 }
 
 function datecomparer(col, reverse) {
-    console.log("datecomparer", col);
     return (a, b) => reverse * dateCompare(a.children[col].textContent.trim(), b.children[col].textContent.trim());
 }
 
@@ -90,7 +88,6 @@ function makeSortable(table) {
     else return; // ei ole `<thead>` --> ei tehdä mitään
     while (--i >= 0)(function (i) {
         var dir = 1;
-        console.log("makeSortable", i, th[i].className);
         if (th[i].className.match(SORT_BY_DATE)) {
             th[i].addEventListener('click', () => sortTableDate(table, i, (dir *= -1)));
         } else {
