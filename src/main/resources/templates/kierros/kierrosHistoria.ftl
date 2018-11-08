@@ -69,7 +69,7 @@
 				<#list kierrokset as k>
 					<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)" onclick="window.location='/kierros/edit/${k.id?c}?paluu=/kierros/omat'">
 						<td class="num">${k.id}</td>
-						<td>${k.pvm?string('dd.MM.yyyy')}</td>
+						<td class="num">${k.pvm?string('dd.MM.yyyy')}</td>
 						<td class="num">${k.kentta_id?c} <#-- +kentän nimi --></td>
 						<td class="num">${k.tii_id?c} <#-- +tiin nimi --></td>
 						<td class="num">${k.yhteensa}</td>

@@ -51,7 +51,7 @@
 						<td class="num"><#if (k.seura_id)??>${k.seura_id?c}</#if></td>
 						<td class="num"><#if (k.jasennumero)??>${k.jasennumero?c}</#if></td>
 						<td class="num">${k.id?c}</td> 
-						<td><#if (k.pvm)??>${k.pvm?string('dd.MM.yyyy')}</#if></td>
+						<td class="num"><#if (k.pvm)??>${k.pvm?string('dd.MM.yyyy')}</#if></td>
 						<td class="num"><#if (k.kentta_id)??>${k.kentta_id?c}</#if> <#-- +kentän nimi --></td>
 						<td class="num"><#if (k.tii_id)??>${k.tii_id?c}</#if> <#-- +tiin nimi --></td>
 						<td class="num"><#if (k.yhteensa)??>${k.yhteensa}</#if></td>

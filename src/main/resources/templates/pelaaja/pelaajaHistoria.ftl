@@ -50,7 +50,7 @@
 				<#list pelaajat as p>
 					<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)" onclick="window.location='/pelaaja/get/${p.id?c}'">
 						<td class='num' >${p.id?c}</td>
-						<td>${p.pvm?string('dd.MM.yyyy HH:mm:ss')}</td>
+						<td class="num" >${p.pvm?string('dd.MM.yyyy HH:mm:ss')}</td>
 						<td class='num' >${p.seuraId?c}</td>
 						<td class='num' >${p.jasennumero?c}</td>
 						<td class='num' >${p.tasoitus}</td>
