@@ -185,6 +185,7 @@ function paivitaVaylatnaytolle() {
         document.getElementById('hcp'+vayla.numero).innerHTML = vayla.hcp;
         document.getElementById('par'+vayla.numero).innerHTML = vayla.par;
         par_yht += vayla.par;
+        laske_pisteet(vayla.numero);
         if (vayla.numero == 9) {
         	document.getElementById('pituus_out').innerHTML = pituus_yht;
         	pituus_yht=0;
@@ -198,6 +199,7 @@ function paivitaVaylatnaytolle() {
    	document.getElementById('par_in').innerHTML = par_yht;
    	par_yht += Number.parseInt(document.getElementById('par_out').innerHTML);
     document.getElementById('par_yht').innerHTML = par_yht;
+    laske_yhteensa();
 }
 
 function laskePelitasoitus(slope, cr, par) {
@@ -205,6 +207,7 @@ function laskePelitasoitus(slope, cr, par) {
     const pelitasoitus = Math.trunc((slope * tarkka) / 113 + (cr - par)); // alaspäin pyöritettynä
     document.getElementById('pelitasoitus').value = pelitasoitus;
     enableSubmit();
+    laske_yhteensa();
 }
 
 function kenttaValintaInput() {
@@ -316,57 +319,29 @@ function lisaa(element) {
 }
 
 function laske_yhteensa() {
-    var summa = 0;
-    summa += lisaa(document.getElementById('h1'));
-    summa += lisaa(document.getElementById('h2'));
-    summa += lisaa(document.getElementById('h3'));
-    summa += lisaa(document.getElementById('h4'));
-    summa += lisaa(document.getElementById('h5'));
-    summa += lisaa(document.getElementById('h6'));
-    summa += lisaa(document.getElementById('h7'));
-    summa += lisaa(document.getElementById('h8'));
-    summa += lisaa(document.getElementById('h9'));
-    document.getElementById('hout').value = summa;
-    summa = 0;
-    summa += lisaa(document.getElementById('h10'));
-    summa += lisaa(document.getElementById('h11'));
-    summa += lisaa(document.getElementById('h12'));
-    summa += lisaa(document.getElementById('h13'));
-    summa += lisaa(document.getElementById('h14'));
-    summa += lisaa(document.getElementById('h15'));
-    summa += lisaa(document.getElementById('h16'));
-    summa += lisaa(document.getElementById('h17'));
-    summa += lisaa(document.getElementById('h18'));
-    document.getElementById('hin').value = summa;
+    var h_summa = 0, p_summa=0;
+    for (var i=1; i<=9; i++){
+	    h_summa += lisaa(document.getElementById('h'+i));
+	    laske_pisteet(i);
+	    p_summa += lisaa(document.getElementById('p'+i));
+    }
+    document.getElementById('hout').value = h_summa;
+    h_summa = 0;
+    document.getElementById('p_out').value = p_summa;
+    p_summa = 0;
 
-    summa += Number.parseInt(document.getElementById('hout').value);
-    document.getElementById('yhteensa').value = summa;
+    for (var i=10; i<=18; i++){
+	    h_summa += lisaa(document.getElementById('h'+i));
+	    laske_pisteet(i);
+	    p_summa += lisaa(document.getElementById('p'+i));
+    }
+    document.getElementById('hin').value = h_summa;
+    h_summa += Number.parseInt(document.getElementById('hout').value);
+    document.getElementById('yhteensa').value = h_summa;
 
-    summa = 0;
-    summa += lisaa(document.getElementById('p1'));
-    summa += lisaa(document.getElementById('p2'));
-    summa += lisaa(document.getElementById('p3'));
-    summa += lisaa(document.getElementById('p4'));
-    summa += lisaa(document.getElementById('p5'));
-    summa += lisaa(document.getElementById('p6'));
-    summa += lisaa(document.getElementById('p7'));
-    summa += lisaa(document.getElementById('p8'));
-    summa += lisaa(document.getElementById('p9'));
-    document.getElementById('p_out').value = summa;
-    summa = 0;
-    summa += lisaa(document.getElementById('p10'));
-    summa += lisaa(document.getElementById('p11'));
-    summa += lisaa(document.getElementById('p12'));
-    summa += lisaa(document.getElementById('p13'));
-    summa += lisaa(document.getElementById('p14'));
-    summa += lisaa(document.getElementById('p15'));
-    summa += lisaa(document.getElementById('p16'));
-    summa += lisaa(document.getElementById('p17'));
-    summa += lisaa(document.getElementById('p18'));
-    document.getElementById('p_in').value = summa;
-
-    summa += Number.parseInt(document.getElementById('p_out').value);
-    document.getElementById('p_yht').value = summa;
+    document.getElementById('p_in').value = p_summa;
+    p_summa += Number.parseInt(document.getElementById('p_out').value);
+    document.getElementById('p_yht').value = p_summa;
 }
 
 
@@ -400,22 +375,23 @@ function validate_key(e) {
     return false;
 }
 
+
 function laske_pisteet(reika) {
     var pisteet;
-    var p_kentta = 'p' + (document.activeElement.id).substr(1);
-    var lyonnit = document.activeElement.value;
+    const lyonnit = document.getElementById('h'+reika).value;
+    const vaylan_par = Number.parseInt(document.getElementById('par'+reika).innerHTML);
+    const vaylan_hcp = Number.parseInt(document.getElementById('hcp'+reika).innerHTML);
+    const pelitasoitus = Number.parseInt(document.getElementById('pelitasoitus').value);;
+    var oma_par = Math.trunc(pelitasoitus/18)+vaylan_par;
+    if ((pelitasoitus%18)>=vaylan_hcp) oma_par++;
 
-    const vaylan_par = 4;
-    const pelitasoitus = 18;
-    const vaylan_hcp = 1;
-
+	//console.log("laske_pisteet", reika, lyonnit, vaylan_par, oma_par, pelitasoitus, vaylan_hcp);
     if (Number.isInteger(Number.parseInt(lyonnit))) {
-        var oma_par = 5;
         pisteet = (lyonnit <= 0 || lyonnit > (oma_par + 2)) ? 0 : (oma_par + 2) - lyonnit;
     } else {
         pisteet = 0;
     }
-    document.getElementById(p_kentta).value = pisteet;
+    document.getElementById('p'+reika).value = pisteet;
 }
 
 function seuraava(e, kentt1) {
@@ -427,7 +403,7 @@ function seuraava(e, kentt1) {
         document.activeElement.value = "";
     }
 
-    laske_pisteet(kentt1); // TODO:tässä on nyt seuraavan väylän nimi eikä nykyinenGRR
+    laske_pisteet(document.activeElement.id.substr(1)); // väylät ovat kentissä h1, h2, h3, jne.
     laske_yhteensa();
 
     if (window.event) { // IE                    
