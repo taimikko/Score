@@ -348,6 +348,10 @@ function laske_pisteet(reika) {
     var p_kentta = 'p' + (document.activeElement.id).substr(1);
     var lyonnit = document.activeElement.value;
 
+    const vaylan_par = 4;
+    const pelitasoitus;
+    const vaylan_hcp;
+
     if (Number.isInteger(Number.parseInt(lyonnit))) {
         var oma_par = 5;
         pisteet = (lyonnit <= 0 || lyonnit > (oma_par + 2)) ? 0 : (oma_par + 2) - lyonnit;
@@ -366,7 +370,7 @@ function seuraava(e, kentt1) {
         document.activeElement.value = "";
     }
 
-    laske_pisteet(kentt1);
+    laske_pisteet(kentt1); // TODO:tässä on nyt seuraavan väylän nimi eikä nykyinenGRR
     laske_yhteensa();
 
     if (window.event) { // IE                    

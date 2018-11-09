@@ -14,9 +14,10 @@
 // })));
 
 function mouseOver(element) {
-    element.style.background = "royalblue";
-    //     color: aliceblue; // vaalea
-    // color: cornflowerblue; // tumma
+    element.style.background = "lightblue";
+    // "royalblue";
+    // aliceblue; // vaalea
+    // cornflowerblue; // tumma
 }
 
 function mouseOut(element) {

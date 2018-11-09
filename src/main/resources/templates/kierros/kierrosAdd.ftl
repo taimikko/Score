@@ -145,23 +145,21 @@
 		        <tr>
 				    <td>pelaajan tasoitus:</td>
 				    <td><input type='number' step='0.1' class='num2' id='tasoitus' name='tasoitus' onchange="tasoitusChange()" <#if (kierros.tasoitus)??> value='${kierros.tasoitus}' <#elseif (pelaaja.tasoitus)??> value='${pelaaja.tasoitus}' </#if> > </td>
-				    <td>pelitasoitus: <input readonly class='num' id='pelitasoitus' name='pelitasoitus' ></td>
+				    <td>
+					    <div id="div_reunat">
+					    	pelitasoitus: <input readonly class='num' id='pelitasoitus' name='pelitasoitus' >
+							<span class="oikea">
+								<@security.authorize access="hasRole('ROLE_ADMIN')">
+					            	cba:<input type='number' id='cba' name='cba' class='num' min='-4' max='2' <#if (kierros.cba)??> value='${kierros.cba}' <#else> value='0' </#if>  >
+								</@security.authorize>
+								<@security.authorize access="! hasRole('ROLE_ADMIN')">
+						            cba:<#if (kierros.cba)??> ${kierros.cba} <#else> 0 </#if>
+			   		            	<input type='hidden' id='cba' name='cba' class='num' <#if (kierros.cba)??> value='${kierros.cba}' <#else> value='0' </#if>  >
+								</@security.authorize>
+				            </span>
+						</div>
+  				    </td>
 		        </tr>
-		        <tr>
-				<@security.authorize access="hasRole('ROLE_ADMIN')">
-		            <td>cba:</td>
-		            <td>		                
-		            	<input type='number' id='cba' name='cba' class='num' min='-4' max='2' <#if (kierros.cba)??> value='${kierros.cba}' <#else> value='0' </#if>  >
-					</td>
-				</@security.authorize>
-				<@security.authorize access="! hasRole('ROLE_ADMIN')">
-		            <td>cba: 
-			            <#if (kierros.cba)??> ${kierros.cba} <#else> 0 </#if>
-   		            	<input type='hidden' id='cba' name='cba' class='num' <#if (kierros.cba)??> value='${kierros.cba}' <#else> value='0' </#if>  >
-		            </td>
-				</@security.authorize>
-		        </tr>
-
 		   	</table>
 			
 <#include "/kierros/kierros.ftl">

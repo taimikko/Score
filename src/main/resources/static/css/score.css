@@ -1,5 +1,5 @@
 body {
-    background-color: lightblue;
+    background-color: ivory;
     margin-left: 20px;
 }
 
@@ -29,7 +29,7 @@ th.num {
 
 th.numsrt {
     cursor: pointer;
-    text-align: right; 
+    text-align: right;
 }
 
 th.srt {
@@ -38,13 +38,7 @@ th.srt {
 
 th.datesrt {
     cursor: pointer;
-    text-align: right; 
-}
-
-tbody tr:nth-child(n+1) {
-    /*color: red; 
-   background-color: white; 
-*/
+    text-align: right;
 }
 
 input.info {
@@ -81,6 +75,22 @@ div.admin {
 }
 
 #huom {
-    color:red;
-    margin:10px;
+    color: red;
+    margin: 10px;
+}
+
+*.col {
+    margin-left: 5px;
+    margin-right: 5px;
+    text-align: right;
+}
+
+.oikea {
+    /* color: red; */
+    float: right;
+}
+
+#div_reunat {
+    width: 100%;
+    /* border: 1px solid red; */
 }
