@@ -119,8 +119,8 @@ async function alustaPelaajat(seura_id) {
         if (txt.length == 0)
             txt = pelaaja_id; // seurassa ei pelaajia  
         parent.innerHTML = '`' + txt + '`';
-    } finally {
-        // console.log("alustaPelaajat finally", pelaajat);
+    } catch (e) {
+        console.log("alustaPelaajat, poikkeus", data); // , pelaajat
     }
 }
 
@@ -143,6 +143,61 @@ async function haeKentanPar(kentta_id) {
     } catch (e) {
         return 72;
     }
+}
+
+async function haeVaylienTiedot(kentta_id) {
+    try {
+        const res = await fetch('/kentta/vaylat/' + kentta_id);
+        if (res.status != 200) {
+            return;
+        }
+        const data = await res.text();
+        vaylat = JSON.parse(data); // käyttää tiedoston alussa esiteltyä globaalia muuttujaa
+    } catch (e) {
+    	console.log("haeVaylienTiedot", e);
+    }
+    paivitaVaylatnaytolle();
+}
+
+function paivitaVaylatnaytolle() {
+	const tii_id = document.getElementById('tii_id').value;
+	var tii = 0;
+	for (const t of tiit) {
+		if (t.id == tii_id) {
+			tii = t.tii_id;
+			break;
+		}
+	}
+	var pituus = 0, pituus_yht= 0, par_yht=0;
+	for (const vayla of vaylat) {
+    	switch (Number.parseInt(tii)) {
+    		case 4: pituus = vayla.pit4;
+    			break;
+    		case 3: pituus = vayla.pit3;
+    			break;
+    		case 2: pituus = vayla.pit2;
+    			break;
+    		default: pituus = vayla.pit1;
+    			break;
+    	}
+       	document.getElementById('pituus'+vayla.numero).innerHTML = pituus;
+        pituus_yht += pituus;
+        document.getElementById('hcp'+vayla.numero).innerHTML = vayla.hcp;
+        document.getElementById('par'+vayla.numero).innerHTML = vayla.par;
+        par_yht += vayla.par;
+        if (vayla.numero == 9) {
+        	document.getElementById('pituus_out').innerHTML = pituus_yht;
+        	pituus_yht=0;
+        	document.getElementById('par_out').innerHTML = par_yht;
+	        par_yht = 0;
+        }
+	}
+   	document.getElementById('pituus_in').innerHTML = pituus_yht;
+   	pituus_yht += Number.parseInt(document.getElementById('pituus_out').innerHTML);
+    document.getElementById('pituus_yht').innerHTML = pituus_yht;
+   	document.getElementById('par_in').innerHTML = par_yht;
+   	par_yht += Number.parseInt(document.getElementById('par_out').innerHTML);
+    document.getElementById('par_yht').innerHTML = par_yht;
 }
 
 function laskePelitasoitus(slope, cr, par) {
@@ -168,7 +223,9 @@ function kenttaValintaInput() {
 }
 
 function kenttaChange() {
-    alustaTiit(document.getElementById('kentta_id').value, 0);
+	const kentta = document.getElementById('kentta_id').value;
+    alustaTiit(kentta, 0);
+    haeVaylienTiedot(kentta);
 }
 
 function pelaajaValinta() {
@@ -189,6 +246,7 @@ function tiiChange() {
     tasoitusChange();
     document.getElementById('h1').focus();
     document.getElementById('h1').select();
+    paivitaVaylatnaytolle();
 }
 
 async function tasoitusChange() {
@@ -213,7 +271,6 @@ async function tasoitusChange() {
     const par = await haeKentanPar(kentta_id);
     laskePelitasoitus(slope, cr, par);
 }
-
 
 function getRandomPvm() {
     var end = new Date();
@@ -349,8 +406,8 @@ function laske_pisteet(reika) {
     var lyonnit = document.activeElement.value;
 
     const vaylan_par = 4;
-    const pelitasoitus;
-    const vaylan_hcp;
+    const pelitasoitus = 18;
+    const vaylan_hcp = 1;
 
     if (Number.isInteger(Number.parseInt(lyonnit))) {
         var oma_par = 5;

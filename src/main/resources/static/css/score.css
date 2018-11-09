@@ -57,9 +57,13 @@ th.rako {
     margin-right: 50px;
 }
 
-table.rako {
-    margin-left: 50px;
-    margin-right: 50px;
+#etuysi {
+    margin-right: 5px;
+    border:1;
+}
+
+#takaysi {
+    margin-left: 5px;
 }
 
 select.txt {
@@ -80,7 +84,6 @@ div.admin {
 }
 
 *.col {
-    margin-left: 5px;
     margin-right: 5px;
     text-align: right;
 }

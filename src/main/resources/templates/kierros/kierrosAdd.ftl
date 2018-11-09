@@ -28,6 +28,7 @@
 		    alustaPvm();
 			kenttaValintaInput();
     		alustaPelaajat(<#if (pelaaja.seuraId)??> ${pelaaja.seuraId?c}<#elseif (kierros.seura_id)??>${kierros.seura_id?c}<#else>0</#if>)
+    		haeVaylienTiedot(document.getElementById('kentta_id').value);
 		}
 </script>   
     
@@ -163,6 +164,7 @@
 		   	</table>
 			
 <#include "/kierros/kierros.ftl">
+
 		    <table>
 		        <tr>
 		            <td>merkitsijä:</td>

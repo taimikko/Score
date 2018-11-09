@@ -24,7 +24,8 @@
 		window.onload = function (e) {
 			console.log("kierrosEdit window.onload");
  			alustaKentta(<#if (kierros.kentta_id)??> ${kierros.kentta_id?c}<#else>0</#if>,<#if (kierros.tii_id)??>${kierros.tii_id?c}<#else>0</#if>,'kentta_id');
-    		alustaPelaajat(<#if (pelaaja.seuraId)??> ${pelaaja.seuraId?c}<#elseif (kierros.seura_id)??>${kierros.seura_id?c}<#else>0</#if>)
+    		alustaPelaajat(<#if (pelaaja.seuraId)??> ${pelaaja.seuraId?c}<#elseif (kierros.seura_id)??>${kierros.seura_id?c}<#else>0</#if>);
+    		haeVaylienTiedot(document.getElementById('kentta_id').value);
 		}		
 </script>   
     

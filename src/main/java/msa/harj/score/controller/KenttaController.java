@@ -119,5 +119,12 @@ public class KenttaController {
 		log.info("MSA: haeKentanPar"+i);
 		return i;
 	}
+	
+	@GetMapping("/kentta/vaylat/{kenttaId}")
+	public @ResponseBody List<Vayla> haeVaylat(Model model, @PathVariable("kenttaId") Long kenttaId) {
+		log.info("MSA(get): /kentta/vaylat/" + kenttaId);
+		return vaylaDAO.getKentanVaylat(kenttaId);
+	}
+
 
 }
