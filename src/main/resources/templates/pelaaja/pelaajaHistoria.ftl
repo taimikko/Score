@@ -58,7 +58,7 @@
 						<td>
   							<form name='f' action="/pelaaja/del/${p.id?c}" method='POST'>
   								<#if _csrf??><input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/></#if>
- 								<input name="submit" type="submit" value="delete" />
+ 								<input name="submit" type="submit" value="delete" <#if pelaajat?size <= 1> disabled</#if> />
 							   	<a href="/pelaaja/edit/${p.id?c}">Edit</a>
 						   </form>
 						</td>
