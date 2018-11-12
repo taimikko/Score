@@ -34,8 +34,9 @@
     			<td>sukunimi:</td><td><input type='text' name='sukunimi' readonly value=${pelaaja.sukunimi} /></td>
     		</tr>
     		<tr>
-    			<td>tasoitus:</td><td><input type='number' min='-20' max='54'  name='tasoitus' required value=${pelaaja.tasoitus} ></input></td>
-    		</tr> <#--  step='0.1'  -->
+    			<td>tasoitus:</td>
+    			<td><input type='number' min='-20' max='54' step='0.1' class='num2' id='tasoitus' name='tasoitus' required onchange="tasoitusChange()" value=${pelaaja.tasoitus} ></input></td>
+    		</tr> 
     		<tr>
     			<td>voimassaoleva tasoitus:</td>
     			<td> 			

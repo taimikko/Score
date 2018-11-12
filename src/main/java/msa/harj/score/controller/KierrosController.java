@@ -109,7 +109,6 @@ public class KierrosController {
 		log.info("MSA: /kierros/edit/" + kierrosId);
 		Kierros kierros = kierrosDAO.getKierros(kierrosId);
 		log.info("löytyi kierros "+kierros);
-		log.info("model:"+model);
 		model.addAttribute("kierros", kierros);
 		List<Kentta> kentat = kenttaDAO.getKentat();
 		model.addAttribute("kentat", kentat);

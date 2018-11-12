@@ -49,7 +49,11 @@
 						<td>
   							<form name='f' action="/kayttaja/del/${user.username}" method='POST'>
   								<#if _csrf??><input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/></#if>
- 								<input name="submit" type="submit" value="delete" />
+ 								<input name="submit" id="submit${user.id?c}" type="submit" value="delete" />
+								<script>
+									document.getElementById("submit${user.id?c}").addEventListener("click", function (event) {	event.stopPropagation(); });
+								</script>
+
 							   	<a href="/pelaaja/history/${user.seuraId}/${user.jasennumero?replace(",","")}">pelaajahistoria</a>
 						   </form>
 						</td>  -->

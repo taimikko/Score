@@ -418,13 +418,16 @@ function seuraava(e, kentt1) {
     }
 }
 
-function poista_kierros(id, pvm, etunimi, sukunimi, lisatieto, yhteensa) {
+function varmistaPoistetaankoKierros(id, pvm, etunimi, sukunimi, lisatieto, yhteensa) {
     const txt = "poistetaan kierros (" + id + ")\n" +
         "pvm :\t" + pvm + "\n" +
         "pelaaja:\t" + etunimi + " " + sukunimi + "\n" +
         "huom:\t" + lisatieto + "\n" +
         "tulos:\t" + yhteensa;
-    return confirm(txt);
+    console.log(txt);
+    var x = confirm(txt);
+    console.log(x);
+    return x;
 }
 
 function okvalue(elementId) {

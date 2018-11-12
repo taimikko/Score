@@ -76,7 +76,7 @@ public class AdminController {
 		if (kentta_id != null) {
 			rajaus = "kenttä = " + Long.toString(kentta_id);
 		};
-		//log.info("MSA: /admin/kierrokset " );
+		log.info("MSA: /admin/kierrokset " );
 		List<Kierros> kierrokset = kierrosDAO.getKentanKierrokset(kentta_id);
 		model.addAttribute("kierrokset", kierrokset);
 		model.addAttribute("rajaus", rajaus);

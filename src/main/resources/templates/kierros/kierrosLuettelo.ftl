@@ -43,6 +43,8 @@
 				<th scope="col"></th>
 				</tr>
 			</thead>
+
+			
 			<tbody>
 				<#list kierrokset as k>
 					<tr onmouseover="mouseOver(this)" onmouseout="mouseOut(this)" onclick="window.location='/kierros/edit/${k.id?c}?paluu=/admin/kierrokset'"> 
@@ -59,12 +61,37 @@
 						<td><#if (k.tasoituskierros)??>${k.tasoituskierros?string('kyllä', 'ei')}</#if></td>
 						<td><#if (k.pelattu)??>${k.pelattu?replace(1,"etuysi")?replace(2,"takaysi")?replace(3,"koko kierros")}</#if> </td>
 						<td><#if (k.lisatieto)??>${k.lisatieto}</#if></td>
-						<td>							
-							<form name='f' action="/kierros/del/${k.id?c}?paluu=/admin/kierrokset" method='POST' onsubmit="return poista_kierros(${k.id?c}, '${k.pvm?string('dd.MM.yyyy')}', '${k.etunimi}', '${k.sukunimi}', '${k.lisatieto}', ${k.yhteensa});">
+						<td>
+							<form name='f' action="/kierros/del/${k.id?c}?paluu=/admin/kierrokset" method='POST' onsubmit="return varmistaPoistetaankoKierros(${k.id?c}, '${k.pvm?string('dd.MM.yyyy')}', '${k.etunimi}', '${k.sukunimi}', '${k.lisatieto}', ${k.yhteensa});">
   								<#if _csrf??><input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/></#if>
  								<input name="submit" id="submit${k.id?c}" type="submit" value="delete" />
+								<script>
+									document.getElementById("submit${k.id?c}").addEventListener("click", function (event) {	event.stopPropagation(); });
+								</script>
 						   	</form>
  						</td>
+
+<#--  
+<script>
+document.getElementById("submit${k.id?c}").addEventListener("click", function (event) {
+    const txt = "poistetaan kierros (" + ${k.id?c} + ")\n" +
+        "pvm :\t" + '${k.pvm?string('dd.MM.yyyy')}' + "\n" +
+        "pelaaja:\t" + '${k.etunimi}' + " " + '${k.sukunimi}' + "\n" +
+        "huom:\t" + '${k.lisatieto}' + "\n" +
+        "tulos:\t" + ${k.yhteensa};
+    console.log(txt);
+    var x = confirm(txt);
+    console.log(x);
+    if (!x) {
+    	event.preventDefault();
+    	event.stopPropagation();
+    }
+    return x;
+});
+
+</script>
+-->
+
 					</tr>
 				</#list>
 			</tbody>

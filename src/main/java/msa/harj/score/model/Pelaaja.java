@@ -16,7 +16,7 @@ public class Pelaaja extends Kayttaja {
 //  protected int sukup;
 	private Long id;
 	private Timestamp pvm;
-	private Long tasoitus;
+	private Double tasoitus;
 	private boolean tasoitus_voimassa;
 
 	public Long getId() {
@@ -51,11 +51,11 @@ public class Pelaaja extends Kayttaja {
 		this.etunimi = etunimi;
 	}
 
-	public Long getTasoitus() {
+	public Double getTasoitus() {
 		return tasoitus;
 	}
 
-	public void setTasoitus(Long tasoitus) {
+	public void setTasoitus(Double tasoitus) {
 		this.tasoitus = tasoitus;
 	}
 
@@ -68,7 +68,7 @@ public class Pelaaja extends Kayttaja {
 	}
 
 	public Pelaaja(Long kayttaja_id, String kayttajatunnus, boolean enabled, Long id, Long seuraId, Long jasennumero,
-			String sukunimi, String etunimi, Integer jasentyyppi, Long tasoitus,
+			String sukunimi, String etunimi, Integer jasentyyppi, Double tasoitus,
 			boolean tasoitus_voimassa, Timestamp pvm) {
 		super(kayttajatunnus, "");
 		this.kayttajaId = kayttaja_id;

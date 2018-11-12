@@ -18,7 +18,7 @@ public class UusiKayttaja {
 	private String etunimi;
 	private String sukunimi;
 
-	private Long tasoitus;
+	private Double tasoitus;
 	private boolean tasoitus_voimassa;
 	private Integer jasen_tyyppi;
 	private Integer sukup;
@@ -29,7 +29,7 @@ public class UusiKayttaja {
 		this.userrole = "3";
 		this.seuraId = 0L;
 		this.jasennumero = 0L;
-		this.tasoitus = 54L;
+		this.tasoitus = 54.0;
 		this.tasoitus_voimassa = true;
 		this.jasen_tyyppi = 3;
 		this.sukup = 1;
@@ -41,7 +41,7 @@ public class UusiKayttaja {
 		this.userrole = "3";
 		this.seuraId = 0L;
 		this.jasennumero = 0L;
-		this.tasoitus = 54L;
+		this.tasoitus = 54.0;
 		this.tasoitus_voimassa = true;
 		this.jasen_tyyppi = 3;
 		this.sukup = 1;
@@ -153,11 +153,11 @@ public class UusiKayttaja {
 		this.etunimi = etunimi;
 	}
 
-	public Long getTasoitus() {
+	public Double getTasoitus() {
 		return tasoitus;
 	}
 
-	public void setTasoitus(Long tasoitus) {
+	public void setTasoitus(Double tasoitus) {
 		this.tasoitus = tasoitus;
 	}
 

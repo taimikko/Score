@@ -78,9 +78,12 @@
 						<td>${k.pelattu?replace(1,"etuysi")?replace(2,"takaysi")?replace(3,"koko kierros")} <#-- +koodia vastaava tieto 9/18 --></td>
 						<td>${k.lisatieto}</td>
 						<td>
-							<form name='f' action="/kierros/del/${k.id}?paluu=/kierros/omat" method='POST' onsubmit="return poista_kierros(${k.id?c}, '${k.pvm?string('dd.MM.yyyy')}', '${k.etunimi}', '${k.sukunimi}', '${k.lisatieto}', ${k.yhteensa});">
+							<form name='f' action="/kierros/del/${k.id}?paluu=/kierros/omat" method='POST' onsubmit="return varmistaPoistetaankoKierros(${k.id?c}, '${k.pvm?string('dd.MM.yyyy')}', '${k.etunimi}', '${k.sukunimi}', '${k.lisatieto}', ${k.yhteensa});">
   								<#if _csrf??><input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/></#if>
  								<input name="submit" id="submit${k.id?c}" type="submit" value="delete" />
+								<script>
+									document.getElementById("submit${k.id?c}").addEventListener("click", function (event) {	event.stopPropagation(); });
+								</script>
 						   </form>
 						</td>
 					</tr>

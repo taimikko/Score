@@ -53,7 +53,7 @@ public class PelaajaDAO extends KayttajaDAO {
 			return new Pelaaja(resultSet.getLong("kayttaja_id"), resultSet.getString("kayttajatunnus"),
 					resultSet.getBoolean("enabled"), resultSet.getLong("id"), resultSet.getLong("seura_id"),
 					resultSet.getLong("jasennumero"), resultSet.getString("sukunimi"), resultSet.getString("etunimi"),
-					resultSet.getInt("jasen_tyyppi"), resultSet.getLong("tasoitus"),
+					resultSet.getInt("jasen_tyyppi"), resultSet.getDouble("tasoitus"),
 					resultSet.getBoolean("tasoitus_voimassa"), resultSet.getTimestamp("pvm"));
 		}
 	};
