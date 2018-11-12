@@ -181,10 +181,10 @@ function paivitaVaylatnaytolle() {
     			break;
     	}
        	document.getElementById('pituus'+vayla.numero).innerHTML = pituus;
-        pituus_yht += pituus;
+        pituus_yht += Number.parseInt(pituus);
         document.getElementById('hcp'+vayla.numero).innerHTML = vayla.hcp;
         document.getElementById('par'+vayla.numero).innerHTML = vayla.par;
-        par_yht += vayla.par;
+        par_yht += Number.parseInt(vayla.par);
         laske_pisteet(vayla.numero);
         if (vayla.numero == 9) {
         	document.getElementById('pituus_out').innerHTML = pituus_yht;
@@ -221,8 +221,8 @@ function kenttaValintaInput() {
         }
     }
     document.getElementById('kentta_nimi').innerHTML = kentan_nimi;
-
     alustaTiit(kentta_selected, 0); // valittu tii puuttuuu
+    haeVaylienTiedot(kentta_selected);
 }
 
 function kenttaChange() {
@@ -319,6 +319,7 @@ function lisaa(element) {
 }
 
 function laske_yhteensa() {
+console.log("laske_yhteensa");
     var h_summa = 0, p_summa=0;
     for (var i=1; i<=9; i++){
 	    h_summa += lisaa(document.getElementById('h'+i));

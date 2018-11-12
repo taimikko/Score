@@ -126,6 +126,7 @@
 
 						<input autofocus class='txt' list="kenttaluettelo" autocomplete="off" title="Valitse kenttä" id='kentta_id' name='kentta_id' onchange="kenttaValintaInput()" <#-- onselect --> 
 						<#if (kierros.kentta_id)??> value='${kierros.kentta_id?c}'<#else> value='${pelaaja.seuraId}' </#if> > </input>
+<#-- hae pelaajan kotikenttä -->						
 						<datalist id="kenttaluettelo" >
 		                    <#list kentat as kentta>
 		                        <option value="${kentta.id?c}">${kentta.id?c} ${kentta.kentan_nimi} (${kentta.seura_id?c})</option>
