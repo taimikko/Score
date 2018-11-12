@@ -26,7 +26,8 @@
  			alustaKentta(<#if (kierros.kentta_id)??> ${kierros.kentta_id?c}<#else>0</#if>,<#if (kierros.tii_id)??>${kierros.tii_id?c}<#else>0</#if>,'kentta_id');
     		alustaPelaajat(<#if (pelaaja.seuraId)??> ${pelaaja.seuraId?c}<#elseif (kierros.seura_id)??>${kierros.seura_id?c}<#else>0</#if>);
     		haeVaylienTiedot(document.getElementById('kentta_id').value);
-		}		
+		}
+		
 </script>   
     
 </head>
@@ -111,7 +112,8 @@
 				</tr>
 				<tr>
 					<td>pvm:</td>
-					<td><input id='pvm1' autofocus type="date" name='pvm' onchange="pvmUpdate()" <#if (kierros.pvm)??> value='${kierros.pvm?string('yyyy-MM-dd')}'<#else>value='01/01/1999' </#if> ></td>
+					<td>
+						<input id='pvm1' autofocus type="date" name='pvm' onchange="pvmUpdate()" <#if (kierros.pvm)??> value='${kierros.pvm?string('yyyy-MM-dd')}'<#else>value='01/01/1999' </#if> ></td>
 					<td><span id='pvm_str' name='pvm_str'></span>
 					kierros id: <input type='text' id='id' name='id' readonly <#if (kierros.id)??> value='${kierros.id}'</#if> ></input>  
 					</td> 
@@ -134,7 +136,7 @@
 		        </tr>
 		        <tr>
 				    <td>pelaajan tasoitus:</td>
-				    <td><input type='number' step='0.1' class='num2' id='tasoitus' name='tasoitus' onchange="tasoitusChange()" <#if (kierros.tasoitus)??> value='${kierros.tasoitus}' <#elseif (pelaaja.tasoitus)??> value='${pelaaja.tasoitus}' </#if> > </td>
+				    <td><input type='number' step='0.1' min='-20' max='54' class='num2' id='tasoitus' name='tasoitus' onchange="tasoitusChange()" <#if (kierros.tasoitus)??> value='${kierros.tasoitus}' <#elseif (pelaaja.tasoitus)??> value='${pelaaja.tasoitus}' </#if> > </td>
 				    <td>
 					    <div id="div_reunat">
 					    	pelitasoitus: <input readonly class='num' id='pelitasoitus' name='pelitasoitus' >

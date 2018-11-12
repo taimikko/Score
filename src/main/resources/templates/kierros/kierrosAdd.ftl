@@ -145,7 +145,7 @@
 		        </tr>
 		        <tr>
 				    <td>pelaajan tasoitus:</td>
-				    <td><input type='number' step='0.1' class='num2' id='tasoitus' name='tasoitus' onchange="tasoitusChange()" <#if (kierros.tasoitus)??> value='${kierros.tasoitus}' <#elseif (pelaaja.tasoitus)??> value='${pelaaja.tasoitus}' </#if> > </td>
+				    <td><input type='number' step='0.1'  min='-20' max='54' class='num2' id='tasoitus' name='tasoitus' onchange="tasoitusChange()" <#if (kierros.tasoitus)??> value='${kierros.tasoitus}' <#elseif (pelaaja.tasoitus)??> value='${pelaaja.tasoitus}' </#if> > </td>
 				    <td>
 					    <div id="div_reunat">
 					    	pelitasoitus: <input readonly class='num' id='pelitasoitus' name='pelitasoitus' >
