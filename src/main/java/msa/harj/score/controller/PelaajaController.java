@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import msa.harj.score.dao.KenttaDAO;
 import msa.harj.score.dao.PelaajaDAO;
 import msa.harj.score.dao.RooliDAO;
 import msa.harj.score.model.Kayttaja;
+import msa.harj.score.model.Kentta;
 import msa.harj.score.model.Pelaaja;
 
 @Controller
@@ -28,6 +30,9 @@ public class PelaajaController {
 
 	@Autowired
 	private RooliDAO rooliDAO;
+
+	@Autowired
+	private KenttaDAO kenttaDAO;
 
 	@GetMapping("/pelaaja/{seuraId}/{jasennumero}")
 	public String getPelaaja(Model model, @PathVariable("seuraId") Long seuraId,
@@ -130,4 +135,15 @@ public class PelaajaController {
 		}
 
 	}
+	
+	@GetMapping("/pelaaja/kotikentta")
+	public @ResponseBody Kentta haeKotikentta(@RequestParam(value = "seura_id") Long seura_id) {
+		log.info("MSA: /pelaaja/kotikentta "+seura_id );
+		if (seura_id == null)  {
+			log.info("MSA: seura_id == null");
+			return null;
+		}
+		return kenttaDAO.getKotikentta(seura_id);
+	}
+
 }

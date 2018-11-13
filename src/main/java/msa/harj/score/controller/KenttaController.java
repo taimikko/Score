@@ -116,7 +116,7 @@ public class KenttaController {
 	@GetMapping("/kentta/haepar/{kenttaId}")
 	public @ResponseBody Integer haeKentanPar(Model model, @PathVariable("kenttaId") Long kenttaId) {
 		Integer i = vaylaDAO.haeKentanPar(kenttaId);
-		log.info("MSA: haeKentanPar"+i);
+		log.info("MSA: haeKentanPar, kenttä:"+kenttaId+ " palauttaa par="+i);
 		return i;
 	}
 	

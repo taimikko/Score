@@ -42,7 +42,7 @@ async function alustaTiit(kentta_selected, tii_selected) { // select -tyyppisen 
     var slope;
     var cr;
 
-    if (kentta_selected === undefined) kentta_selected = kenttaId;
+    if (kentta_selected === undefined) return; // ensin pitää valita kenttä
     
     for (const tii of tiit) {
         if (tii.kentta_id == kentta_selected) {
@@ -141,6 +141,7 @@ async function haeKentanPar(kentta_id) {
         const par = JSON.parse(data);
         return par;
     } catch (e) {
+    	console.log("haeKentanPar",kentta_id, e, "palautetaan 72");
         return 72;
     }
 }
@@ -210,8 +211,29 @@ function laskePelitasoitus(slope, cr, par) {
     laske_yhteensa();
 }
 
+async function alustaKotikentta() {
+	console.log("alustaKotikentta");
+    try {
+        const res = await fetch('/pelaaja/kotikentta?seura_id=' + document.getElementById('seura_id').value);
+        if (res.status != 200) {
+            return;
+        }
+        const data = await res.text();
+        const kentta = JSON.parse(data);
+        document.getElementById('kentta_id').value = kentta.id;
+	    document.getElementById('kentta_nimi').innerHTML = kentta.kentan_nimi;
+    	console.log("kotikenttä", kentta.id, kentta.kentan_nimi);
+		await alustaTiit(kentta.id, 0); // valittu tii puuttuuu
+    	haeVaylienTiedot(kentta.id);
+    } catch (e) {
+		document.getElementById('kentta_id').value = 500; // Eduix testikenttä
+		return 500;
+    }
+}
+
 function kenttaValintaInput() {
     // uutta kierrosta tehtäessä
+//    alustaKotikentta();
     var kentta_selected = document.getElementById('kentta_id').value;
     var kentan_nimi;
     for (const kentta of kentat) {
@@ -221,6 +243,7 @@ function kenttaValintaInput() {
         }
     }
     document.getElementById('kentta_nimi').innerHTML = kentan_nimi;
+    console.log("kenttaValintaInput", kentta_selected, kentan_nimi);
     alustaTiit(kentta_selected, 0); // valittu tii puuttuuu
     haeVaylienTiedot(kentta_selected);
 }
@@ -319,7 +342,6 @@ function lisaa(element) {
 }
 
 function laske_yhteensa() {
-console.log("laske_yhteensa");
     var h_summa = 0, p_summa=0;
     for (var i=1; i<=9; i++){
 	    h_summa += lisaa(document.getElementById('h'+i));

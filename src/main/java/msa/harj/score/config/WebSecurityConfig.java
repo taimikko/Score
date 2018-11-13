@@ -82,8 +82,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// The pages does not require login
 		http.authorizeRequests().antMatchers("/", "/login", "/logout", "index", "/nakkivene").permitAll();
 		http.authorizeRequests().antMatchers("/kierros", "/kierros/*").access("hasAnyRole('ROLE_PELAAJA', 'ROLE_ADMIN')");
+		http.authorizeRequests().antMatchers("/pelaaja/kotikentta").access("hasAnyRole('ROLE_PELAAJA')");
 		
 		http.authorizeRequests().antMatchers(HttpMethod.GET, "/kentta/**", "/admin/kentat").access("hasAnyRole('ROLE_PELAAJA')");
+		http.authorizeRequests().antMatchers(HttpMethod.GET, "/pelaaja/seuranjasenet").access("hasAnyRole('ROLE_PELAAJA')");
 		
 		// /userInfo page requires login as ROLE_PELAAJA or ROLE_ADMIN.
 		// If no login, it will redirect to /login page.

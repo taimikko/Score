@@ -75,4 +75,10 @@ public class KenttaDAO extends JdbcDaoSupport {
 		}
 	};
 
+	public Kentta getKotikentta(Long seura_id) {
+		String sql = "SELECT * FROM kentta WHERE id=(SELECT MIN(id) FROM kentta WHERE seura_id=?)";
+		Object[] args = new Object[] { seura_id };
+		return this.getJdbcTemplate().queryForObject(sql, args, KENTTA_MAPPER);
+	}
+
 }

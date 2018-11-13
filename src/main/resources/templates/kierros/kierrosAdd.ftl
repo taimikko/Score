@@ -26,9 +26,10 @@
 		window.onload = function (e) {
 			console.log("kierrosAdd window.onload");
 		    alustaPvm();
-			kenttaValintaInput();
+		    alustaKotikentta();
+			//kenttaValintaInput();
     		alustaPelaajat(<#if (pelaaja.seuraId)??> ${pelaaja.seuraId?c}<#elseif (kierros.seura_id)??>${kierros.seura_id?c}<#else>0</#if>)
-    		haeVaylienTiedot(document.getElementById('kentta_id').value);
+    		//haeVaylienTiedot(document.getElementById('kentta_id').value);
 		}
 </script>   
     
@@ -125,8 +126,8 @@
 						-->
 
 						<input autofocus class='txt' list="kenttaluettelo" autocomplete="off" title="Valitse kenttä" id='kentta_id' name='kentta_id' onchange="kenttaValintaInput()" <#-- onselect --> 
-						<#if (kierros.kentta_id)??> value='${kierros.kentta_id?c}'<#else> value='${pelaaja.seuraId}' </#if> > </input>
-<#-- hae pelaajan kotikenttä -->						
+						<#if (kierros.kentta_id)??> value='${kierros.kentta_id?c}'<#else>  </#if> > </input>
+<#-- hae pelaajan kotikenttä  <#else> value='${pelaaja.seuraId}' -->						
 						<datalist id="kenttaluettelo" >
 		                    <#list kentat as kentta>
 		                        <option value="${kentta.id?c}">${kentta.id?c} ${kentta.kentan_nimi} (${kentta.seura_id?c})</option>
