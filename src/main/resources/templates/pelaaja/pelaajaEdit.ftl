@@ -5,7 +5,17 @@
 <head>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="/css/score.css">
+    <script type="application/javascript" src="/js/tasoitus.js"></script>    
+    
     <title>Pelaajan tiedot</title>
+    
+
+	<script>
+		window.onload = function (e) {
+		    alustaVanhaTasoitus();
+	}
+	</script>
+
 </head>
 
 <body>
@@ -35,7 +45,9 @@
     		</tr>
     		<tr>
     			<td>tasoitus:</td>
-    			<td><input type='number' min='-20' max='54' step='0.1' class='num2' id='tasoitus' name='tasoitus' required onchange="tasoitusChange()" value=${pelaaja.tasoitus} ></input></td>
+    			<td><input type='number' min='-20' max='54' step='0.1' class='num2' id='tasoitus' name='tasoitus' required onchange="tasoitusMuutos()" value=${pelaaja.tasoitus} ></input>
+			    	<input type='hidden' id='vanha_tasoitus' name='vanha_tasoitus' >
+    			</td>
     		</tr> 
     		<tr>
     			<td>voimassaoleva tasoitus:</td>

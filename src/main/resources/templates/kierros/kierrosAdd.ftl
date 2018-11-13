@@ -26,6 +26,7 @@
 		window.onload = function (e) {
 			console.log("kierrosAdd window.onload");
 		    alustaPvm();
+		    // alustaVanhaTasoitus();
 		    alustaKotikentta();
 			//kenttaValintaInput();
     		alustaPelaajat(<#if (pelaaja.seuraId)??> ${pelaaja.seuraId?c}<#elseif (kierros.seura_id)??>${kierros.seura_id?c}<#else>0</#if>)
@@ -148,6 +149,7 @@
 		        <tr>
 				    <td>pelaajan tasoitus:</td>
 				    <td><input type='number' step='0.1'  min='-20' max='54' class='num2' id='tasoitus' name='tasoitus' onchange="tasoitusChange()" <#if (kierros.tasoitus)??> value='${kierros.tasoitus}' <#elseif (pelaaja.tasoitus)??> value='${pelaaja.tasoitus}' </#if> > </td>
+				    	<input type='hidden' id='vanha_tasoitus' name='vanha_tasoitus' >
 				    <td>
 					    <div id="div_reunat">
 					    	pelitasoitus: <input readonly class='num' id='pelitasoitus' name='pelitasoitus' >
