@@ -1,10 +1,14 @@
 package msa.harj.score.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,12 +18,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import msa.harj.score.dao.KayttajaDAO;
 import msa.harj.score.dao.KenttaDAO;
 import msa.harj.score.dao.PelaajaDAO;
 import msa.harj.score.dao.RooliDAO;
 import msa.harj.score.model.Kayttaja;
 import msa.harj.score.model.Kentta;
 import msa.harj.score.model.Pelaaja;
+import msa.harj.score.utils.WebUtils;
 
 @Controller
 public class PelaajaController {
@@ -34,6 +40,9 @@ public class PelaajaController {
 	@Autowired
 	private KenttaDAO kenttaDAO;
 
+	@Autowired
+	private KayttajaDAO kayttajaDAO;
+
 	@GetMapping("/pelaaja/{seuraId}/{jasennumero}")
 	public String getPelaaja(Model model, @PathVariable("seuraId") Long seuraId,
 			@PathVariable("jasennumero") Long jasennumero) {
@@ -47,14 +56,15 @@ public class PelaajaController {
 
 		return "pelaaja/pelaajaTiedot";
 	}
-	
+
 	@RequestMapping("/pelaaja/seuranjasenet")
-	public @ResponseBody List<Pelaaja> seuranjasenet(@RequestParam(value = "seura_id", required = false) Long seura_id) {
-		log.info("MSA: /pelaaja/seuranjasenet "+seura_id );
+	public @ResponseBody List<Pelaaja> seuranjasenet(
+			@RequestParam(value = "seura_id", required = false) Long seura_id) {
+		log.info("MSA: /pelaaja/seuranjasenet " + seura_id);
 		if (seura_id == null)
 			log.info("MSA: seura_id == null");
 		List<Pelaaja> pelaajat = pelaajaDAO.getSeuranPelaajat(seura_id);
-		log.info("MSA: seuranjasenet "+pelaajat );
+		log.info("MSA: seuranjasenet " + pelaajat);
 		return pelaajat;
 	}
 
@@ -79,19 +89,33 @@ public class PelaajaController {
 	}
 
 	@GetMapping("/pelaaja/history/{seuraId}/{jasennumero}")
-	public String pelaajaHistoria(Model model, @PathVariable("seuraId") Long seuraId,
-			@PathVariable("jasennumero") Long jasennumero) {
+	public String pelaajaHistoria(Model model, Principal principal, SecurityContextHolderAwareRequestWrapper request,
+			@PathVariable("seuraId") Long seuraId, @PathVariable("jasennumero") Long jasennumero) {
 		log.info("MSA: /pelaaja/history/" + Long.toString(seuraId) + "/" + Long.toString(jasennumero));
-		List<Pelaaja> ph = pelaajaDAO.getPelaajaHistoria(seuraId, jasennumero);
-		model.addAttribute("pelaajat", ph);
-		Kayttaja k = (Kayttaja) ph.get(0);
-		model.addAttribute("kayttaja", k);
-		String str = "";
-		for (Pelaaja p : ph) {
-			str += p.toString() + "\t";
+		Kayttaja k = kayttajaDAO.getKayttaja(principal.getName());
+		
+		if ((k.getSeuraId().equals(seuraId) && k.getJasennumero().equals(jasennumero))
+				|| request.isUserInRole("ROLE_ADMIN")) {
+			List<Pelaaja> ph = pelaajaDAO.getPelaajaHistoria(seuraId, jasennumero);
+			model.addAttribute("pelaajat", ph);
+			model.addAttribute("kayttaja", k);
+
+//			String str = "";
+//			for (Pelaaja p : ph) {
+//				str += p.toString() + "\t";
+//			}
+//			log.info("pelaajaHistoria palauttaa(" + Integer.toString(ph.size()) + "):" + str);
+
+			return "pelaaja/pelaajaHistoria";
+		} else {
+			if (principal != null) {
+				User loginedUser = (User) ((Authentication) principal).getPrincipal();
+				String userInfo = WebUtils.toString(loginedUser);
+				model.addAttribute("userInfo", userInfo);
+			}
+			model.addAttribute("message", "Voit katsoa vain omia tietojasi. "+k.getSeuraId()+"/"+k.getJasennumero());
+			return "403Page";
 		}
-		log.info("pelaajaHistoria palauttaa(" + Integer.toString(ph.size()) + "):" + str);
-		return "pelaaja/pelaajaHistoria"; // TODO
 	}
 
 	@GetMapping("/pelaaja/edit/{pelaajaId}")
@@ -135,11 +159,11 @@ public class PelaajaController {
 		}
 
 	}
-	
+
 	@GetMapping("/pelaaja/kotikentta")
 	public @ResponseBody Kentta haeKotikentta(@RequestParam(value = "seura_id") Long seura_id) {
-		log.info("MSA: /pelaaja/kotikentta "+seura_id );
-		if (seura_id == null)  {
+		log.info("MSA: /pelaaja/kotikentta " + seura_id);
+		if (seura_id == null) {
 			log.info("MSA: seura_id == null");
 			return null;
 		}
