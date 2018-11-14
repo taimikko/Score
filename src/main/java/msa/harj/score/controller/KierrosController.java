@@ -100,6 +100,7 @@ public class KierrosController {
 	public String getKierros(Model model, @PathVariable("kierrosId") Long kierrosId) {
 		log.info("MSA: /kierros/get/" + kierrosId);
 		Kierros k = kierrosDAO.getKierros(kierrosId);
+		log.info("kierroksen \"pelattu\"="+k.getPelattu());
 		model.addAttribute("kierros", k);
 		return "kierros/kierrosTiedot";
 	}

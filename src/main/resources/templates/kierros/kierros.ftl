@@ -321,7 +321,7 @@
 						<input type='text' maxlength='3' tabindex='-1' class='num' name='hin' id='hin' readonly <#if (kierros.hin)??> value='${kierros.hin}' </#if> >
 					</td>
 					<td class="col">
-						<input type='text' tabindex='-1' class='info'  name='p_in' id='p_in' readonly <#if (kierros.p_in)??> value='${kierros.p_in}' </#if> >
+						<input type='text' tabindex='-1' class='info'  name='p_in' id='p_in' readonly <#if (kierros.p_in)??> value='${kierros.p_in}'</#if> >
 					</td>
 				</tr>
 				<tr>

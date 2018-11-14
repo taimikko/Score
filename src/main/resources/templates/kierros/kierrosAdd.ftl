@@ -8,7 +8,8 @@
 
 	<title>Uusi Kierros</title>
 
-    <script type="application/javascript" src="/js/kierros.js"></script>    
+    <script type="application/javascript" src="/js/kierros.js"></script> 
+   	<script type="application/javascript" src="/js/tasoitus.js"></script>
 	<script>
 		<#include "/util/seurat.ftl"> 		
 		<#include "/util/kentat.ftl"> 		
@@ -26,7 +27,7 @@
 		window.onload = function (e) {
 			console.log("kierrosAdd window.onload");
 		    alustaPvm();
-		    // alustaVanhaTasoitus();
+		    alustaVanhaTasoitus();
 		    alustaKotikentta();
 			//kenttaValintaInput();
     		alustaPelaajat(<#if (pelaaja.seuraId)??> ${pelaaja.seuraId?c}<#elseif (kierros.seura_id)??>${kierros.seura_id?c}<#else>0</#if>)
@@ -148,8 +149,8 @@
 		        </tr>
 		        <tr>
 				    <td>pelaajan tasoitus:</td>
-				    <td><input type='number' step='0.1'  min='-20' max='54' class='num2' id='tasoitus' name='tasoitus' onchange="tasoitusChange()" <#if (kierros.tasoitus)??> value='${kierros.tasoitus}' <#elseif (pelaaja.tasoitus)??> value='${pelaaja.tasoitus}' </#if> > </td>
-				    	<input type='hidden' id='vanha_tasoitus' name='vanha_tasoitus' >
+				    <td><input type='number' step='0.1'  min='-20' max='54' class='num2' id='tasoitus' name='tasoitus' onchange="tasoitusChange();laskeUusiTasoitus();" <#if (kierros.tasoitus)??> value='${kierros.tasoitus}' <#elseif (pelaaja.tasoitus)??> value='${pelaaja.tasoitus}' </#if> > </td>
+				    	<span type='hidden' id='vanha_tasoitus' name='vanha_tasoitus' ></span>
 				    <td>
 					    <div id="div_reunat">
 					    	pelitasoitus: <input readonly class='num' id='pelitasoitus' name='pelitasoitus' >
@@ -182,7 +183,7 @@
 		        </tr>
 		        <tr>
 		            <td>onko tasoituskierros:</td>
-                    <td><input type='checkbox' name='tasoituskierros' id='tasoituskierros' <#if (kierros.tasoituskierros)??><#if kierros.tasoituskierros> checked </#if></#if> > </td>
+                    <td><input type='checkbox' name='tasoituskierros' id='tasoituskierros' <#if (kierros.tasoituskierros)??><#if kierros.tasoituskierros> checked </#if></#if> onchange="laskeUusiTasoitus()" > </td>
 		            <#-- <td>${kierros.tasoituskierros?string('kyllä', 'ei')}</td> -->
 		        </tr>
 		        <tr>
@@ -192,10 +193,10 @@
 		        </tr>
 		        <tr>
 		            <td>osa/koko kierros:</td>
-    				<td><input type='radio' name='pelattu' <#if (kierros.pelattu)??><#if (kierros.pelattu==1)>checked='checked'</#if></#if>value='1'>Etuysi</input><br>
-				    <input type='radio' name='pelattu' <#if (kierros.pelattu)??><#if (kierros.pelattu==2)>checked='checked'</#if></#if>value='2'>Takaysi</input><br>
-				    <input type='radio' name='pelattu' <#if (kierros.pelattu)??><#if (kierros.pelattu)==3>checked='checked'</#if><#else>checked='checked'</#if>value='3'>Koko kierros</input>
-		            <#--  ${kierros.pelattu} -->
+    				<td><input type='radio' id='pelattu' name='pelattu' <#if (kierros.pelattu)??><#if (kierros.pelattu==1)>checked='checked'</#if></#if>value='1' onchange="laskeUusiTasoitus()">Etuysi</input><br>
+				    	<input type='radio' id='pelattu' name='pelattu' <#if (kierros.pelattu)??><#if (kierros.pelattu==2)>checked='checked'</#if></#if>value='2' onchange="laskeUusiTasoitus()">Takaysi</input><br>
+				    	<input type='radio' id='pelattu' name='pelattu' <#if (kierros.pelattu)??><#if (kierros.pelattu)==3>checked='checked'</#if><#else>checked='checked'</#if>value='3' onchange="laskeUusiTasoitus()">Koko kierros</input>
+				    </td>
 		        </tr>
 		  		<tr>
 		             <td><input id="submit" disabled name="submit" type="submit" value="submit" onclick='laske_yhteensa()' ></td>           

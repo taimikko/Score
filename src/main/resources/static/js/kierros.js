@@ -130,8 +130,6 @@ async function seuraChange() {
 }
 
 async function haeKentanPar(kentta_id) {
-    //  function haeKentanPar(kentta_id) {
-    //      return 72;
     try {
         const res = await fetch('/kentta/haepar/' + kentta_id);
         if (res.status != 200) {
@@ -212,7 +210,7 @@ function laskePelitasoitus(slope, cr, par) {
 }
 
 async function alustaKotikentta() {
-	console.log("alustaKotikentta");
+	//console.log("alustaKotikentta");
     try {
         const res = await fetch('/pelaaja/kotikentta?seura_id=' + document.getElementById('seura_id').value);
         if (res.status != 200) {
@@ -222,7 +220,7 @@ async function alustaKotikentta() {
         const kentta = JSON.parse(data);
         document.getElementById('kentta_id').value = kentta.id;
 	    document.getElementById('kentta_nimi').innerHTML = kentta.kentan_nimi;
-    	console.log("kotikenttä", kentta.id, kentta.kentan_nimi);
+    	//console.log("kotikenttä", kentta.id, kentta.kentan_nimi);
 		await alustaTiit(kentta.id, 0); // valittu tii puuttuuu
     	haeVaylienTiedot(kentta.id);
     } catch (e) {
@@ -243,7 +241,7 @@ function kenttaValintaInput() {
         }
     }
     document.getElementById('kentta_nimi').innerHTML = kentan_nimi;
-    console.log("kenttaValintaInput", kentta_selected, kentan_nimi);
+    //console.log("kenttaValintaInput", kentta_selected, kentan_nimi);
     alustaTiit(kentta_selected, 0); // valittu tii puuttuuu
     haeVaylienTiedot(kentta_selected);
 }
@@ -294,7 +292,9 @@ async function tasoitusChange() {
             }
         }
     }
-    const par = await haeKentanPar(kentta_id);
+    var par = Number.parseInt(document.getElementById('par_yht').innerHTML);
+    if (! Number.isInteger(par))
+    	par = await haeKentanPar(kentta_id);
     laskePelitasoitus(slope, cr, par);
 }
 
@@ -417,6 +417,52 @@ function laske_pisteet(reika) {
     document.getElementById('p'+reika).value = pisteet;
 }
 
+function onkoKokoKierros() {
+	return (pelattuOsa() == 3); 
+	//1 = etuysi, 2=takaysi, 3 = koko kierros
+}
+
+function pelattuOsa() {
+	// mikä osa kierroksesta on pelattu
+	const pelattu = document.getElementsByName('pelattu');
+	for (const radio of pelattu) {
+		if (radio.checked)
+			return Number.parseInt(radio.value); // jostain syystä 1 ei ole 1 
+		//1 = etuysi, 2=takaysi, 3 = koko kierros
+	}
+}
+
+function laskeUusiTasoitus() {
+	// tasoitus, tasoituskierros, pisteet, koko_kierros
+	var pisteet;
+	if (document.getElementById('tasoituskierros').checked) {
+		// lasketaan kortissa olevan tasoituksen perusteella eikä siis haeta kannasta viimeisintä kirjattua tasoitusta
+		const kokokierros = onkoKokoKierros();
+		switch (pelattuOsa()) {
+			case 1: 	// etuysi
+				pisteet = Number.parseInt(document.getElementById('p_out').value); 
+				break;
+			case 2: 	// takaysi
+				pisteet = Number.parseInt(document.getElementById('p_in').value); 
+				break;
+			case 3:
+				pisteet = Number.parseInt(document.getElementById('p_yht').value);
+				break;
+			default:
+				console.log("pelattuosa palautti tuntemattoman");
+				pisteet = Number.parseInt(document.getElementById('p_yht').value);
+				break;
+		};
+		//console.log("pelattuOsa", pelattuOsa(), pisteet);
+		const tasoitus = Number.parseFloat(document.getElementById('tasoitus').value);
+		const muutos = laskeTasoitusMuutos(tasoitus, pisteet, kokokierros);
+		//console.log("laskeUusiTasoitus", tasoitus, pisteet, muutos, kokokierros, Math.round(uusiTasoitus(tasoitus,muutos)*10)/10);
+		document.getElementById('uusi_tasoitus').value = Math.round(uusiTasoitus(tasoitus,muutos)*10)/10;
+	} else {
+		document.getElementById('uusi_tasoitus').value = '';
+	}
+}
+
 function seuraava(e, kentt1) {
     var key;
 
@@ -447,10 +493,8 @@ function varmistaPoistetaankoKierros(id, pvm, etunimi, sukunimi, lisatieto, yhte
         "pelaaja:\t" + etunimi + " " + sukunimi + "\n" +
         "huom:\t" + lisatieto + "\n" +
         "tulos:\t" + yhteensa;
-    console.log(txt);
-    var x = confirm(txt);
-    console.log(x);
-    return x;
+    //console.log(txt);
+    return confirm(txt);
 }
 
 function okvalue(elementId) {

@@ -102,7 +102,7 @@ public class KierrosDAO extends JdbcDaoSupport {
 				k.isTasoituskierros(), k.getUusi_tasoitus(), k.getPelattu(), k.getEtunimi(), k.getSukunimi(),
 				k.getId() };
 		int lkm = this.getJdbcTemplate().update(sql, args);
-		log.info("MSA: updateKierros päivitti " + lkm + " riviä (id=" + k.getId() + ")");
+		log.info("MSA: updateKierros päivitti " + lkm + " riviä (id=" + k.getId() + ") "+k.getPelattu());
 	}
 
 	public void deleteKierros(long kierrosId) {
