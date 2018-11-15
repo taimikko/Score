@@ -71,13 +71,23 @@ public class AdminController {
 
 	@GetMapping("/admin/kierrokset")
 	public String adminKaikkiKierrokset(Model model,
-			@RequestParam(value = "kentta_id", required = false) Long kentta_id) {
+			@RequestParam(value = "kentta_id", required = false) Long kentta_id,
+			@RequestParam(value = "jasennumero", required = false) Long jasennumero,
+			@RequestParam(value = "etunimi", required = false) String etunimi, 
+			@RequestParam(value = "sukunimi", required = false) String sukunimi,
+			@RequestParam(value = "seura", required = false) Long seura, 
+			@RequestParam(value = "tasoituskierros", required = false) Boolean tasoituskierros, 
+			@RequestParam(value = "pisteet", required = false) Long pisteet	) {
 		String rajaus = "";
 		if (kentta_id != null) {
-			rajaus = "kenttä = " + Long.toString(kentta_id);
+			rajaus += "kenttä = " + Long.toString(kentta_id);
 		};
+		if (jasennumero != null) {
+			rajaus += ", jäsennumero = " + Long.toString(jasennumero);
+		};
+
 		log.info("MSA: /admin/kierrokset " );
-		List<Kierros> kierrokset = kierrosDAO.getKentanKierrokset(kentta_id);
+		List<Kierros> kierrokset = kierrosDAO.getKentanKierrokset(kentta_id, jasennumero, etunimi, sukunimi, seura, tasoituskierros, pisteet);
 		model.addAttribute("kierrokset", kierrokset);
 		model.addAttribute("rajaus", rajaus);
 

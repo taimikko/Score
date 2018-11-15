@@ -102,7 +102,7 @@ public class KierrosDAO extends JdbcDaoSupport {
 				k.isTasoituskierros(), k.getUusi_tasoitus(), k.getPelattu(), k.getEtunimi(), k.getSukunimi(),
 				k.getId() };
 		int lkm = this.getJdbcTemplate().update(sql, args);
-		log.info("MSA: updateKierros päivitti " + lkm + " riviä (id=" + k.getId() + ") "+k.getPelattu());
+		log.info("MSA: updateKierros päivitti " + lkm + " riviä (id=" + k.getId() + ") " + k.getPelattu());
 	}
 
 	public void deleteKierros(long kierrosId) {
@@ -123,17 +123,76 @@ public class KierrosDAO extends JdbcDaoSupport {
 		return this.getJdbcTemplate().query(sql, args, KIERROS_MAPPER);
 	}
 
-	public List<Kierros> getKentanKierrokset(Long kentta_id) {
-		String sql;
-		Object[] args;
-		if (kentta_id == null || kentta_id == 0L) {
-			sql = "SELECT * FROM kierros ORDER BY pvm, seura_id, jasennumero";
-			args = new Object[] {};
+	private String addLong(String sql, String kentta, Long luku) {
+		String new_sql = "";
+
+		if (luku == null || luku == 0L) {
+			new_sql = "";
 		} else {
-			sql = "SELECT * FROM kierros WHERE kentta_id = ? ORDER BY pvm, seura_id, jasennumero";
-			args = new Object[] { kentta_id };
+			new_sql = " " + kentta + " = " + luku + " ";
 		}
-		return this.getJdbcTemplate().query(sql, args, KIERROS_MAPPER);
+		if ((sql.length() > 0) && (new_sql.length() > 0)) {
+			new_sql = sql + " AND " + new_sql;
+		} else {
+			new_sql = sql + new_sql;
+		}
+		return new_sql;
+	}
+
+	private String addString(String sql, String kentta, String str) {
+		String new_sql = "";
+
+		if (str == null || str == "") {
+			new_sql = "";
+		} else {
+			new_sql = " " + kentta + " = " + str + " ";
+		}
+		if ((sql.length() > 0) && (new_sql.length() > 0)) {
+			new_sql = sql + " AND " + new_sql;
+		} else {
+			new_sql = sql + new_sql;
+		}
+		return new_sql;
+	}
+
+	private String addBool(String sql, String kentta, Boolean b) {
+		String new_sql = "";
+
+		if (b == null) {
+			new_sql = "";
+		} else {
+			new_sql = " " + kentta + " = " + (b ? "true" : "false") + " ";
+		}
+		if ((sql.length() > 0) && (new_sql.length() > 0)) {
+			new_sql = sql + " AND " + new_sql;
+		} else {
+			new_sql = sql + new_sql;
+		}
+		return new_sql;
+	}
+
+	public List<Kierros> getKentanKierrokset(Long kentta_id, Long jasennumero, String etunimi, String sukunimi,
+			Long seura, Boolean tasoituskierros, Long pisteet) {
+		/*
+		Id	Pvm	Tii	Lyönnit	9/18	Lisätieto
+		 */
+
+		String sql="";
+
+		sql = addLong(sql, "kentta_id", kentta_id);
+		sql = addLong(sql, "jasennumero", jasennumero);
+		sql = addString(sql, "etunimi", etunimi);
+		sql = addString(sql, "sukunimi", sukunimi);
+		sql = addLong(sql, "seura_id", seura);
+		sql = addBool(sql, "tasoituskierros", tasoituskierros);
+
+		if (sql.length()>0) {
+			sql = "SELECT * FROM kierros WHERE " + sql + " ORDER BY pvm, seura_id, jasennumero";
+		} else {
+			// jos ei ole mitään parametreja niin rajataan vain 100 ekaa
+			sql = "SELECT * FROM kierros ORDER BY pvm, seura_id, jasennumero LIMIT 100";
+		}
+		return this.getJdbcTemplate().query(sql, KIERROS_MAPPER);
 	}
 
 	public void deletePelaajanKierrokset(Long seuraId, Long jasennumero) {
