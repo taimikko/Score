@@ -13,6 +13,9 @@
 //         .forEach(tr => table.tBodies[0].appendChild(tr));
 // })));
 
+const SORT_BY_DATE = "datesrt";
+
+
 function mouseOver(element) {
     element.style.background = "lightblue";
     // "royalblue";
@@ -30,6 +33,10 @@ function getCellValue(tr, idx) {
 
 function compare(v1, v2) {
     return v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2);
+}
+
+function numberCompare(v1, v2) { // testiä 
+    return v1 - v2 ;
 }
 
 function dateCompare(a, b) {
@@ -81,7 +88,6 @@ function sortTableDate(table, col, reverse) {
 }
 
 function makeSortable(table) {
-    const SORT_BY_DATE = "datesrt";
     var th = table.tHead;
     var i;
     th && (th = th.rows[0]) && (th = th.cells);
@@ -98,6 +104,57 @@ function makeSortable(table) {
         th[i].addEventListener('mouseover', () => mouseOver(th[i]));
         th[i].addEventListener('mouseout', () => mouseOut(th[i]));
     }(i));
+}
+
+function makeChoosable(tableid) { 
+    var table = document.getElementById(tableid);
+    var th = table.tHead;
+    var i, kentan_nimi;
+    th && (th = th.rows[0]) && (th = th.cells);
+    if (th) i = th.length;
+    else return; // ei ole `<thead>` --> ei tehdä mitään
+    while (--i >= 0)(function (i) {
+        // if (th[i].className.match(SORT_BY_DATE)) {0
+    	kentan_nimi = th[i].innerHTML.trim();
+		if (kentan_nimi.length > 0 ) {
+ 		//console.log("makeChoosable",i, kentan_nimi);
+	        th[i].innerHTML += '<select id="select'+i+'" onChange="choose(`'+kentan_nimi+'`, '+i+')"></select>';
+	        addSelectOptions(table, i);
+	        document.getElementById("select"+i).addEventListener("click", function (event) { event.stopPropagation(); });
+        } else {
+			console.log("tyhjää kentän nimeä ei käytetä rajauksessa",i, kentan_nimi);
+        }
+    }(i));	
+}
+
+function choose(kentta,i) {
+	var opt = document.getElementById('select'+i).options;
+	console.log("choose", kentta, i, opt.selectedIndex, opt[opt.selectedIndex].selected, opt[opt.selectedIndex].value);
+}
+
+function addSelectOptions(table, col) {
+	var options = new Set();
+	var myList;
+    var th = table.tHead;
+
+    th && (th = th.rows[0]) && (th = th.cells); // hakee headerin ensimmäisen rivin solut
+
+	document.getElementById('select'+col).innerHTML = "<option>kaikki</option>";
+	Array.prototype.forEach.call(table.tBodies[0].rows, function (item) {
+		options.add(item.children[col].textContent.trim());
+	}); 
+
+	// lajitellaan vähän eri tavalla tyypistä riippuen
+	if (th[col].className.match(SORT_BY_DATE)) {
+		myList = Array.from(options).sort(dateCompare);
+ 	} else {
+		myList = Array.from(options).sort(compare);
+	}
+	//console.log("addSelectOptions", col, myList);
+	
+	for (const m of myList) {
+		document.getElementById('select'+col).innerHTML += '<option>'+m+'</option>';
+	}
 }
 
 function makeAllSortable(parent) {

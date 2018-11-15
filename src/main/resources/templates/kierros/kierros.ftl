@@ -1,4 +1,4 @@
-<table style="margin-top:10px; margin-bottom:10px">
+<table id='kierros' name='kierros' style="margin-top:10px; margin-bottom:10px">
 	<thead>
 	</thead>
 	<tbody>

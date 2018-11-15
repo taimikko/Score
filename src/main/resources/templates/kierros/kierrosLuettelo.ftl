@@ -12,7 +12,8 @@
 		<script>
 			window.onload = function (e) {
 		    	console.log("kierrosLuettelo.ftl window.onload");
-				makeAllSortable();		    	
+				makeAllSortable();	
+	    		makeChoosable('kierrosluettelo');
 			}
 
 		</script>
@@ -24,17 +25,25 @@
 	<div>
 	</div>
 		<#if rajaus??>${rajaus}</#if>
-		<table  class="table">
+		<table id='kierrosluettelo' name='kierrosluettelo' class="table">
 			<thead>
 				<tr>
 				<th scope="col" class="srt">Etunimi</th>
 				<th scope="col" class="srt">Sukunimi</th>
-				<th scope="col" class="srt">Seura</th>
+				<th scope="col" class="numsrt">Seura</th>
 				<th scope="col" class="numsrt">Jäsennumero</th>
 				<th scope="col" class="numsrt">Id</th>
-				<th scope="col" class="datesrt">Pvm</th>
-				<th scope="col" class="srt">Kenttä</a></th>
-				<th scope="col" class="numsrt">Tii</a></th>
+				<th scope="col" class="datesrt">Pvm
+					<#--  select id='valkkaa' >valkkaa
+						<option> eka</option>
+						<option>toka</option>
+					</select>
+								<script>
+									document.getElementById("valkkaa").addEventListener("click", function (event) {	event.stopPropagation(); });
+								</script> -->
+				</th>
+				<th scope="col" class="srt">Kenttä</th>
+				<th scope="col" class="numsrt">Tii</th>
 				<th scope="col" class="numsrt">Lyönnit</th>
 				<th scope="col" class="numsrt">Pisteet</th>
 				<th scope="col" class="srt">Tasoituskierros</th>
