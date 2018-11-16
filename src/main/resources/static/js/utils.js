@@ -114,11 +114,9 @@ function makeChoosable(tableid) {
     if (th) i = th.length;
     else return; // ei ole `<thead>` --> ei tehdä mitään
     while (--i >= 0)(function (i) {
-        // if (th[i].className.match(SORT_BY_DATE)) {0
     	kentan_nimi = th[i].innerHTML.trim();
 		if (kentan_nimi.length > 0 ) {
- 		//console.log("makeChoosable",i, kentan_nimi);
-//	        th[i].innerHTML += '<select id="select'+i+'" onChange="choose(`'+kentan_nimi+'`, '+i+',`'+tableid+'`)"></select>'; // <select multiple >
+	 		//console.log("makeChoosable",i, kentan_nimi);
 	        th[i].innerHTML += '<select id="select'+i+'" onChange="chooseAll(`'+tableid+'`)"></select>'; // <select multiple >
 	        addSelectOptions(table, i);
 	        document.getElementById("select"+i).addEventListener("click", function (event) { event.stopPropagation(); });
@@ -130,34 +128,23 @@ function makeChoosable(tableid) {
 
 function getParentByTag(elem, lookingFor) {
   lookingFor = lookingFor.toUpperCase();
-  var temp = document.getElementById(elem.id);
+  var temp = elem; //document.getElementById(elem.id);
   while (temp = temp.parentNode) {
-  	console.log("getparent",temp.tagName, temp);
+  	//console.log("getparent",temp.tagName, temp);
   	if (temp.tagName === lookingFor) return temp;
   }
 }
 
-function choose(kentta,i, tableid) {
-	var opt = document.getElementById('select'+i).options;
-	const selected_value = opt[opt.selectedIndex].value;
-    var table = document.getElementById(tableid);
-
-	console.log("choose", tableid, kentta, i, selected_value);
-
-	Array.prototype.forEach.call(table.tBodies[0].rows, function (item) {
-		var chosen = getParentByTag(item.children[0], "TR"); // = item.findClosest("TR");
-
-		if ((item.children[i].textContent.trim() === selected_value) || (selected_value === 'kaikki' )) {
-			//chosen = getParentByTag(item.children[0], "TR");
-			console.log("choose", chosen.id, item); 
-			chosen.style.display = '';
-			
-		} else {
-			console.log("choose NOT", chosen.id, item); 
-			chosen.style.display = 'none';
-			//getParentByTag(item, "TR").style.display = 'none';
-		}
-	}); 
+function getChildByTag(elem, lookingFor) {
+  lookingFor = lookingFor.toUpperCase();
+  var temp = elem; //document.getElementById(elem.id);
+  // pitäisi löytää type = ELEMENT (1) tai <select> = .nodeName == 'select'
+  //var children = temp;
+  while (temp = temp.lastChild) {
+  	console.log(temp.tagName, temp);
+  	// TODO: jos on paljon lapsia, niin ei osaa hakea toisesta tai kolmannesta lapsesta haluttua elementtiä
+  	if (temp.tagName === lookingFor) return temp;
+  }
 }
 
 function chooseAll(tableid) {
@@ -170,18 +157,26 @@ function chooseAll(tableid) {
     var selected = new Array();
     while (--i >= 0) {
     	kentan_nimi = th[i].innerHTML.trim();
+    	//th[i].childNodes[0].nodeValue.style.color="blue";
+    	//th[i].style.color="blue";
+		var child = getChildByTag(th[i], 'select');
 		if (kentan_nimi.length > 0 ) {
 			var options = document.getElementById('select'+i).options; // TODO: hae jollain muulla tavalla kuin id:llä
 			var selected_value = options[options.selectedIndex].value;
 			if (selected_value !== 'kaikki') {
 				// rajaus on päällä
+				child.style.color="blue";
+				//selected_value.style.color="red";
 				var selection = new Object();
 				selection.id = i;
 				selection.value = selected_value;
 				selected.push(selection);
+			} else {
+				child.style.color="black";
 			}
         } else {
-			console.log("tyhjää kentän nimeä ei käytetä rajauksessa",i, kentan_nimi);
+			//th[i].style.color="black";
+			// console.log("tyhjää kentän nimeä ei käytetä rajauksessa",i, kentan_nimi);
         }
     }	
     // listassa selected on nyt kaikki rajaukset: selected = [{id:1, select:78}, {id:5, select:"keltainen"}]
@@ -193,7 +188,6 @@ function chooseAll(tableid) {
 		for (const select of selected ) {
 			if (item.children[select.id].textContent.trim() !== select.value) {
 				// ei näytetä, jos jokin ei matchää
-				console.log("chooseAll NOT", chosen.id, item); 
 				chosen.style.display = 'none'; 
 			}
 		}
