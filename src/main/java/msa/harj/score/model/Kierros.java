@@ -114,7 +114,7 @@ public class Kierros {
 
 	public void setPvm(String pvmStr) {
 		try {
-			DateFormat format = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+			DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 			this.pvm = format.parse(pvmStr);
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -122,7 +122,7 @@ public class Kierros {
 	}
 
 	public String getPvmStr() {
-		DateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 		return df.format(pvm);
 	}
 

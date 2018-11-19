@@ -1,11 +1,16 @@
 package msa.harj.score.controller;
 
 import java.security.Principal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -77,17 +82,45 @@ public class AdminController {
 			@RequestParam(value = "sukunimi", required = false) String sukunimi,
 			@RequestParam(value = "seura", required = false) Long seura, 
 			@RequestParam(value = "tasoituskierros", required = false) Boolean tasoituskierros, 
+			@RequestParam(value = "alkupvm", required = false) 	@DateTimeFormat(pattern = "yyyy-MM-dd") Date alkupvm, 
+			@RequestParam(value = "loppupvm", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date loppupvm, 
 			@RequestParam(value = "pisteet", required = false) Long pisteet	) {
 		String rajaus = "";
 		if (kentta_id != null) {
-			rajaus += "kenttä = " + Long.toString(kentta_id);
+			rajaus += ((rajaus!="") ? ", ": "") + "kenttä = " + Long.toString(kentta_id);
 		};
 		if (jasennumero != null) {
-			rajaus += ", jäsennumero = " + Long.toString(jasennumero);
+			rajaus += ((rajaus!="") ? ", ": "") + "jäsennumero = " + Long.toString(jasennumero);
 		};
+		if (etunimi != null) {
+			rajaus += ((rajaus!="") ? ", ": "") + "etunimi = '" + etunimi+"'";
+		};
+		if (sukunimi != null) {
+			rajaus += ((rajaus!="") ? ", ": "") + "sukunimi = '" + sukunimi+"'";
+		};
+		if (seura != null) {
+			rajaus += ((rajaus!="") ? ", ": "") + "seura = " + Long.toString(seura);
+		};
+		if (tasoituskierros != null) {
+			rajaus += ((rajaus!="") ? ", ": "") + (tasoituskierros ? "tasoituskierros" : "harjoituskierros");
+		};
+		DateFormat df = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+		if (alkupvm != null) {
+			rajaus += ((rajaus!="") ? ", ": "") + "pvm >= " + df.format(alkupvm); 
+		};
+		
+		if (loppupvm != null) {
+			rajaus += ((rajaus!="") ? ", ": "") + "pvm <= " + df.format(loppupvm);
+		};
+		
+		if (pisteet != null) {
+			rajaus += ((rajaus!="") ? ", ": "") + "pisteet = " + Long.toString(pisteet); // TODO: min pisteet ?
+		};
+//		Id	Pvm	Tii	Lyönnit	9/18	Lisätieto
 
-		log.info("MSA: /admin/kierrokset " );
-		List<Kierros> kierrokset = kierrosDAO.getKentanKierrokset(kentta_id, jasennumero, etunimi, sukunimi, seura, tasoituskierros, pisteet);
+
+		log.info("MSA: /admin/kierrokset "+alkupvm+" "+loppupvm );
+		List<Kierros> kierrokset = kierrosDAO.getKentanKierrokset(kentta_id, jasennumero, etunimi, sukunimi, seura, tasoituskierros, pisteet, alkupvm, loppupvm);
 		model.addAttribute("kierrokset", kierrokset);
 		model.addAttribute("rajaus", rajaus);
 

@@ -2,7 +2,11 @@ package msa.harj.score.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.sql.DataSource;
 
@@ -80,8 +84,7 @@ public class KierrosDAO extends JdbcDaoSupport {
 					rs.getInt("p10"), rs.getInt("p11"), rs.getInt("p12"), rs.getInt("p13"), rs.getInt("p14"),
 					rs.getInt("p15"), rs.getInt("p16"), rs.getInt("p17"), rs.getInt("p18"), rs.getInt("p_in"),
 					rs.getInt("p_yht"), rs.getBoolean("tasoituskierros"), rs.getDouble("uusi_tasoitus"),
-					rs.getInt("pelattu"), rs.getString("etunimi"), rs.getString("sukunimi"));
-		}
+					rs.getInt("pelattu"), rs.getString("etunimi"),rs.getString("sukunimi"));}
 
 	};
 
@@ -171,13 +174,30 @@ public class KierrosDAO extends JdbcDaoSupport {
 		return new_sql;
 	}
 
+	private String addDate(String sql, String kentta, Date d, String operand) {
+		String new_sql = "";
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+		if (d == null) {
+			new_sql = "";
+		} else {
+			new_sql = " " + kentta + " "+operand+" '" + df.format(d) + "' ";
+			log.info("addDate "+new_sql);
+		}
+		if ((sql.length() > 0) && (new_sql.length() > 0)) {
+			new_sql = sql + " AND " + new_sql;
+		} else {
+			new_sql = sql + new_sql;
+		}
+		return new_sql;
+	}
+
 	public List<Kierros> getKentanKierrokset(Long kentta_id, Long jasennumero, String etunimi, String sukunimi,
-			Long seura, Boolean tasoituskierros, Long pisteet) {
+			Long seura, Boolean tasoituskierros, Long pisteet, Date alkupvm, Date loppupvm) {
 		/*
-		Id	Pvm	Tii	Lyönnit	9/18	Lisätieto
+		 * Id Pvm Tii Lyönnit 9/18 Lisätieto
 		 */
 
-		String sql="";
+		String sql = "";
 
 		sql = addLong(sql, "kentta_id", kentta_id);
 		sql = addLong(sql, "jasennumero", jasennumero);
@@ -185,13 +205,17 @@ public class KierrosDAO extends JdbcDaoSupport {
 		sql = addString(sql, "sukunimi", sukunimi);
 		sql = addLong(sql, "seura_id", seura);
 		sql = addBool(sql, "tasoituskierros", tasoituskierros);
+		sql = addDate(sql, "pvm", alkupvm, ">=");
+		sql = addDate(sql, "pvm", loppupvm, "<=");
 
-		if (sql.length()>0) {
+		// TODO: addMinDate addMaxDate
+		if (sql.length() > 0) {
 			sql = "SELECT * FROM kierros WHERE " + sql + " ORDER BY pvm, seura_id, jasennumero";
 		} else {
 			// jos ei ole mitään parametreja niin rajataan vain 100 ekaa
 			sql = "SELECT * FROM kierros ORDER BY pvm, seura_id, jasennumero LIMIT 100";
 		}
+		log.info("getKentanKierrokset:"+sql);
 		return this.getJdbcTemplate().query(sql, KIERROS_MAPPER);
 	}
 
