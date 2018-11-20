@@ -22,6 +22,7 @@
 
 	    	options = addOptions(options, "alkupvm", document.getElementById("alkupvm").value);
 	    	options = addOptions(options, "loppupvm", document.getElementById("loppupvm").value);
+	    	options = addOptions(options, "pelattu", document.getElementById("pelattu").value);
 	    	
 	        document.getElementById("pelatut_kierrokset").href = "/admin/kierrokset"+options;
 	    }
@@ -79,7 +80,7 @@
 					<p><a href="/admin/kentat">kentät</a></p>
 				    <p>
 				    <a href="/admin/kierrokset" id="pelatut_kierrokset" >kentällä pelatut kierrokset</a>
-		      	   	<select id='kentta_id' name='kentta_id' required  onchange="kierrosluetteloChange()" >
+		      	   	<select id='kentta_id' name='kentta_id' required title="kenttä" onchange="kierrosluetteloChange()" >
 			      		<option value='kaikki' selected="selected" > kaikki </option>
 			      		<#if kentat??>
 			      			<#list kentat as kentta>
@@ -104,14 +105,22 @@
 			      		</#if>
 			      	</select>
 -->			      	
-		      	   	<select id='tasoituskierros' name='tasoituskierros' required  onchange="kierrosluetteloChange()" >
+		      	   	<select id='tasoituskierros' name='tasoituskierros' title='tasoituskierros' required  onchange="kierrosluetteloChange()" >
 			      		<option value='kaikki' selected="selected" > kaikki </option>
 			      		<option value='true' > kyllä </option>
 			      		<option value='false'> ei </option>
 			      	</select>
 			      	
-			      	<input id='alkupvm' type="date" name='alkupvm' onchange="kierrosluetteloChange()"  >
-			      	<input id='loppupvm' type="date" name='loppupvm' onchange="kierrosluetteloChange()"  >
+			      	<input id='alkupvm' type="date" name='alkupvm' title="alkupäivä" onchange="kierrosluetteloChange()"  >
+			      	<input id='loppupvm' type="date" name='loppupvm' title="loppupäivä" onchange="kierrosluetteloChange()"  >
+
+		      	   	<select id='pelattu' name='pelattu' title='koko kierros vai osa' required  onchange="kierrosluetteloChange()" >
+			      		<option value='kaikki' selected="selected" > kaikki </option>
+			      		<option value='1'> etuysi (1-9) </option>
+			      		<option value='2'> takaysi (10-18) </option>
+			      		<option value='3'> koko kierros </option>
+			      		<option value='4'> puolikas (etu- tai takaysi) </option>
+			      	</select>
 
 			      	</p>
 				</fieldset>

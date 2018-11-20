@@ -84,6 +84,7 @@ public class AdminController {
 			@RequestParam(value = "tasoituskierros", required = false) Boolean tasoituskierros, 
 			@RequestParam(value = "alkupvm", required = false) 	@DateTimeFormat(pattern = "yyyy-MM-dd") Date alkupvm, 
 			@RequestParam(value = "loppupvm", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date loppupvm, 
+			@RequestParam(value = "pelattu", required = false) Integer pelattu, 
 			@RequestParam(value = "pisteet", required = false) Long pisteet	) {
 		String rajaus = "";
 		if (kentta_id != null) {
@@ -112,6 +113,16 @@ public class AdminController {
 		if (loppupvm != null) {
 			rajaus += ((rajaus!="") ? ", ": "") + "pvm <= " + df.format(loppupvm);
 		};
+		if (pelattu != null) {
+			rajaus += ((rajaus!="") ? ", ": "");
+			switch (pelattu) {
+			case 1: rajaus += " etuysi"; break;
+			case 2: rajaus += " takaysi"; break;
+			case 3: rajaus += " koko kierros"; break;
+			case 4: rajaus += " puolikas (etu- tai takaysi)"; break;
+			default: rajaus += "tuntematon ("+Integer.toString(pelattu)+")"; break;
+			}
+		};
 		
 		if (pisteet != null) {
 			rajaus += ((rajaus!="") ? ", ": "") + "pisteet = " + Long.toString(pisteet); // TODO: min pisteet ?
@@ -120,7 +131,7 @@ public class AdminController {
 
 
 		log.info("MSA: /admin/kierrokset "+alkupvm+" "+loppupvm );
-		List<Kierros> kierrokset = kierrosDAO.getKentanKierrokset(kentta_id, jasennumero, etunimi, sukunimi, seura, tasoituskierros, pisteet, alkupvm, loppupvm);
+		List<Kierros> kierrokset = kierrosDAO.getKentanKierrokset(kentta_id, jasennumero, etunimi, sukunimi, seura, tasoituskierros, pisteet, alkupvm, loppupvm, pelattu);
 		model.addAttribute("kierrokset", kierrokset);
 		model.addAttribute("rajaus", rajaus);
 
