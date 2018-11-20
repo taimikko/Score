@@ -1,0 +1,45 @@
+#db:
+#  image: mariadb:5.5.47
+#  volumes:
+#    - /home/nomachine1/projects/data:/tmp
+#  environment:
+#     MYSQL_ROOT_PASSWORD: aaaa
+#  ports: 
+#    - "58181:8181"
+#    - "58101:8101"    
+
+
+database:
+  image: mariadb:5.5.47
+#  volumes:
+#    - /home/nomachine1/projects/data:/tmp
+  environment:
+     MYSQL_ROOT_PASSWORD: aaaa
+    
+servicemix:
+  image: registry.lab.eduix.fi/esp-servicemix:6.0.0
+  ports: 
+    - "48181:8181"
+    - "48101:8101"    
+  links:
+    - database:db
+  volumes:
+    - ./example-smx-deploy:/opt/servicemix/deploy
+  environment:
+     - "JAVA_OPTS: -Dfile.encoding=utf-8 -Xms512M -Xmx1G -Duser.timezone=EET"
+
+liferay:
+  image: registry.lab.eduix.fi/esp-liferay:6.2-ce-ga3
+  ports: 
+    - "48080:8080"
+  links:
+    - database:db
+    - servicemix:esb-servicemix
+  volumes:
+    - ./config/portal-ext.properties:/opt/liferay/tomcat/webapps/ROOT/WEB-INF/classes/portal-ext.properties 
+    - ./example-liferay-deploy:/opt/liferay/deploy
+    - ./todo-portlet/src/main/webapp:/home/nomachine1/projects/msa_example/todo-portlet/src/main/webapp
+    # msa testiä: [~/projects/msa_example/todo-portlet$] cp target/todo-list-portlet.war ../example-liferay-deploy/
+    - ~/projects/msa_example/todo-portlet/target:/opt/liferay/deploy
+
+
