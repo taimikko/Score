@@ -235,14 +235,36 @@ public class KierrosDAO extends JdbcDaoSupport {
 		}
 
 		if (sql.length() > 0) {
-			sql = "SELECT * FROM kierros WHERE " + sql + " ORDER BY pvm, seura_id, jasennumero";
+			sql = "SELECT k.id, k.pvm, k.seura_id, s.nimi AS seura, k.jasennumero, k.kentta_id, e.kentan_nimi as kentta, "+
+					"k.tasoitus, k.tii_id, t.tii_nimi as tii, k.pelitasoitus, k.cba, k.h_out, k.h_in, \n" + 
+					"k.yhteensa, k.merkitsija, k.lisatieto, k.p_out, k.p_in, k.p_yht, k.tasoituskierros, k.uusi_tasoitus, k.pelattu, k.etunimi, k.sukunimi \n" + 
+					"FROM kierros k, seura s, kentta e, tii t \n" + 
+					"WHERE "+ sql +" AND k.seura_id = s.id AND k.kentta_id = e.id AND k.tii_id = t.id ORDER BY pvm, seura_id, jasennumero";
 		} else {
 			// jos ei ole mitään parametreja niin rajataan vain 100 ekaa
-			sql = "SELECT * FROM kierros ORDER BY pvm, seura_id, jasennumero LIMIT 100";
+			sql = "SELECT k.id, k.pvm, k.seura_id, s.nimi AS seura, k.jasennumero, k.kentta_id, e.kentan_nimi as kentta, "+
+					"k.tasoitus, k.tii_id, t.tii_nimi as tii, k.pelitasoitus, k.cba, k.h_out, k.h_in, \n" + 
+					"k.yhteensa, k.merkitsija, k.lisatieto, k.p_out, k.p_in, k.p_yht, k.tasoituskierros, k.uusi_tasoitus, k.pelattu, k.etunimi, k.sukunimi \n" + 
+					"FROM kierros k, seura s, kentta e, tii t \n" + 
+					"WHERE k.seura_id = s.id AND k.kentta_id = e.id AND k.tii_id = t.id ORDER BY pvm, seura_id, jasennumero LIMIT 100";
 		}
 		log.info("getKentanKierrokset:" + sql);
-		return this.getJdbcTemplate().query(sql, KIERROS_MAPPER);
+		return this.getJdbcTemplate().query(sql, KIERROS_MAPPER2);
 	}
+
+	static RowMapper<Kierros> KIERROS_MAPPER2 = new RowMapper<Kierros>() {
+
+		public Kierros mapRow(ResultSet rs, int row) throws SQLException {
+			return new Kierros(rs.getLong("id"), rs.getDate("pvm"), rs.getLong("seura_id"), rs.getString("seura"),
+					rs.getLong("jasennumero"), rs.getLong("kentta_id"), rs.getString("kentta"),
+					rs.getDouble("tasoitus"), rs.getLong("tii_id"), rs.getString("tii"), rs.getInt("pelitasoitus"),
+					rs.getDouble("cba"), rs.getInt("h_out"), rs.getInt("h_in"), rs.getInt("yhteensa"),
+					rs.getString("merkitsija"), rs.getString("lisatieto"), rs.getInt("p_out"), rs.getInt("p_in"),
+					rs.getInt("p_yht"), rs.getBoolean("tasoituskierros"), rs.getDouble("uusi_tasoitus"),
+					rs.getInt("pelattu"), rs.getString("etunimi"), rs.getString("sukunimi"));
+		}
+
+	};
 
 	public void deletePelaajanKierrokset(Long seuraId, Long jasennumero) {
 		String sql = "DELETE FROM kierros WHERE seura_id=? AND jasennumero=?";

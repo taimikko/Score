@@ -15,10 +15,13 @@ public class Kierros {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date pvm;
 	private Long seura_id;
+	private String seura; // seuran nimi
 	private Long jasennumero;
 	private Long kentta_id;
+	private String kentta; // kentän nimi
 	private Double tasoitus;
 	private Long tii_id;
+	private String tii; // tiin nimi
 	private Integer pelitasoitus;
 	private Double cba;
 	private Integer h1;
@@ -678,4 +681,60 @@ public class Kierros {
 		this.sukunimi = sukunimi;
 	}
 
+	public String getSeura() {
+		return seura;
+	}
+
+	public void setSeura(String seura) {
+		this.seura = seura;
+	}
+
+	public String getKentta() {
+		return kentta;
+	}
+
+	public void setKentta(String kentta) {
+		this.kentta = kentta;
+	}
+
+	public String getTii() {
+		return tii;
+	}
+
+	public void setTii(String tii) {
+		this.tii = tii;
+	}
+
+	public Kierros(Long id, Date pvm, Long seura_id, String seura, Long jasennumero, Long kentta_id, String kentta,
+			Double tasoitus, Long tii_id, String tii, Integer pelitasoitus, Double cba, Integer hout, Integer hin,
+			Integer yhteensa, String merkitsija, String lisatieto, Integer p_out, Integer p_in, Integer p_yht,
+			boolean tasoituskierros, Double uusi_tasoitus, Integer pelattu, String etunimi, String sukunimi) {
+		super();
+		this.id = id;
+		this.pvm = pvm;
+		this.seura_id = seura_id;
+		this.seura = seura;
+		this.jasennumero = jasennumero;
+		this.kentta_id = kentta_id;
+		this.kentta = kentta;
+		this.tasoitus = tasoitus;
+		this.tii_id = tii_id;
+		this.tii = tii;
+		this.pelitasoitus = pelitasoitus;
+		this.cba = cba;
+		this.hout = hout;
+		this.hin = hin;
+		this.yhteensa = yhteensa;
+		this.merkitsija = merkitsija;
+		this.lisatieto = lisatieto;
+		this.p_out = p_out;
+		this.p_in = p_in;
+		this.p_yht = p_yht;
+		this.tasoituskierros = tasoituskierros;
+		this.uusi_tasoitus = uusi_tasoitus;
+		this.pelattu = pelattu;
+		this.etunimi = etunimi;
+		this.sukunimi = sukunimi;
+	} 
+	
 }

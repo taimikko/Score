@@ -19,7 +19,7 @@
 		</script>
 	</head>
 	<body>
-		<h1>kierrosLuettelo.FTL</h1>
+		<h1>kierrosLuettelo</h1>
 	
 	<#include "../_menu.ftl">
 	<div>
@@ -33,15 +33,7 @@
 				<th scope="col" class="numsrt">Seura</th>
 				<th scope="col" class="numsrt">Jäsennumero</th>
 				<th scope="col" class="numsrt">Id</th>
-				<th scope="col" class="datesrt">Pvm
-					<#--  select id='valkkaa' >valkkaa
-						<option> eka</option>
-						<option>toka</option>
-					</select>
-								<script>
-									document.getElementById("valkkaa").addEventListener("click", function (event) {	event.stopPropagation(); });
-								</script> -->
-				</th>
+				<th scope="col" class="datesrt">Pvm</th>
 				<th scope="col" class="srt">Kenttä</th>
 				<th scope="col" class="numsrt">Tii</th>
 				<th scope="col" class="numsrt">Lyönnit</th>
@@ -59,12 +51,12 @@
 					<tr id="tr${k.id?c}" onmouseover="mouseOver(this)" onmouseout="mouseOut(this)" onclick="window.location='/kierros/edit/${k.id?c}?paluu=/admin/kierrokset'"> 
 						<td id="td_etunimi${k.id?c}"><#if (k.etunimi)??>${k.etunimi}</#if></td>
 						<td id="td_sukunimi${k.id?c}"><#if (k.sukunimi)??>${k.sukunimi}</#if></td>
-						<td id="td_seura${k.id?c}" class="num"><#if (k.seura_id)??>${k.seura_id?c}</#if></td>
+						<td id="td_seura${k.id?c}" class="num"><#if (k.seura)??>${k.seura}</#if></td>
 						<td id="td_jasen${k.id?c}" class="num"><#if (k.jasennumero)??>${k.jasennumero?c}</#if></td>
 						<td id="td_id${k.id?c}" class="num">${k.id?c}</td> 
 						<td id="td_pvm${k.id?c}" class="num"><#if (k.pvm)??>${k.pvm?string('dd.MM.yyyy')}</#if></td>
-						<td id="td_kentta${k.id?c}" class="num"><#if (k.kentta_id)??>${k.kentta_id?c}</#if> <#-- +kentän nimi --></td>
-						<td id="td_tii${k.id?c}" class="num"><#if (k.tii_id)??>${k.tii_id?c}</#if> <#-- +tiin nimi --></td>
+						<td id="td_kentta${k.id?c}" class="num"><#if (k.kentta)??>${k.kentta}</#if> </td>
+						<td id="td_tii${k.id?c}" class="num"><#if (k.tii)??>${k.tii}</#if> </td>
 						<td id="td_yht${k.id?c}" class="num"><#if (k.yhteensa)??>${k.yhteensa}</#if></td>
 						<td id="td_p_yht${k.id?c}" class="num"><#if (k.p_yht)??>${k.p_yht}</#if></td>
 						<td id="td_taskierros${k.id?c}"><#if (k.tasoituskierros)??>${k.tasoituskierros?string('kyllä', 'ei')}</#if></td>
@@ -79,28 +71,6 @@
 								</script>
 						   	</form>
  						</td>
-
-<#--  
-<script>
-document.getElementById("submit${k.id?c}").addEventListener("click", function (event) {
-    const txt = "poistetaan kierros (" + ${k.id?c} + ")\n" +
-        "pvm :\t" + '${k.pvm?string('dd.MM.yyyy')}' + "\n" +
-        "pelaaja:\t" + '${k.etunimi}' + " " + '${k.sukunimi}' + "\n" +
-        "huom:\t" + '${k.lisatieto}' + "\n" +
-        "tulos:\t" + ${k.yhteensa};
-    console.log(txt);
-    var x = confirm(txt);
-    console.log(x);
-    if (!x) {
-    	event.preventDefault();
-    	event.stopPropagation();
-    }
-    return x;
-});
-
-</script>
--->
-
 					</tr>
 				</#list>
 			</tbody>
