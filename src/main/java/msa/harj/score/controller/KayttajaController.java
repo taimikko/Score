@@ -23,6 +23,7 @@ import msa.harj.score.dao.RooliDAO;
 import msa.harj.score.dao.SeuraDAO;
 import msa.harj.score.model.JasenTyyppi;
 import msa.harj.score.model.Kayttaja;
+import msa.harj.score.model.Kayttaja2;
 import msa.harj.score.model.Pelaaja;
 import msa.harj.score.model.Rooli;
 import msa.harj.score.model.Seura;
@@ -166,7 +167,7 @@ public class KayttajaController {
 		} else {
 			rajaus = "seura_id=" + Long.toString(seura_id);
 		}
-		List<Kayttaja> k = kayttajaDAO.getKayttajat(seura_id);
+		List<Kayttaja2> k = kayttajaDAO.getKayttajat(seura_id);
 		model.addAttribute("kayttajat", k);
 		model.addAttribute("rajaus", rajaus);
 		String str = "";
@@ -176,21 +177,6 @@ public class KayttajaController {
 		log.info("userList palauttaa(" + Integer.toString(k.size()) + "):" + str);
 		return "kayttaja/kayttajaLista";
 	}
-
-//	@GetMapping("/kayttaja/seura/{seura_id}")
-//	public String kayttajaLista2(Model model, @PathVariable("seura_id") Long seura_id) {
-//		log.info("MSA: /kayttaja/seura/" + Long.toString(seura_id));
-//		List<Kayttaja> k = kayttajaDAO.getKayttajat(seura_id);
-//		model.addAttribute("kayttajat", k);
-//		String str = "";
-//		for (Kayttaja kayttaja : k) {
-//			str += kayttaja.toString() + "\t";
-//		}
-//		log.info("userList palauttaa(" + Integer.toString(k.size()) + "):" + str);
-//		List<JasenTyyppi> jasentyypit = jasenTyyppiDAO.getJasenTyypit();
-//		model.addAttribute("jasentyypit", jasentyypit);
-//		return "kayttaja/kayttajaLista";
-//	}
 
 	@GetMapping("/kayttajaInfo")
 	public String kayttajaTiedot(Model model, Principal principal,

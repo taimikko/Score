@@ -2,7 +2,7 @@
 <#-- <#import "/spring.ftl" as spring/>  -->
 <html>
 	<head>
-		<title>User list</title>
+		<title>Käyttäjät</title>
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 	    <link rel="stylesheet" type="text/css" href="/css/score.css">
 		<script type="application/javascript" src="/js/utils.js"></script>
@@ -11,27 +11,28 @@
 			window.onload = function (e) {
 		    	console.log("kayttajaLista.ftl window.onload");
     			makeAllSortable();
+	    		makeChoosable('kayttajat');
 			}
 		</script>
 	</head>
 	<body>
-		<h1>kayttajaLista.FTL</h1>
+		<h1>Käyttäjät</h1>
 	
 	<#include "../_menu.ftl">
 		<div>
 			<#if rajaus??>${rajaus}</#if>
 		</div>
-		<table  class="table">
+		<table id='kayttajat' name='kayttajat' class="table">
 			<thead>
 				<tr>
 				<th scope="col" class="numsrt" >#</th>
-				<th scope="col" class="srt" ><#-- a href="/kayttaja/username"-->Käyttäjätunnus</th>
-				<th scope="col" class="srt" ><#-- a href="/kayttaja/etunimi"-->Etunimi</th>
-				<th scope="col" class="srt" ><#-- a href="/kayttaja/sukunimi"-->Sukunimi</th>
+				<th scope="col" class="srt" >Käyttäjätunnus</th>
+				<th scope="col" class="srt" >Etunimi</th>
+				<th scope="col" class="srt" >Sukunimi</th>
 				<th scope="col" class="numsrt" >Seura</th>
 				<th scope="col" class="numsrt" >Jäsennumero</th>
 				<th scope="col" class="srt" >Voimassa</th>
-				<th scope="col" class="srt" >Tyyppi</th> 
+				<th scope="col" class="srt" >jäsenyys</th> 
 				</tr>
 			</thead>
 			<tbody>
@@ -41,10 +42,10 @@
 						<td >${user.username}</td>
 						<td >${user.etunimi}</td>
 						<td >${user.sukunimi}</td>
-						<td class="num">${user.seuraId}</td>
+						<td class="num">${user.seura}</td>
 						<td class="num">${user.jasennumero?c}</td>
 						<td >${user.enabled?string('kyllä', 'ei')}</td>
-						<td class="num">${user.jasentyyppi}</td>
+						<td class="num">${user.tyyppi}</td>
 						<#-- Käyttäjää ei voi enää poistaa
 						<td>
   							<form name='f' action="/kayttaja/del/${user.username}" method='POST'>
