@@ -18,9 +18,6 @@ const SORT_BY_DATE = "datesrt";
 
 function mouseOver(element) {
     element.style.background = "lightblue";
-    // "royalblue";
-    // aliceblue; // vaalea
-    // cornflowerblue; // tumma
 }
 
 function mouseOut(element) {
@@ -33,10 +30,6 @@ function getCellValue(tr, idx) {
 
 function compare(v1, v2) {
     return v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2);
-}
-
-function numberCompare(v1, v2) { // testiä 
-    return v1 - v2 ;
 }
 
 function dateCompare(a, b) {
@@ -238,4 +231,3 @@ function makeAllSortable(parent) {
     while (--i >= 0) makeSortable(t[i]);
 }
 
-//----------------------------------------------------------------------------------------
