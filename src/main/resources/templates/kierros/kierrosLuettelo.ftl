@@ -44,7 +44,6 @@
 				<th scope="col"></th>
 				</tr>
 			</thead>
-
 			
 			<tbody>
 				<#list kierrokset as k>

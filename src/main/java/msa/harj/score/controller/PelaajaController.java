@@ -69,11 +69,21 @@ public class PelaajaController {
 	}
 
 	@GetMapping("/pelaaja/get/{pelaajaId}")
-	public String getPelaaja(Model model, @PathVariable("pelaajaId") Long pelaajaId) {
+	public String getPelaaja(Model model, Principal principal, @PathVariable("pelaajaId") Long pelaajaId) {
 		log.info("MSA: /pelaaja/get/" + Long.toString(pelaajaId));
 		Pelaaja p = pelaajaDAO.getPelaaja(pelaajaId);
-		model.addAttribute("pelaaja", p);
-		return "pelaaja/pelaajaTiedot"; // TODO
+		if (p.getUsername().equals(principal.getName())) {
+			model.addAttribute("pelaaja", p);
+			return "pelaaja/pelaajaTiedot"; 
+		} else {
+			if (principal != null) {
+				User loginedUser = (User) ((Authentication) principal).getPrincipal();
+				String userInfo = WebUtils.toString(loginedUser);
+				model.addAttribute("userInfo", userInfo);
+			}
+			model.addAttribute("message", "Voit katsoa vain omia tietojasi. ");
+			return "403Page";
+		}
 	}
 
 	@PostMapping("/pelaaja/del/{pelaajaId}")
@@ -123,7 +133,7 @@ public class PelaajaController {
 		log.info("MSA(get): /pelaaja/edit/" + pelaajaId);
 		Pelaaja p = pelaajaDAO.getPelaaja(pelaajaId);
 		model.addAttribute("pelaaja", p);
-		return "pelaaja/pelaajaEdit"; // TODO
+		return "pelaaja/pelaajaEdit"; 
 	}
 
 	@PostMapping("/pelaaja/edit")
@@ -131,9 +141,7 @@ public class PelaajaController {
 		log.info("MSA(post): /pelaaja/edit/" + p.getUsername() + " " + p.getSeuraId() + ":" + p.getJasennumero());
 		try {
 			pelaajaDAO.updatePelaaja(p);
-			// model.addAttribute("pelaaja", p);
 			return "redirect:/pelaaja/" + p.getSeuraId() + "/" + p.getJasennumero();
-			// return "redirect:/pelaajat"; // TODO
 		} catch (Exception e) {
 			model.addAttribute("message", e.getMessage());
 			return "/pelaaja/edit/" + p.getId();
@@ -143,7 +151,7 @@ public class PelaajaController {
 	@GetMapping("/pelaaja/add")
 	public String addPelaaja(Model model) {
 		log.info("MSA: /pelaaja/add");
-		return "pelaaja/pelaajaEdit"; // TODO
+		return "pelaaja/pelaajaEdit"; 
 	}
 
 	@PostMapping("/pelaaja/add")

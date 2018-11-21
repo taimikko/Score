@@ -86,6 +86,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		http.authorizeRequests().antMatchers(HttpMethod.GET, "/kentta/**", "/admin/kentat").access("hasAnyRole('ROLE_PELAAJA')");
 		http.authorizeRequests().antMatchers(HttpMethod.GET, "/pelaaja/seuranjasenet").access("hasAnyRole('ROLE_PELAAJA')");
+		http.authorizeRequests().antMatchers(HttpMethod.GET, "/pelaaja/get/*").access("hasAnyRole('ROLE_PELAAJA')");
 
 		// TODO: voiko asettaa oikeudet vain omiin tietoihin ? */seura/jasennumero
 		http.authorizeRequests().antMatchers(HttpMethod.GET, "/pelaaja/history/*/*").access("hasAnyRole('ROLE_PELAAJA')");

@@ -7,42 +7,7 @@
    	</head>
    	<body>
       <#include "_menu.ftl">
-      <@security.authorize url="/admin"> <#--  Näkyy vain niille, joilla on oikeus /admin -sivuun -->
-      
-      <h2>Admin Page</h2>
-      <h3>
-        <@security.authorize access="isAuthenticated()">
-        Käyttäjätunnus : <@security.authentication property="principal.username" /> 
-	 	</@security.authorize>
-       </h3>
-       
-      <br/>
-      <div>
-            <a href="/admin/kentat">kentät</a>
-      </div>
-
-      <div>
-            <a href="/seura/seuraluettelo">seurat</a>
-		</div>
-
-      <@security.authorize url="/admin/kierrokset">
-      	<div>Valitse kenttä ${kentta_id} <select id='kentta_id' name='kentta_id' required >
-      		<#if kentat??>
-      			<#list kentat as kentta>
-      				<option value='${kentta.id}' <#if kentta_id == kentta.id>selected="selected" </#if> > ${kentta.id} ${kentta.kentan_nimi} (${kentta.seura_id}) </option>
-      			</#list>
-      		</#if>
-      	</select>
- 	  
-		<a href="'/admin/kierrokset?seura_id='+seura" >admin kierrokset</a>
-		</div>
-	   </@security.authorize>
-      <br/>
-      <div> 
- 	    <#if userInfo??>
-    	 	${userInfo}
-      	</#if>
-	</div>
+ 
 	</@security.authorize>
    </body>
 </html>

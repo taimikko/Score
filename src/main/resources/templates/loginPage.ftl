@@ -48,7 +48,7 @@
       <br>
       Username/pass:
       <ul>
-        <li>dbuser1/123</li>
+        <li>q/q</li>
         <li>dbadmin1/123</li>
       </ul>  
        
